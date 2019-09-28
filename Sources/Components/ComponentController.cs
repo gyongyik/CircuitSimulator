@@ -7,8 +7,6 @@ namespace CircuitSimulator.Components
 {
     internal class ComponentController
     {
-        private const string nameSpace = "CircuitSimulator.Components";
-
         public ComponentController()
         {
             Components = new List<Component>();
@@ -84,6 +82,7 @@ namespace CircuitSimulator.Components
             {
                 writer.WriteStartElement("component");
                 string type = c.GetType().ToString();
+                string nameSpace = "CircuitSimulator.Components";
                 writer.WriteAttributeString("type", type.Substring(nameSpace.Length + 1));
                 writer.WriteAttributeString("x", c.Location.X.ToString());
                 writer.WriteAttributeString("y", c.Location.Y.ToString());
@@ -112,15 +111,14 @@ namespace CircuitSimulator.Components
                 if (reader.IsStartElement("component"))
                 {
                     string type = reader.GetAttribute("type");
-                    type = nameSpace + "." + type;
                     int x = int.Parse(reader.GetAttribute("x"));
                     int y = int.Parse(reader.GetAttribute("y"));
-                    object[] param = new object[0];
-                    Type[] types = new Type[0];
-                    System.Reflection.ConstructorInfo info = Type.GetType(type).GetConstructor(types);
-                    Component c = (Component)info.Invoke(param);
+
+                    Component c = GetComponent(type);
+
                     c.Read(reader.ReadSubtree());
                     c.Location = new Point(x, y);
+
                     Add(c);
                     ConnectComponent(c);
                 }
@@ -134,5 +132,52 @@ namespace CircuitSimulator.Components
         }
 
         public List<Component> Components { get; }
+
+        private Component GetComponent(string type)
+        {
+            switch (type)
+            {
+                case "And":
+                    return new And();
+                case "Buffer":
+                    return new Buffer();
+                case "DigitalClock":
+                    return new DigitalClock();
+                case "DigitalDisplay":
+                    return new DigitalDisplay();
+                case "IC":
+                    return new IC();
+                case "InputPin":
+                    return new InputPin();
+                case "LEDLamp":
+                    return new LEDLamp();
+                case "Nand":
+                    return new Nand();
+                case "Nor":
+                    return new Nor();
+                case "Not":
+                    return new Not();
+                case "Or":
+                    return new Or();
+                case "OutputPin":
+                    return new OutputPin();
+                case "PowerButton":
+                    return new PowerButton();
+                case "SevenSegment":
+                    return new SevenSegment();
+                case "Switch":
+                    return new Switch();
+                case "TrafficLight":
+                    return new TrafficLight();
+                case "Wire":
+                    return new Wire();
+                case "Xnor":
+                    return new Xnor();
+                case "Xor":
+                    return new Xor();
+                default:
+                    throw new NotSupportedException($"Not supported component type: {type}");
+            }
+        }
     }
 }
