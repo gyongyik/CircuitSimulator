@@ -1,26 +1,24 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.ComponentModel;
 using System.Windows.Forms;
 using System.Drawing;
 
 namespace CircuitSimulator.Components
 {
-    class DigitalDisplay : Component
+    internal class DigitalDisplay : Component
     {
-        int Value;
-        int NumberBase;
+        private int _value;
+        private int _numberBase;
 
         public DigitalDisplay() : base()
         {
-            NumberBase = 10;
+            _numberBase = 10;
             Initialize(8);
         }
 
         public DigitalDisplay(int inputs) : base()
         {
-            NumberBase = 10;
+            _numberBase = 10;
             Initialize(inputs);
         }
 
@@ -28,7 +26,7 @@ namespace CircuitSimulator.Components
         {
             Reinitalize(inputs, 1);
 
-            Value = 0;
+            _value = 0;
 
             int inputOffset = 20;
             int inputLocation = 10;
@@ -46,13 +44,13 @@ namespace CircuitSimulator.Components
 
         public override void Execute()
         {
-            Value = 0;
+            _value = 0;
             for (int i = Connections.Length - 1; i >= 0; --i)
             {
-                Value = Value << 1;
+                _value = _value << 1;
                 if (GetValue(i))
                 {
-                    Value += 1;
+                    _value += 1;
                 }
             }
             base.Execute();
@@ -60,8 +58,8 @@ namespace CircuitSimulator.Components
         
         public override void Write(System.Xml.XmlWriter writer)
         {
-            writer.WriteElementString("inputs", (fConnections.Length - 1).ToString());
-            writer.WriteElementString("base", (NumberBase).ToString());
+            writer.WriteElementString("inputs", (Connections.Length - 1).ToString());
+            writer.WriteElementString("base", _numberBase.ToString());
         }
 
         public override void Read(System.Xml.XmlReader reader)
@@ -76,7 +74,7 @@ namespace CircuitSimulator.Components
             reader.ReadToFollowing("base");
             if (reader.IsStartElement("base"))
             {
-                NumberBase = reader.ReadElementContentAsInt();
+                _numberBase = reader.ReadElementContentAsInt();
             }
         }
 
@@ -85,13 +83,13 @@ namespace CircuitSimulator.Components
             return new DigitalDisplayControl(this);
         }
 
-        class DigitalDisplayControl : ComponentControl
+        private class DigitalDisplayControl : ComponentControl
         {
-            DigitalDisplay fParent;
+            DigitalDisplay _parent;
 
             public DigitalDisplayControl(DigitalDisplay parent) : base(parent)
             {
-                fParent = parent;
+                _parent = parent;
             }
 
             public override void ShowContextMenu(ContextMenuStrip menu, CancelEventArgs ce)
@@ -99,16 +97,16 @@ namespace CircuitSimulator.Components
                 ToolStripItem dec = new ToolStripButton("Decimal");
                 dec.Click += new EventHandler(delegate (object sender, EventArgs e)
                 {
-                    fParent.NumberBase = 10;
-                    fParent.Circuit.ConnectComponent(fParent);
+                    _parent._numberBase = 10;
+                    _parent.Circuit.ConnectComponent(_parent);
                 });
                 menu.Items.Add(dec);
 
                 ToolStripItem hex = new ToolStripButton("Hexidecimal");
                 hex.Click += new EventHandler(delegate (object sender, EventArgs e)
                 {
-                    fParent.NumberBase = 16;
-                    fParent.Circuit.ConnectComponent(fParent);
+                    _parent._numberBase = 16;
+                    _parent.Circuit.ConnectComponent(_parent);
                 });
                 menu.Items.Add(hex);
             }
@@ -121,13 +119,13 @@ namespace CircuitSimulator.Components
 
                 g.FillRectangle(Brushes.Black, rect);
                 g.DrawRectangle(pen, rect);
-                g.DrawString(" " + Convert.ToString(fParent.Value, fParent.NumberBase), new Font("Segoe UI", 16, FontStyle.Bold), Brushes.Lime, rect);
+                g.DrawString(" " + Convert.ToString(_parent._value, _parent._numberBase), new Font("Segoe UI", 16, FontStyle.Bold), Brushes.Lime, rect);
 
-                for (int i = 0; i < fParent.Connections.Length - 1; ++i)
+                for (int i = 0; i < _parent.Connections.Length - 1; ++i)
                 {
-                    Color c = fParent.GetValue(i) ? Color.Red : Color.Black;
-                    g.DrawEllipse(new Pen(c, 1), new Rectangle(Point.Subtract(fParent.Connections[i].Location, new Size(2, 2)), new Size(4, 4)));
-                    g.DrawLine(pen, new Point(8, fParent.Connections[i].Location.Y), new Point(rect.Left, fParent.Connections[i].Location.Y));
+                    Color c = _parent.GetValue(i) ? Color.Red : Color.Black;
+                    g.DrawEllipse(new Pen(c, 1), new Rectangle(Point.Subtract(_parent.Connections[i].Location, new Size(2, 2)), new Size(4, 4)));
+                    g.DrawLine(pen, new Point(8, _parent.Connections[i].Location.Y), new Point(rect.Left, _parent.Connections[i].Location.Y));
                 }
             }
         }

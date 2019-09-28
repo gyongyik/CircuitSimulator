@@ -1,17 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.ComponentModel;
 using System.Windows.Forms;
 using System.Drawing;
 
 namespace CircuitSimulator.Components
 {
-    class DigitalClock : Component
+    internal class DigitalClock : Component
     {
-        System.Timers.Timer fTimer;
-        double fInterval;
+        private System.Timers.Timer _timer;
+        private double _interval;
 
         public DigitalClock() : base(0, 1)
         {
@@ -34,11 +31,11 @@ namespace CircuitSimulator.Components
         public override void Dispose()
         {
             base.Dispose();
-            if (fTimer != null)
+            if (_timer != null)
             {
-                fTimer.Stop();
-                fTimer.Dispose();
-                fTimer = null;
+                _timer.Stop();
+                _timer.Dispose();
+                _timer = null;
             }
         }
 
@@ -66,13 +63,13 @@ namespace CircuitSimulator.Components
             return new DigitalClockControl(this);
         }
 
-        class DigitalClockControl : ComponentControl
+        private class DigitalClockControl : ComponentControl
         {
-            DigitalClock fParent;
+            DigitalClock _parent;
 
             public DigitalClockControl(DigitalClock parent) : base(parent)
             {
-                fParent = parent;
+                _parent = parent;
             }
 
             public override void ShowContextMenu(ContextMenuStrip menu, CancelEventArgs ce)
@@ -80,11 +77,11 @@ namespace CircuitSimulator.Components
                 ToolStripItem si = new ToolStripButton("Set Interval");
                 si.Click += new EventHandler(delegate (object sender, EventArgs e)
                 {
-                    string value = Convert.ToString(fParent.Interval);
+                    string value = Convert.ToString(_parent.Interval);
                     if (InputBox("Set Interval", "Interval [ms]:", ref value) == DialogResult.OK)
                     {
-                        fParent.Interval = Convert.ToInt32(value);
-                        fParent.Circuit.ConnectComponent(fParent);
+                        _parent.Interval = Convert.ToInt32(value);
+                        _parent.Circuit.ConnectComponent(_parent);
                     }
                 });
                 menu.Items.Add(si);
@@ -94,11 +91,11 @@ namespace CircuitSimulator.Components
             {
                 Graphics g = e.Graphics;
 
-                for (int i = 0; i < fComponent.GetComponent().Connections.Length; ++i)
+                for (int i = 0; i < Component.GetComponent().Connections.Length; ++i)
                 {
-                    Color c = fComponent.GetComponent().GetValue(i) ? Color.Red : Color.Black;
-                    int w = fComponent.GetComponent().Connections[i].Connections.Count > 0 ? 3 : 1;
-                    g.DrawEllipse(new Pen(c, w), new Rectangle(Point.Subtract(fComponent.GetComponent().Connections[i].Location, new Size(2, 2)), new Size(4, 4)));
+                    Color c = Component.GetComponent().GetValue(i) ? Color.Red : Color.Black;
+                    int w = Component.GetComponent().Connections[i].Connections.Count > 0 ? 3 : 1;
+                    g.DrawEllipse(new Pen(c, w), new Rectangle(Point.Subtract(Component.GetComponent().Connections[i].Location, new Size(2, 2)), new Size(4, 4)));
                 }
 
                 Pen penB = new Pen(Color.Black, 3);
@@ -120,26 +117,26 @@ namespace CircuitSimulator.Components
         {
             get
             {
-                return fInterval;
+                return _interval;
             }
             set
             {
-                fInterval = value;
-                if (fInterval > 0)
+                _interval = value;
+                if (_interval > 0)
                 {
-                    if (fTimer != null)
+                    if (_timer != null)
                     {
-                        fTimer.Dispose();
+                        _timer.Dispose();
                     }
-                    fTimer = new System.Timers.Timer(fInterval);
-                    fTimer.Elapsed += new System.Timers.ElapsedEventHandler(OnTimerElapsed);
-                    fTimer.Enabled = true;
-                    fTimer.Start();
+                    _timer = new System.Timers.Timer(_interval);
+                    _timer.Elapsed += new System.Timers.ElapsedEventHandler(OnTimerElapsed);
+                    _timer.Enabled = true;
+                    _timer.Start();
                 }
                 else
                 {
                     // 0 means stay on
-                    fTimer.Dispose();
+                    _timer.Dispose();
                     SetState(true);
                 }
             }

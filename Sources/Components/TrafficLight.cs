@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.ComponentModel;
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 using System.Drawing;
 
 namespace CircuitSimulator.Components
 {
-    class TrafficLight : Component
+    internal class TrafficLight : Component
     {
         public TrafficLight() : base()
         {
@@ -31,13 +26,13 @@ namespace CircuitSimulator.Components
             return new TrafficLightControl(this);
         }
 
-        class TrafficLightControl : ComponentControl
+        private class TrafficLightControl : ComponentControl
         {
-            TrafficLight fParent;
+            TrafficLight _parent;
 
             public TrafficLightControl(TrafficLight parent) : base(parent)
             {
-                fParent = parent;
+                _parent = parent;
             }
 
             protected override void OnPaint(PaintEventArgs e)
@@ -53,11 +48,11 @@ namespace CircuitSimulator.Components
 
                 Rectangle rect = new Rectangle(15, 5, Width - 22, Height - 10);
 
-                for (int i = 0; i < fParent.Connections.Length - 1; ++i)
+                for (int i = 0; i < _parent.Connections.Length - 1; ++i)
                 {
-                    Color c = fParent.GetValue(i) ? Color.Red : Color.Black;
-                    g.DrawEllipse(new Pen(c, 1), new Rectangle(Point.Subtract(fParent.Connections[i].Location, new Size(2, 2)), new Size(4, 4)));
-                    g.DrawLine(penB, new Point(8, fParent.Connections[i].Location.Y), new Point(rect.Left, fParent.Connections[i].Location.Y));
+                    Color c = _parent.GetValue(i) ? Color.Red : Color.Black;
+                    g.DrawEllipse(new Pen(c, 1), new Rectangle(Point.Subtract(_parent.Connections[i].Location, new Size(2, 2)), new Size(4, 4)));
+                    g.DrawLine(penB, new Point(8, _parent.Connections[i].Location.Y), new Point(rect.Left, _parent.Connections[i].Location.Y));
                 }
 
                 g.FillRectangle(Brushes.Black, rect);
@@ -66,16 +61,16 @@ namespace CircuitSimulator.Components
                 g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
 
                 Rectangle redRect = new Rectangle(26, 10, 42, 42);
-                g.FillEllipse(fParent.GetValue(0) ? Brushes.Red : Brushes.Maroon, redRect);
-                g.DrawEllipse(fParent.GetValue(0) ? penR : penM, redRect);
+                g.FillEllipse(_parent.GetValue(0) ? Brushes.Red : Brushes.Maroon, redRect);
+                g.DrawEllipse(_parent.GetValue(0) ? penR : penM, redRect);
 
                 Rectangle yellowRect = new Rectangle(26, 59, 42, 42);
-                g.FillEllipse(fParent.GetValue(1) ? Brushes.Yellow : Brushes.Olive, yellowRect);
-                g.DrawEllipse(fParent.GetValue(1) ? penY : penO, yellowRect);
+                g.FillEllipse(_parent.GetValue(1) ? Brushes.Yellow : Brushes.Olive, yellowRect);
+                g.DrawEllipse(_parent.GetValue(1) ? penY : penO, yellowRect);
 
                 Rectangle greenRect = new Rectangle(26, 108, 42, 42);
-                g.FillEllipse(fParent.GetValue(2) ? Brushes.Lime: Brushes.Green, greenRect);
-                g.DrawEllipse(fParent.GetValue(2) ? penL : penG, greenRect);
+                g.FillEllipse(_parent.GetValue(2) ? Brushes.Lime: Brushes.Green, greenRect);
+                g.DrawEllipse(_parent.GetValue(2) ? penL : penG, greenRect);
 
                 g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.None;
             }

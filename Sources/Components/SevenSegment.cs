@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.ComponentModel;
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 using System.Drawing;
 
 namespace CircuitSimulator.Components
 {
-    class SevenSegment : Component
+    internal class SevenSegment : Component
     {
         public SevenSegment() : base()
         {
@@ -37,13 +32,13 @@ namespace CircuitSimulator.Components
             return new SevenSegmentControl(this);
         }
 
-        class SevenSegmentControl : ComponentControl
+        private class SevenSegmentControl : ComponentControl
         {
-            SevenSegment fParent;
+            SevenSegment _parent;
 
             public SevenSegmentControl(SevenSegment parent) : base(parent)
             {
-                fParent = parent;
+                _parent = parent;
             }
 
             protected override void OnPaint(PaintEventArgs e)
@@ -55,24 +50,24 @@ namespace CircuitSimulator.Components
 
                 Rectangle rect = new Rectangle(15, 5, Width - 22, Height - 10);
 
-                for (int i = 0; i < fParent.Connections.Length - 1; ++i)
+                for (int i = 0; i < _parent.Connections.Length - 1; ++i)
                 {
-                    Color c = fParent.GetValue(i) ? Color.Red : Color.Black;
-                    g.DrawEllipse(new Pen(c, 1), new Rectangle(Point.Subtract(fParent.Connections[i].Location, new Size(2, 2)), new Size(4, 4)));
-                    g.DrawLine(penB, new Point(8, fParent.Connections[i].Location.Y), new Point(rect.Left, fParent.Connections[i].Location.Y));
+                    Color c = _parent.GetValue(i) ? Color.Red : Color.Black;
+                    g.DrawEllipse(new Pen(c, 1), new Rectangle(Point.Subtract(_parent.Connections[i].Location, new Size(2, 2)), new Size(4, 4)));
+                    g.DrawLine(penB, new Point(8, _parent.Connections[i].Location.Y), new Point(rect.Left, _parent.Connections[i].Location.Y));
                 }
 
                 g.FillRectangle(Brushes.Black, rect);
                 g.DrawRectangle(penB, rect);
 
-                g.DrawRectangle(fParent.GetValue(0) ? penR : penM, new Rectangle(30, 40, 27, 3));
-                g.DrawRectangle(fParent.GetValue(1) ? penR : penM, new Rectangle(62, 42, 3, 35));
-                g.DrawRectangle(fParent.GetValue(2) ? penR : penM, new Rectangle(62, 82, 3, 35));
-                g.DrawRectangle(fParent.GetValue(3) ? penR : penM, new Rectangle(30, 116, 27, 3));
-                g.DrawRectangle(fParent.GetValue(4) ? penR : penM, new Rectangle(22, 82, 3, 35));
-                g.DrawRectangle(fParent.GetValue(5) ? penR : penM, new Rectangle(22, 42, 3, 35));
-                g.DrawRectangle(fParent.GetValue(6) ? penR : penM, new Rectangle(30, 78, 27, 3));
-                g.DrawRectangle(fParent.GetValue(7) ? penR : penM, new Rectangle(70, 116, 3, 3));
+                g.DrawRectangle(_parent.GetValue(0) ? penR : penM, new Rectangle(30, 40, 27, 3));
+                g.DrawRectangle(_parent.GetValue(1) ? penR : penM, new Rectangle(62, 42, 3, 35));
+                g.DrawRectangle(_parent.GetValue(2) ? penR : penM, new Rectangle(62, 82, 3, 35));
+                g.DrawRectangle(_parent.GetValue(3) ? penR : penM, new Rectangle(30, 116, 27, 3));
+                g.DrawRectangle(_parent.GetValue(4) ? penR : penM, new Rectangle(22, 82, 3, 35));
+                g.DrawRectangle(_parent.GetValue(5) ? penR : penM, new Rectangle(22, 42, 3, 35));
+                g.DrawRectangle(_parent.GetValue(6) ? penR : penM, new Rectangle(30, 78, 27, 3));
+                g.DrawRectangle(_parent.GetValue(7) ? penR : penM, new Rectangle(70, 116, 3, 3));
             }
         }
     }

@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 using System.Drawing;
 
 namespace CircuitSimulator.Components
 {
-    public class Or : Component
+    internal class Or : Component
     {
         public Or() : base(2, 1)
         {
@@ -28,24 +25,22 @@ namespace CircuitSimulator.Components
             return new OrControl(this);
         }
 
-        class OrControl : ComponentControl
+        private class OrControl : ComponentControl
         {
-            Or fParent;
-
             public OrControl(Or parent) : base(parent)
             {
-                fParent = parent;
+                //
             }
 
             protected override void OnPaint(PaintEventArgs e)
             {
                 Graphics g = e.Graphics;
 
-                for (int i = 0; i < fComponent.GetComponent().Connections.Length; ++i)
+                for (int i = 0; i < Component.GetComponent().Connections.Length; ++i)
                 {
-                    Color c = fComponent.GetComponent().GetValue(i) ? Color.Red : Color.Black;
-                    int w = fComponent.GetComponent().Connections[i].Connections.Count > 0 ? 3 : 1;
-                    g.DrawEllipse(new Pen(c, w), new Rectangle(Point.Subtract(fComponent.GetComponent().Connections[i].Location, new Size(2, 2)), new Size(4, 4)));
+                    Color c = Component.GetComponent().GetValue(i) ? Color.Red : Color.Black;
+                    int w = Component.GetComponent().Connections[i].Connections.Count > 0 ? 3 : 1;
+                    g.DrawEllipse(new Pen(c, w), new Rectangle(Point.Subtract(Component.GetComponent().Connections[i].Location, new Size(2, 2)), new Size(4, 4)));
                 }
 
                 Pen pen = new Pen(Color.Black, 3);

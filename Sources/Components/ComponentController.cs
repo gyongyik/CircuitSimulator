@@ -5,42 +5,41 @@ using System.Xml;
 
 namespace CircuitSimulator.Components
 {
-    public class ComponentController
+    internal class ComponentController
     {
         private const string nameSpace = "CircuitSimulator.Components";
-        private List<Component> fComponentList;
 
         public ComponentController()
         {
-            fComponentList = new List<Component>();
+            Components = new List<Component>();
         }
 
         public void Clear()
         {
-            foreach (Component c in fComponentList)
+            foreach (Component c in Components)
             {
                 c.Dispose();
             }
-            fComponentList.Clear();
+            Components.Clear();
         }
 
-        public void Add(Component c)
+        public void Add(Component component)
         {
-            c.Circuit = this;
-            fComponentList.Add(c);
+            component.Circuit = this;
+            Components.Add(component);
         }
 
-        public bool Remove(Component c)
+        public bool Remove(Component component)
         {
-            c.Disconnect();
-            return fComponentList.Remove(c);
+            component.Disconnect();
+            return Components.Remove(component);
         }
 
         public void ConnectComponent(Component component)
         {
             component.Disconnect();
 
-            foreach (Component c in fComponentList)
+            foreach (Component c in Components)
             {
                 if (c != component)
                 {
@@ -67,12 +66,12 @@ namespace CircuitSimulator.Components
 
         public void Run()
         {
-            foreach (Component c in fComponentList)
+            foreach (Component c in Components)
             {
                 c.Setup();
             }
 
-            foreach (Component c in fComponentList)
+            foreach (Component c in Components)
             {
                 c.Execute();
             }
@@ -81,7 +80,7 @@ namespace CircuitSimulator.Components
         public void Write(XmlWriter writer)
         {
             writer.WriteStartElement("circuit");
-            foreach (Component c in fComponentList)
+            foreach (Component c in Components)
             {
                 writer.WriteStartElement("component");
                 string type = c.GetType().ToString();
@@ -116,7 +115,7 @@ namespace CircuitSimulator.Components
                     type = nameSpace + "." + type;
                     int x = int.Parse(reader.GetAttribute("x"));
                     int y = int.Parse(reader.GetAttribute("y"));
-                    Object[] param = new Object[0];
+                    object[] param = new object[0];
                     Type[] types = new Type[0];
                     System.Reflection.ConstructorInfo info = Type.GetType(type).GetConstructor(types);
                     Component c = (Component)info.Invoke(param);
@@ -134,12 +133,6 @@ namespace CircuitSimulator.Components
             Read(reader);
         }
 
-        public List<Component> Components
-        {
-            get
-            {
-                return fComponentList;
-            }
-        }
+        public List<Component> Components { get; }
     }
 }

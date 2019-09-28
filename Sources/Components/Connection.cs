@@ -1,32 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Windows.Forms;
 using System.Drawing;
 
 namespace CircuitSimulator.Components
 {
-    public class ConnectionList : List<WeakReference>
+    internal class ConnectionList : List<WeakReference>
     {
-        public void Add(Connection c)
+        public void Add(Connection connection)
         {
-            Add(new WeakReference(c));
+            Add(new WeakReference(connection));
         }
 
-        public bool Remove(Connection c)
+        public bool Remove(Connection conncection)
         {
             bool result = false;
-            WeakReference wr = this.Find(delegate (WeakReference r)
+            WeakReference weakReference = Find(delegate (WeakReference r)
             {
-                if (r.Target == c)
+                if (r.Target == conncection)
                 {
                     return true;
                 }
                 return false;
             });
-            if (wr != null)
+            if (weakReference != null)
             {
-                result = this.Remove(wr);
+                result = Remove(weakReference);
             }
             return result;
         }
@@ -38,22 +36,22 @@ namespace CircuitSimulator.Components
 
         public class ConnectionEnumerator
         {
-            private Enumerator fEnumerator;
+            private Enumerator _enumerator;
 
             public ConnectionEnumerator(Enumerator e)
             {
-                fEnumerator = e;
+                _enumerator = e;
             }
 
             public bool MoveNext()
             {
-                bool result = false;
+                bool result;
 
                 do
                 {
-                    result = fEnumerator.MoveNext();
+                    result = _enumerator.MoveNext();
                 }
-                while (result && (fEnumerator.Current.Target == null));
+                while (result && (_enumerator.Current.Target == null));
 
                 return result;
             }
@@ -62,36 +60,23 @@ namespace CircuitSimulator.Components
             {
                 get
                 {
-                    return fEnumerator.Current.Target as Connection;
+                    return _enumerator.Current.Target as Connection;
                 }
             }
         }
     }
 
-    public class Connection
+    internal class Connection
     {
-        bool fValue;
-        public Point Location;
-        public ConnectionList Connections;
-        public Component Parent;
+        public ConnectionList Connections { get; set; }
+        public Component Parent { get; set; }
+        public Point Location { get; set; }
+        public virtual bool Value { get; set; }
 
         public Connection(Component parent)
         {
             Connections = new ConnectionList();
             Parent = parent;
-            fValue = false;
-        }
-
-        public virtual bool Value
-        {
-            get
-            {
-                return fValue;
-            }
-            set
-            {
-                fValue = value;
-            }
         }
     }
 }

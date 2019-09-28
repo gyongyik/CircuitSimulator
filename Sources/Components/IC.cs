@@ -1,31 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Windows.Forms;
 using System.Drawing;
 
 namespace CircuitSimulator.Components
 {
-    class IC : Component
+    internal class IC : Component
     {
-        private ComponentController fCircuit;
-        private string fName;
-
         public IC()
         {
             Bounds = new Rectangle(0, 0, 105, 50);
-            fCircuit = new ComponentController();
-            fName = "unknown";
+            InternalCircuit = new ComponentController();
+            Name = "unknown";
         }
 
         public IC(string name) : this()
         {
-            fName = name;
+            Name = name;
         }
 
         public void LoadCircuit(System.Xml.XmlReader reader)
         {
-            fCircuit.Read(reader);
+            InternalCircuit.Read(reader);
             InitializeFromCircuit();
         }
 
@@ -37,7 +33,7 @@ namespace CircuitSimulator.Components
 
         public override void Execute()
         {
-            fCircuit.Run();
+            InternalCircuit.Run();
             base.Execute();
         }
 
@@ -48,9 +44,9 @@ namespace CircuitSimulator.Components
 
         public override void Write(System.Xml.XmlWriter writer)
         {
-            writer.WriteElementString("name", fName);
+            writer.WriteElementString("name", Name);
             writer.WriteStartElement("subcircuit");
-            fCircuit.Write(writer);
+            InternalCircuit.Write(writer);
             writer.WriteEndElement();
         }
 
@@ -63,7 +59,7 @@ namespace CircuitSimulator.Components
                     case System.Xml.XmlNodeType.Element:
                         if (reader.Name == "name")
                         {
-                            fName = reader.ReadElementContentAsString();
+                            Name = reader.ReadElementContentAsString();
                         }
                         else if (reader.Name == "subcircuit")
                         {
@@ -75,21 +71,9 @@ namespace CircuitSimulator.Components
             }
         }
 
-        public ComponentController InternalCircuit
-        {
-            get
-            {
-                return fCircuit;
-            }
-        }
+        public ComponentController InternalCircuit { get; }
 
-        public string Name
-        {
-            get
-            {
-                return fName;
-            }
-        }
+        public string Name { get; private set; }
 
         private bool IsInput(Component c)
         {
@@ -108,7 +92,7 @@ namespace CircuitSimulator.Components
             int inputCount = 0;
             int outputCount = 0;
 
-            foreach (Component c in fCircuit.Components)
+            foreach (Component c in InternalCircuit.Components)
             {
                 if (IsInput(c))
                 {
@@ -138,12 +122,12 @@ namespace CircuitSimulator.Components
                 if (IsInput(componentList[i]))
                 {
                     // Replace InputPin with Input
-                    Input input = new Input(componentList[i], fConnections[i]);
-                    fCircuit.Remove(componentList[i]);
-                    fCircuit.Add(input);
-                    fCircuit.ConnectComponent(input);
+                    Input input = new Input(componentList[i], Connections[i]);
+                    InternalCircuit.Remove(componentList[i]);
+                    InternalCircuit.Add(input);
+                    InternalCircuit.ConnectComponent(input);
 
-                    fConnections[i].Location = new Point(5, inputLocation);
+                    Connections[i].Location = new Point(5, inputLocation);
                     inputLocation += inputOffset;
                 }
 
@@ -151,12 +135,12 @@ namespace CircuitSimulator.Components
                 if (IsOutput(componentList[i]))
                 {
                     // Replace OutputPin with Output
-                    Output output = new Output(componentList[i], fConnections[i]);
-                    fCircuit.Remove(componentList[i]);
-                    fCircuit.Add(output);
-                    fCircuit.ConnectComponent(output);
+                    Output output = new Output(componentList[i], Connections[i]);
+                    InternalCircuit.Remove(componentList[i]);
+                    InternalCircuit.Add(output);
+                    InternalCircuit.ConnectComponent(output);
 
-                    fConnections[i].Location = new Point(Width - 5, outputLocation);
+                    Connections[i].Location = new Point(Width - 5, outputLocation);
                     outputLocation += outputOffset;
                 }
             }
@@ -164,11 +148,11 @@ namespace CircuitSimulator.Components
 
         private class ICComponentControl : ComponentControl
         {
-            private IC fComp;
+            private IC _component;
 
             public ICComponentControl(IC component) : base(component)
             {
-                fComp = component;
+                _component = component;
             }
 
             class ICForm : Form
@@ -183,12 +167,12 @@ namespace CircuitSimulator.Components
             {
                 base.OnMouseDoubleClick(e);
 
-                Form f = new ICForm();
+                Form form = new ICForm();
 
                 Rectangle boundingBox = new Rectangle();
-                foreach (Component c in fComp.InternalCircuit.Components)
+                foreach (Component c in _component.InternalCircuit.Components)
                 {
-                    c.Show(f, null);
+                    c.Show(form, null);
                     Rectangle controlBounds = c.Bounds;
                     controlBounds.Offset(c.Location);
                     if (boundingBox.IsEmpty)
@@ -200,11 +184,11 @@ namespace CircuitSimulator.Components
                         boundingBox = Rectangle.Union(boundingBox, controlBounds);
                     }
                 }
-                f.Width = boundingBox.Right + 50;
-                f.Height = boundingBox.Bottom + 50;
-                f.Text = fComp.Name;
-                f.ShowDialog();
-                f.Dispose();
+                form.Width = boundingBox.Right + 50;
+                form.Height = boundingBox.Bottom + 50;
+                form.Text = _component.Name;
+                form.ShowDialog();
+                form.Dispose();
             }
 
             protected override void OnPaint(PaintEventArgs e)
@@ -213,41 +197,40 @@ namespace CircuitSimulator.Components
                 Rectangle rect = new Rectangle(15, 5, Width - 30, Height - 10);
                 Pen pen = new Pen(Color.Black, 3);
 
-                for (int i = 0; i < fComp.Connections.Length; ++i)
+                for (int i = 0; i < _component.Connections.Length; ++i)
                 {
-                    if (fComp.Connections[i].Location.X < rect.Left)
+                    if (_component.Connections[i].Location.X < rect.Left)
                     {
-                        g.DrawLine(pen, new Point(fComp.Connections[i].Location.X + 2, fComp.Connections[i].Location.Y), new Point(rect.Left, fComp.Connections[i].Location.Y));
+                        g.DrawLine(pen, new Point(_component.Connections[i].Location.X + 2, _component.Connections[i].Location.Y), new Point(rect.Left, _component.Connections[i].Location.Y));
                     }
                     else
                     {
-                        g.DrawLine(pen, new Point(fComp.Connections[i].Location.X - 2, fComp.Connections[i].Location.Y), new Point(rect.Right, fComp.Connections[i].Location.Y));
+                        g.DrawLine(pen, new Point(_component.Connections[i].Location.X - 2, _component.Connections[i].Location.Y), new Point(rect.Right, _component.Connections[i].Location.Y));
                     }
 
-                    Color c = fComp.GetValue(i) ? Color.Red : Color.Black;
-                    int w = fComp.Connections[i].Connections.Count > 0 ? 3 : 1;
-                    g.DrawEllipse(new Pen(c, w), new Rectangle(Point.Subtract(fComp.Connections[i].Location, new Size(2, 2)), new Size(4, 4)));
+                    Color c = _component.GetValue(i) ? Color.Red : Color.Black;
+                    int w = _component.Connections[i].Connections.Count > 0 ? 3 : 1;
+                    g.DrawEllipse(new Pen(c, w), new Rectangle(Point.Subtract(_component.Connections[i].Location, new Size(2, 2)), new Size(4, 4)));
                 }
 
                 g.FillRectangle(Brushes.Black, rect);
                 g.DrawRectangle(pen, rect);
-                g.DrawString(fComp.Name, new Font("Segoe UI", 16, FontStyle.Bold), Brushes.White, rect);
+                g.DrawString(_component.Name, new Font("Segoe UI", 16, FontStyle.Bold), Brushes.White, rect);
             }
-
         }
 
         private class IOComponent : Component
         {
-            protected Connection fIOConnection;
+            protected Connection IOConnection { get; set; }
 
             public IOComponent() : base(1, 0)
             {
                 Connections[0] = new WireConnection(this);
             }
 
-            public IOComponent(Component copy, Connection conn) : base(copy.Connections.Length, 0)
+            public IOComponent(Component copy, Connection connection) : base(copy.Connections.Length, 0)
             {
-                fIOConnection = conn;
+                IOConnection = connection;
                 Bounds = copy.Bounds;
                 Connections[0] = new WireConnection(this);
                 Connections[0].Location = copy.Connections[0].Location;
@@ -263,7 +246,7 @@ namespace CircuitSimulator.Components
                 Connections[0].Location = new Point(this.Width - 5, this.Height / 2);
             }
 
-            public Input(Component copy, Connection conn) : base(copy, conn)
+            public Input(Component copy, Connection connection) : base(copy, connection)
             {
                 //
             }
@@ -271,7 +254,7 @@ namespace CircuitSimulator.Components
             public override bool GetValue(int index)
             {
                 bool result = false;
-                foreach (Connection c in fIOConnection.Connections)
+                foreach (Connection c in IOConnection.Connections)
                 {
                     result |= c.Value;
                 }
@@ -282,7 +265,7 @@ namespace CircuitSimulator.Components
             public override void Execute()
             {
                 //bool result = false;
-                //foreach (Connection c in fIOConnection.Connections)
+                //foreach (Connection c in IOConnection.Connections)
                 //{
                 //    result |= c.Value;
                 //}
@@ -296,30 +279,28 @@ namespace CircuitSimulator.Components
                 return new InputControl(this);
             }
 
-            class InputControl : ComponentControl
+            private class InputControl : ComponentControl
             {
-                Input fParent;
-
                 public InputControl(Input parent) : base(parent)
                 {
-                    fParent = parent;
+                    //
                 }
 
                 protected override void OnPaint(PaintEventArgs e)
                 {
                     Graphics g = e.Graphics;
 
-                    for (int i = 0; i < fComponent.GetComponent().Connections.Length; ++i)
+                    for (int i = 0; i < Component.GetComponent().Connections.Length; ++i)
                     {
-                        Color c = fComponent.GetComponent().GetValue(i) ? Color.Red : Color.Black;
-                        int w = fComponent.GetComponent().Connections[i].Connections.Count > 0 ? 3 : 1;
-                        g.DrawEllipse(new Pen(c, w), new Rectangle(Point.Subtract(fComponent.GetComponent().Connections[i].Location, new Size(2, 2)), new Size(4, 4)));
+                        Color c = Component.GetComponent().GetValue(i) ? Color.Red : Color.Black;
+                        int w = Component.GetComponent().Connections[i].Connections.Count > 0 ? 3 : 1;
+                        g.DrawEllipse(new Pen(c, w), new Rectangle(Point.Subtract(Component.GetComponent().Connections[i].Location, new Size(2, 2)), new Size(4, 4)));
                     }
 
                     Pen pen = new Pen(Color.Black, 3);
                     g.DrawLine(pen, new Point(15, 10), new Point(23, 10));
                     Rectangle rect = new Rectangle(5, 5, 10, 10);
-                    g.FillRectangle(fComponent.GetComponent().GetValue(0) ? Brushes.Red : Brushes.Black, rect);
+                    g.FillRectangle(Component.GetComponent().GetValue(0) ? Brushes.Red : Brushes.Black, rect);
                     g.DrawRectangle(pen, rect);
                 }
             }
@@ -333,7 +314,7 @@ namespace CircuitSimulator.Components
                 Connections[0].Location = new Point(5, this.Height / 2);
             }
 
-            public Output(Component copy, Connection conn) : base(copy, conn)
+            public Output(Component copy, Connection connection) : base(copy, connection)
             {
                 //
             }
@@ -346,7 +327,7 @@ namespace CircuitSimulator.Components
                     result |= c.Value;
                 }
 
-                fIOConnection.Value = result;
+                IOConnection.Value = result;
                 base.Execute();
             }
 
@@ -355,30 +336,28 @@ namespace CircuitSimulator.Components
                 return new OutputControl(this);
             }
 
-            class OutputControl : ComponentControl
+            private class OutputControl : ComponentControl
             {
-                Output fParent;
-
                 public OutputControl(Output parent) : base(parent)
                 {
-                    fParent = parent;
+                    //
                 }
 
                 protected override void OnPaint(PaintEventArgs e)
                 {
                     Graphics g = e.Graphics;
 
-                    for (int i = 0; i < fComponent.GetComponent().Connections.Length; ++i)
+                    for (int i = 0; i < Component.GetComponent().Connections.Length; ++i)
                     {
-                        Color c = fComponent.GetComponent().GetValue(i) ? Color.Red : Color.Black;
-                        int w = fComponent.GetComponent().Connections[i].Connections.Count > 0 ? 3 : 1;
-                        g.DrawEllipse(new Pen(c, w), new Rectangle(Point.Subtract(fComponent.GetComponent().Connections[i].Location, new Size(2, 2)), new Size(4, 4)));
+                        Color c = Component.GetComponent().GetValue(i) ? Color.Red : Color.Black;
+                        int w = Component.GetComponent().Connections[i].Connections.Count > 0 ? 3 : 1;
+                        g.DrawEllipse(new Pen(c, w), new Rectangle(Point.Subtract(Component.GetComponent().Connections[i].Location, new Size(2, 2)), new Size(4, 4)));
                     }
 
                     Pen pen = new Pen(Color.Black, 3);
                     g.DrawLine(pen, new Point(8, 10), new Point(15, 10));
                     Rectangle rect = new Rectangle(15, 5, 10, 10);
-                    g.FillRectangle(fComponent.GetComponent().GetValue(0) ? Brushes.Red : Brushes.Black, rect);
+                    g.FillRectangle(Component.GetComponent().GetValue(0) ? Brushes.Red : Brushes.Black, rect);
                     g.DrawRectangle(pen, rect);
                 }
             }

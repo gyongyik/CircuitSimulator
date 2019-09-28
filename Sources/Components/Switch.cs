@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 using System.Drawing;
 
 namespace CircuitSimulator.Components
 {
-    public class Switch : Component
+    internal class Switch : Component
     {
-        private bool fState = false;
+        public bool State { get; private set; }
 
         public Switch() : base(1, 1)
         {
@@ -20,9 +18,9 @@ namespace CircuitSimulator.Components
 
         public override void OnMouseClick(MouseEventArgs e)
         {
-            fState = !fState;
+            State = !State;
 
-            if (fState)
+            if (State)
             {
                 var value0 = GetValue(0);
                 var value1 = GetValue(1);
@@ -43,7 +41,7 @@ namespace CircuitSimulator.Components
             {
                 result |= c.Value;
             }
-            if (fState)
+            if (State)
             {
                 foreach (Connection c in Connections[1 - index].Connections)
                 {
@@ -56,7 +54,7 @@ namespace CircuitSimulator.Components
         public override void Write(System.Xml.XmlWriter writer)
         {
             writer.WriteStartElement("state");
-            writer.WriteValue(fState);
+            writer.WriteValue(State);
             writer.WriteEndElement();
         }
 
@@ -65,7 +63,7 @@ namespace CircuitSimulator.Components
             reader.ReadToFollowing("state");
             if (reader.IsStartElement("state"))
             {
-                fState = reader.ReadElementContentAsBoolean();
+                State = reader.ReadElementContentAsBoolean();
             }
         }
 
@@ -76,29 +74,29 @@ namespace CircuitSimulator.Components
 
         private class SwitchControl : ComponentControl
         {
-            private Switch fParent;
+            private Switch _parent;
 
-            public SwitchControl(Switch s) : base(s)
+            public SwitchControl(Switch parent) : base(parent)
             {
-                fParent = s;
+                _parent = parent;
             }
 
             protected override void OnPaint(PaintEventArgs e)
             {
                 Graphics g = e.Graphics;
 
-                for (int i = 0; i < fComponent.GetComponent().Connections.Length; ++i)
+                for (int i = 0; i < Component.GetComponent().Connections.Length; ++i)
                 {
-                    Color c = fComponent.GetComponent().GetValue(i) ? Color.Red : Color.Black;
-                    int w = fComponent.GetComponent().Connections[i].Connections.Count > 0 ? 3 : 1;
-                    g.DrawEllipse(new Pen(c, w), new Rectangle(Point.Subtract(fComponent.GetComponent().Connections[i].Location, new Size(2, 2)), new Size(4, 4)));
+                    Color c = Component.GetComponent().GetValue(i) ? Color.Red : Color.Black;
+                    int w = Component.GetComponent().Connections[i].Connections.Count > 0 ? 3 : 1;
+                    g.DrawEllipse(new Pen(c, w), new Rectangle(Point.Subtract(Component.GetComponent().Connections[i].Location, new Size(2, 2)), new Size(4, 4)));
                 }
 
                 Pen pen = new Pen(Color.Black, 3);
                 g.DrawLine(pen, new Point(8, 25), new Point(34, 25));
                 g.DrawLine(pen, new Point(66, 25), new Point(93, 25));
 
-                if (fParent.fState)
+                if (_parent.State)
                 {
                     g.DrawLine(pen, new Point(33, 25), new Point(66, 25));
                 }
@@ -113,30 +111,30 @@ namespace CircuitSimulator.Components
 
         private class SwitchConnection : Connection
         {
-            private bool fProcessing;
-            private int fIndex;
+            private bool _processing;
+            private int _index;
 
             public SwitchConnection(Component parent, int index) : base(parent)
             {
-                fProcessing = false;
-                fIndex = index;
+                _processing = false;
+                _index = index;
             }
 
             public override bool Value
             {
                 get
                 {
-                    if (!fProcessing)
-                    {
-                        fProcessing = true;
-                        bool value = Parent.GetValue(fIndex);
-                        fProcessing = false;
-                        return value;
-                    }
-                    else
+                    if (_processing)
                     {
                         return false;
                     }
+                    else
+                    {
+                        _processing = true;
+                        bool value = Parent.GetValue(_index);
+                        _processing = false;
+                        return value;
+                    }               
                 }
             }
         }

@@ -1,44 +1,42 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.ComponentModel;
 using System.Windows.Forms;
 using System.Drawing;
 
 namespace CircuitSimulator.Components
 {
-    public class WireConnection : Connection
+    internal class WireConnection : Connection
     {
-        bool fProcessing;
+        bool _processing;
 
         public WireConnection(Component parent) : base(parent)
         {
-            fProcessing = false;
+            _processing = false;
         }
 
         public override bool Value
         {
             get
             {
-                if (!fProcessing)
+                if (_processing)
                 {
-                    fProcessing = true;
-                    bool value = Parent.GetValue(0); // || Parent.GetValue(1);
-                    fProcessing = false;
-                    return value;
+                    return false;
                 }
                 else
                 {
-                    return false;
+                    _processing = true;
+                    bool value = Parent.GetValue(0); // || Parent.GetValue(1);
+                    _processing = false;
+                    return value;
                 }
             }
         }
     }
 
-    public class Wire : Component
+    internal class Wire : Component
     {
-        private bool fCalculated;
-        private bool fValue;
+        private bool _calculated;
+        private bool _value;
 
         public Wire() : base(1, 1)
         {
@@ -65,8 +63,8 @@ namespace CircuitSimulator.Components
 
         public override void Setup()
         {
-            fCalculated = false;
-            fValue = false;
+            _calculated = false;
+            _value = false;
         }
 
         public override void Execute()
@@ -128,9 +126,9 @@ namespace CircuitSimulator.Components
 
         public override bool GetValue(int index)
         {
-            if (fCalculated)
+            if (_calculated)
             {
-                return fValue;
+                return _value;
             }
 
             bool result = false;
@@ -160,13 +158,13 @@ namespace CircuitSimulator.Components
             return new WireControl(this);
         }
 
-        class WireControl : ComponentControl
+        private class WireControl : ComponentControl
         {
-            Wire fParent;
+            Wire _parent;
 
             public WireControl(Wire parent) : base(parent)
             {
-                fParent = parent;
+                _parent = parent;
             }
 
             public override void ShowContextMenu(ContextMenuStrip menu, CancelEventArgs ce)
@@ -174,11 +172,11 @@ namespace CircuitSimulator.Components
                 ToolStripItem cw = new ToolStripButton("Change Width");
                 cw.Click += new EventHandler(delegate (object sender, EventArgs e)
                 {
-                    string value = Convert.ToString(fParent.Width - 10);
+                    string value = Convert.ToString(_parent.Width - 10);
                     if (InputBox("Change Width", "Width:", ref value) == DialogResult.OK)
                     {
-                        fParent.SetWidth(Convert.ToInt32(value));
-                        fParent.Circuit.ConnectComponent(fParent);
+                        _parent.SetWidth(Convert.ToInt32(value));
+                        _parent.Circuit.ConnectComponent(_parent);
                     }
                 });
                 menu.Items.Add(cw);
@@ -186,11 +184,11 @@ namespace CircuitSimulator.Components
                 ToolStripItem ch = new ToolStripButton("Change Height");
                 ch.Click += new EventHandler(delegate (object sender, EventArgs e)
                 {
-                    string value = Convert.ToString(fParent.Height - 10);
+                    string value = Convert.ToString(_parent.Height - 10);
                     if (InputBox("Change Height", "Height:", ref value) == DialogResult.OK)
                     {
-                        fParent.SetHeight(Convert.ToInt32(value));
-                        fParent.Circuit.ConnectComponent(fParent);
+                        _parent.SetHeight(Convert.ToInt32(value));
+                        _parent.Circuit.ConnectComponent(_parent);
                     }
                 });
                 menu.Items.Add(ch);
@@ -201,14 +199,14 @@ namespace CircuitSimulator.Components
                 Graphics g = e.Graphics;
                 Pen pen = new Pen(Color.Black, 3);
                 g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
-                g.DrawLine(pen, new Point(fComponent.GetComponent().Connections[0].Location.X, fComponent.GetComponent().Connections[0].Location.Y), new Point(fComponent.GetComponent().Connections[1].Location.X, fComponent.GetComponent().Connections[1].Location.Y));
+                g.DrawLine(pen, new Point(Component.GetComponent().Connections[0].Location.X, Component.GetComponent().Connections[0].Location.Y), new Point(Component.GetComponent().Connections[1].Location.X, Component.GetComponent().Connections[1].Location.Y));
                 g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.None;
 
-                for (int i = 0; i < fComponent.GetComponent().Connections.Length; ++i)
+                for (int i = 0; i < Component.GetComponent().Connections.Length; ++i)
                 {
-                    Color c = fComponent.GetComponent().GetValue(i) ? Color.Red : Color.Black;
-                    int w = fComponent.GetComponent().Connections[i].Connections.Count > 0 ? 3 : 1;
-                    Rectangle rect = new Rectangle(Point.Subtract(fComponent.GetComponent().Connections[i].Location, new Size(2, 2)), new Size(4, 4));
+                    Color c = Component.GetComponent().GetValue(i) ? Color.Red : Color.Black;
+                    int w = Component.GetComponent().Connections[i].Connections.Count > 0 ? 3 : 1;
+                    Rectangle rect = new Rectangle(Point.Subtract(Component.GetComponent().Connections[i].Location, new Size(2, 2)), new Size(4, 4));
                     g.FillEllipse(Brushes.White, rect);
                     g.DrawEllipse(new Pen(c, w), rect);
                 }

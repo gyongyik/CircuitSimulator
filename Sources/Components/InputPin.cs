@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 using System.Drawing;
 
 namespace CircuitSimulator.Components
 {
-    class InputPin : Component
+    internal class InputPin : Component
     {
         public InputPin() : base(0, 1)
         {
@@ -48,30 +44,28 @@ namespace CircuitSimulator.Components
             return new InputPinControl(this);
         }
 
-        class InputPinControl : ComponentControl
+        private class InputPinControl : ComponentControl
         {
-            InputPin fParent;
-
             public InputPinControl(InputPin parent) : base(parent)
             {
-                fParent = parent;
+                //
             }
 
             protected override void OnPaint(PaintEventArgs e)
             {
                 Graphics g = e.Graphics;
 
-                for (int i = 0; i < fComponent.GetComponent().Connections.Length; ++i)
+                for (int i = 0; i < Component.GetComponent().Connections.Length; ++i)
                 {
-                    Color c = fComponent.GetComponent().GetValue(i) ? Color.Red : Color.Black;
-                    int w = fComponent.GetComponent().Connections[i].Connections.Count > 0 ? 3 : 1;
-                    g.DrawEllipse(new Pen(c, w), new Rectangle(Point.Subtract(fComponent.GetComponent().Connections[i].Location, new Size(2, 2)), new Size(4, 4)));
+                    Color c = Component.GetComponent().GetValue(i) ? Color.Red : Color.Black;
+                    int w = Component.GetComponent().Connections[i].Connections.Count > 0 ? 3 : 1;
+                    g.DrawEllipse(new Pen(c, w), new Rectangle(Point.Subtract(Component.GetComponent().Connections[i].Location, new Size(2, 2)), new Size(4, 4)));
                 }
 
                 Pen pen = new Pen(Color.Black, 3);
                 g.DrawLine(pen, new Point(15, 10), new Point(23, 10));
                 Rectangle rect = new Rectangle(5, 5, 10, 10);
-                g.FillRectangle(fComponent.GetComponent().GetValue(0) ? Brushes.Red : Brushes.Black, rect);
+                g.FillRectangle(Component.GetComponent().GetValue(0) ? Brushes.Red : Brushes.Black, rect);
                 g.DrawRectangle(pen, rect);
             }
         }

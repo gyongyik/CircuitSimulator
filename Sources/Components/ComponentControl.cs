@@ -1,20 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.ComponentModel;
 using System.Windows.Forms;
 using System.Drawing;
-using System.Diagnostics;
 
 namespace CircuitSimulator.Components
 {
     public class ComponentControl : Control
     {
-        protected Component fComponent;
-        protected bool fMouseDown;
-        protected int fMouseX;
-        protected int fMouseY;
-        protected Point fMouseDownLocation;
+        protected Component Component { get; set; }
+        protected bool IsMouseDown { get; set; }
+        protected int MouseX { get; set; }
+        protected int MouseY { get; set; }
+        protected Point MouseDownLocation { get; set; }
 
         public ComponentControl(Component component)
         {
@@ -22,8 +19,8 @@ namespace CircuitSimulator.Components
             BackColor = Color.Transparent;
             DoubleBuffered = false;
 
-            fComponent = component;
-            fMouseDown = false;
+            Component = component;
+            IsMouseDown = false;
 
             MouseDown += OnMouseDown;
             MouseUp += OnMouseUp;
@@ -41,18 +38,18 @@ namespace CircuitSimulator.Components
             Dispose();
             Parent = null;
 
-            fComponent.Circuit.Remove(fComponent);
-            fComponent = null;
+            Component.Circuit.Remove(Component);
+            Component = null;
         }
 
         void OnMouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
             {
-                fMouseDown = true;
-                fMouseX = e.X;
-                fMouseY = e.Y;
-                fMouseDownLocation = Location;
+                IsMouseDown = true;
+                MouseX = e.X;
+                MouseY = e.Y;
+                MouseDownLocation = Location;
                 BringToFront();
             }
         }
@@ -61,27 +58,27 @@ namespace CircuitSimulator.Components
         {
             if (e.Button == MouseButtons.Left)
             {
-                fMouseDown = false;
+                IsMouseDown = false;
 
                 // Snap
                 int gridSize = 5;
-                fComponent.Location = new Point((fComponent.Location.X + (gridSize / 2)) / gridSize * gridSize, (fComponent.Location.Y + (gridSize / 2)) / gridSize * gridSize);
+                Component.Location = new Point((Component.Location.X + (gridSize / 2)) / gridSize * gridSize, (Component.Location.Y + (gridSize / 2)) / gridSize * gridSize);
 
                 // Reconnect
-                fComponent.Circuit.ConnectComponent(fComponent);
+                Component.Circuit.ConnectComponent(Component);
 
-                if ((Math.Abs(Location.X - fMouseDownLocation.X) < gridSize) && (Math.Abs(Location.Y - fMouseDownLocation.Y) < gridSize))
+                if ((Math.Abs(Location.X - MouseDownLocation.X) < gridSize) && (Math.Abs(Location.Y - MouseDownLocation.Y) < gridSize))
                 {
-                    fComponent.OnMouseClick(e);
+                    Component.OnMouseClick(e);
                 }
             }
         }
 
         protected override void OnMouseMove(MouseEventArgs e)
         {
-            if (fMouseDown)
+            if (IsMouseDown)
             {
-                SetBounds(Location.X + e.X - fMouseX, Location.Y + e.Y - fMouseY, Bounds.Width, Bounds.Height);
+                SetBounds(Location.X + e.X - MouseX, Location.Y + e.Y - MouseY, Bounds.Width, Bounds.Height);
                 base.OnMouseMove(e);
                 InvalidateEx();
             }
@@ -97,7 +94,7 @@ namespace CircuitSimulator.Components
             }
         }
 
-        protected override void OnPaintBackground(PaintEventArgs pevent)
+        protected override void OnPaintBackground(PaintEventArgs e)
         {
             // Not allowed
         }
@@ -107,8 +104,8 @@ namespace CircuitSimulator.Components
             if (Parent == null)
                 return;
 
-            Rectangle rc = new Rectangle(this.Location, this.Size);
-            Parent.Invalidate(rc, true);
+            Rectangle rect = new Rectangle(this.Location, this.Size);
+            Parent.Invalidate(rect, true);
         }
 
         public virtual void ShowContextMenu(ContextMenuStrip menu, CancelEventArgs e)
@@ -163,13 +160,13 @@ namespace CircuitSimulator.Components
             base.OnPaint(e);
             Graphics g = e.Graphics;
 
-            for (int i = 0; i < fComponent.GetComponent().Connections.Length; ++i)
+            for (int i = 0; i < Component.GetComponent().Connections.Length; ++i)
             {
-                Color c = fComponent.GetComponent().GetValue(i) ? Color.Red : Color.Black;
-                int w = fComponent.GetComponent().Connections[i].Connections.Count > 0 ? 3 : 1;
+                Color c = Component.GetComponent().GetValue(i) ? Color.Red : Color.Black;
+                int w = Component.GetComponent().Connections[i].Connections.Count > 0 ? 3 : 1;
                 Pen pen = new Pen(c, w);
 
-                g.DrawEllipse(pen, new Rectangle(Point.Subtract(fComponent.GetComponent().Connections[i].Location, new Size(2, 2)), new Size(4, 4)));
+                g.DrawEllipse(pen, new Rectangle(Point.Subtract(Component.GetComponent().Connections[i].Location, new Size(2, 2)), new Size(4, 4)));
             }
 
             g.DrawRectangle(new Pen(Color.Black, 1), 0, 0, Width - 1, Height - 1);

@@ -1,20 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Text;
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 using System.Drawing;
 
 namespace CircuitSimulator.Components
 {
     public class Component
     {
-        protected Connection[] fConnections;
-        private ComponentController fCircuits;
-        private bool[] fPreviousValues;
-        private ComponentControl fControl;
-        private Rectangle fBounds;
-        private Point fLocation;
+        private bool[] _previousValues;
+        private Rectangle _bounds;
+        private Point _location;
 
         public Component()
         {
@@ -28,41 +21,41 @@ namespace CircuitSimulator.Components
 
         public void Reinitalize(int inputs, int outputs)
         {
-            fConnections = new Connection[inputs + outputs];
-            fPreviousValues = new bool[inputs + outputs];
-            for (int i = 0; i < fConnections.Length; ++i)
+            Connections = new Connection[inputs + outputs];
+            _previousValues = new bool[inputs + outputs];
+            for (int i = 0; i < Connections.Length; ++i)
             {
-                fConnections[i] = new Connection(this);
-                fPreviousValues[i] = false;
+                Connections[i] = new Connection(this);
+                _previousValues[i] = false;
             }
         }
 
         public virtual void Dispose()
         {
-            if (fControl != null)
+            if (Control != null)
             {
-                fControl.Dispose();
+                Control.Dispose();
             }
 
-            for (int i = 0; i < fConnections.Length; ++i)
+            for (int i = 0; i < Connections.Length; ++i)
             {
-                fConnections[i] = null;
+                Connections[i] = null;
             }
-            fConnections = null;
+            Connections = null;
         }
 
         public const string nameSpace = "CircuitSimulator.Components";
 
         public void Show(Control parent, ContextMenuStrip menuStrip)
         {
-            if (fControl == null || fControl.IsDisposed)
+            if (Control == null || Control.IsDisposed)
             {
-                fControl = CreateComponentControl();
+                Control = CreateComponentControl();
             }
-            fControl.Bounds = fBounds;
-            fControl.Location = fLocation;
-            fControl.Parent = parent;
-            fControl.ContextMenuStrip = menuStrip;
+            Control.Bounds = _bounds;
+            Control.Location = _location;
+            Control.Parent = parent;
+            Control.ContextMenuStrip = menuStrip;
         }
 
         protected virtual ComponentControl CreateComponentControl()
@@ -83,38 +76,38 @@ namespace CircuitSimulator.Components
             }
         }
 
-        public virtual void ConnectInput(int index, Connection c)
+        internal virtual void ConnectInput(int index, Connection c)
         {
-            fConnections[index].Connections.Add(c);
+            Connections[index].Connections.Add(c);
             OnConnect();
         }
 
-        public virtual void ConnectOutput(int index, Connection c)
+        internal virtual void ConnectOutput(int index, Connection c)
         {
-            fConnections[index].Connections.Add(c);
+            Connections[index].Connections.Add(c);
             OnConnect();
         }
 
         public virtual void Disconnect()
         {
-            for (int c = 0; c < fConnections.Length; ++c )
+            for (int i = 0; i < Connections.Length; ++i )
             {
-                foreach (Connection comp in fConnections[c].Connections)
+                foreach (Connection c in Connections[i].Connections)
                 {
-                    if (comp.Connections.Remove(fConnections[c]))
+                    if (c.Connections.Remove(Connections[i]))
                     {
-                        comp.Parent.OnDisconnect();
+                        c.Parent.OnDisconnect();
                     }
                 }
-                fConnections[c].Connections.Clear();
+                Connections[i].Connections.Clear();
             }
             OnDisconnect();
         }
 
         public virtual bool GetValue(int index)
         {
-            bool result = fConnections[index].Value;
-            foreach (Connection c in fConnections[index].Connections)
+            bool result = Connections[index].Value;
+            foreach (Connection c in Connections[index].Connections)
             {
                 result |= c.Value;
             }
@@ -123,7 +116,7 @@ namespace CircuitSimulator.Components
 
         public virtual void SetValue(int index, bool value)
         {
-            fConnections[index].Value = value;
+            Connections[index].Value = value;
         }
 
         public virtual void Write(System.Xml.XmlWriter writer)
@@ -150,15 +143,15 @@ namespace CircuitSimulator.Components
         {
             get
             {
-                return fBounds;
+                return _bounds;
             }
             set
             {
-                if (fControl != null)
+                if (Control != null)
                 {
-                    fControl.Bounds = value;
+                    Control.Bounds = value;
                 }
-                fBounds = value;
+                _bounds = value;
             }
         }
 
@@ -182,49 +175,27 @@ namespace CircuitSimulator.Components
         {
             get
             {
-                if (fControl != null)
+                if (Control != null)
                 {
-                    fLocation = fControl.Location;
+                    _location = Control.Location;
                 }
-                return fLocation;
+                return _location;
             }
             set
             {
-                if (fControl != null)
+                if (Control != null)
                 {
-                    fControl.Location = value;
+                    Control.Location = value;
                 }
-                fLocation = value;
+                _location = value;
             }
         }
 
-        public virtual Connection[] Connections
-        {
-            get
-            {
-                return fConnections;
-            }
-        }
+        internal virtual Connection[] Connections { get; private set; }
 
-        public virtual ComponentController Circuit
-        {
-            set
-            {
-                fCircuits = value;
-            }
-            get
-            {
-                return fCircuits;
-            }
-        }
+        internal virtual ComponentController Circuit { get; set; }
 
-        public ComponentControl Control
-        {
-            get
-            {
-                return fControl;
-            }
-        }
+        public ComponentControl Control { get; private set; }
 
         protected virtual void OnDisconnect()
         {
@@ -242,10 +213,10 @@ namespace CircuitSimulator.Components
             for (int i = 0; i < Connections.Length; ++i )
             {
                 bool value = GetValue(i);
-                if (fPreviousValues[i] != value)
+                if (_previousValues[i] != value)
                 {
                     dirty = true;
-                    fPreviousValues[i] = value;
+                    _previousValues[i] = value;
                 }
             }
             return dirty;
@@ -253,9 +224,9 @@ namespace CircuitSimulator.Components
 
         private void InvalidateEx()
         {
-            if (fControl != null)
+            if (Control != null)
             {
-                fControl.InvalidateEx();
+                Control.InvalidateEx();
             }
         }
     }
