@@ -70,39 +70,39 @@
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-            this.buttonNew = new System.Windows.Forms.Button();
-            this.buttonOpen = new System.Windows.Forms.Button();
-            this.buttonSave = new System.Windows.Forms.Button();
-            this.labelSep1 = new System.Windows.Forms.Label();
-            this.buttonInputPin = new System.Windows.Forms.Button();
-            this.buttonPowerButton = new System.Windows.Forms.Button();
-            this.buttonDigitalClock = new System.Windows.Forms.Button();
-            this.buttonSwitch = new System.Windows.Forms.Button();
-            this.labelSep2 = new System.Windows.Forms.Label();
-            this.buttonWire = new System.Windows.Forms.Button();
-            this.labelSep3 = new System.Windows.Forms.Label();
-            this.buttonBuffer = new System.Windows.Forms.Button();
-            this.buttonNot = new System.Windows.Forms.Button();
-            this.buttonAnd = new System.Windows.Forms.Button();
-            this.buttonNand = new System.Windows.Forms.Button();
-            this.buttonOr = new System.Windows.Forms.Button();
-            this.buttonNor = new System.Windows.Forms.Button();
-            this.buttonXor = new System.Windows.Forms.Button();
-            this.buttonXnor = new System.Windows.Forms.Button();
-            this.labelSep4 = new System.Windows.Forms.Label();
-            this.buttonOutputPin = new System.Windows.Forms.Button();
-            this.buttonLEDLamp = new System.Windows.Forms.Button();
-            this.buttonDigitalDisplay4 = new System.Windows.Forms.Button();
-            this.buttonDigitalDisplay8 = new System.Windows.Forms.Button();
-            this.buttonSevenSegment = new System.Windows.Forms.Button();
-            this.buttonTrafficLight = new System.Windows.Forms.Button();
-            this.labelSep5 = new System.Windows.Forms.Label();
-            this.buttonIC = new System.Windows.Forms.Button();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.toolStripNew = new System.Windows.Forms.ToolStripButton();
+            this.toolStripOpen = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSave = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripInputPin = new System.Windows.Forms.ToolStripButton();
+            this.toolStripPowerButton = new System.Windows.Forms.ToolStripButton();
+            this.toolStripDigitalClock = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSwitch = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripWire = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripBuffer = new System.Windows.Forms.ToolStripButton();
+            this.toolStripNot = new System.Windows.Forms.ToolStripButton();
+            this.toolStripAnd = new System.Windows.Forms.ToolStripButton();
+            this.toolStripNand = new System.Windows.Forms.ToolStripButton();
+            this.toolStripOr = new System.Windows.Forms.ToolStripButton();
+            this.toolStripNor = new System.Windows.Forms.ToolStripButton();
+            this.toolStripXor = new System.Windows.Forms.ToolStripButton();
+            this.toolStripXnor = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripOutPin = new System.Windows.Forms.ToolStripButton();
+            this.toolStripLEDLamp = new System.Windows.Forms.ToolStripButton();
+            this.toolStripDigitalDisplay4 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripDigitalDisplay8 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSevenSegment = new System.Windows.Forms.ToolStripButton();
+            this.toolStripTrafficLight = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripIC = new System.Windows.Forms.ToolStripButton();
             this.menuStrip1.SuspendLayout();
-            this.flowLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
+            this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // timer1
@@ -119,8 +119,9 @@
             this.panel1.Location = new System.Drawing.Point(0, 35);
             this.panel1.Margin = new System.Windows.Forms.Padding(0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(882, 401);
+            this.panel1.Size = new System.Drawing.Size(905, 401);
             this.panel1.TabIndex = 1;
+            this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
             // 
             // menuStrip1
             // 
@@ -132,7 +133,7 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            this.menuStrip1.Size = new System.Drawing.Size(882, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(905, 24);
             this.menuStrip1.TabIndex = 2;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -362,7 +363,7 @@
             this.ledToolStripMenuItem.Name = "ledToolStripMenuItem";
             this.ledToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
             this.ledToolStripMenuItem.Text = "LED Lamp";
-            this.ledToolStripMenuItem.Click += new System.EventHandler(this.ledToolStripMenuItem_Click);
+            this.ledToolStripMenuItem.Click += new System.EventHandler(this.ledLampToolStripMenuItem_Click);
             // 
             // digitalDisplay4ToolStripMenuItem
             // 
@@ -376,7 +377,7 @@
             this.digitalDisplay8ToolStripMenuItem.Name = "digitalDisplay8ToolStripMenuItem";
             this.digitalDisplay8ToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
             this.digitalDisplay8ToolStripMenuItem.Text = "8 Bit Display";
-            this.digitalDisplay8ToolStripMenuItem.Click += new System.EventHandler(this.digitalDisplayToolStripMenuItem_Click);
+            this.digitalDisplay8ToolStripMenuItem.Click += new System.EventHandler(this.digitalDisplay8ToolStripMenuItem_Click);
             // 
             // sevenSegmentToolStripMenuItem
             // 
@@ -432,478 +433,15 @@
             this.statusStrip1.BackColor = System.Drawing.SystemColors.Control;
             this.statusStrip1.Location = new System.Drawing.Point(0, 460);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.ManagerRenderMode;
-            this.statusStrip1.Size = new System.Drawing.Size(882, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(905, 22);
             this.statusStrip1.TabIndex = 3;
             this.statusStrip1.Text = "statusStrip1";
-            // 
-            // flowLayoutPanel1
-            // 
-            this.flowLayoutPanel1.BackColor = System.Drawing.SystemColors.Control;
-            this.flowLayoutPanel1.Controls.Add(this.buttonNew);
-            this.flowLayoutPanel1.Controls.Add(this.buttonOpen);
-            this.flowLayoutPanel1.Controls.Add(this.buttonSave);
-            this.flowLayoutPanel1.Controls.Add(this.labelSep1);
-            this.flowLayoutPanel1.Controls.Add(this.buttonInputPin);
-            this.flowLayoutPanel1.Controls.Add(this.buttonPowerButton);
-            this.flowLayoutPanel1.Controls.Add(this.buttonDigitalClock);
-            this.flowLayoutPanel1.Controls.Add(this.buttonSwitch);
-            this.flowLayoutPanel1.Controls.Add(this.labelSep2);
-            this.flowLayoutPanel1.Controls.Add(this.buttonWire);
-            this.flowLayoutPanel1.Controls.Add(this.labelSep3);
-            this.flowLayoutPanel1.Controls.Add(this.buttonBuffer);
-            this.flowLayoutPanel1.Controls.Add(this.buttonNot);
-            this.flowLayoutPanel1.Controls.Add(this.buttonAnd);
-            this.flowLayoutPanel1.Controls.Add(this.buttonNand);
-            this.flowLayoutPanel1.Controls.Add(this.buttonOr);
-            this.flowLayoutPanel1.Controls.Add(this.buttonNor);
-            this.flowLayoutPanel1.Controls.Add(this.buttonXor);
-            this.flowLayoutPanel1.Controls.Add(this.buttonXnor);
-            this.flowLayoutPanel1.Controls.Add(this.labelSep4);
-            this.flowLayoutPanel1.Controls.Add(this.buttonOutputPin);
-            this.flowLayoutPanel1.Controls.Add(this.buttonLEDLamp);
-            this.flowLayoutPanel1.Controls.Add(this.buttonDigitalDisplay4);
-            this.flowLayoutPanel1.Controls.Add(this.buttonDigitalDisplay8);
-            this.flowLayoutPanel1.Controls.Add(this.buttonSevenSegment);
-            this.flowLayoutPanel1.Controls.Add(this.buttonTrafficLight);
-            this.flowLayoutPanel1.Controls.Add(this.labelSep5);
-            this.flowLayoutPanel1.Controls.Add(this.buttonIC);
-            this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(6, 0);
-            this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(6, 0, 0, 0);
-            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(876, 35);
-            this.flowLayoutPanel1.TabIndex = 4;
-            // 
-            // buttonNew
-            // 
-            this.buttonNew.BackgroundImage = global::CircuitSimulator.Properties.Resources.New;
-            this.buttonNew.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.buttonNew.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
-            this.buttonNew.FlatAppearance.BorderSize = 0;
-            this.buttonNew.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(153)))), ((int)(((byte)(255)))));
-            this.buttonNew.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(194)))), ((int)(((byte)(224)))), ((int)(((byte)(255)))));
-            this.buttonNew.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonNew.Location = new System.Drawing.Point(0, 0);
-            this.buttonNew.Margin = new System.Windows.Forms.Padding(0);
-            this.buttonNew.Name = "buttonNew";
-            this.buttonNew.Size = new System.Drawing.Size(32, 32);
-            this.buttonNew.TabIndex = 0;
-            this.buttonNew.Tag = "";
-            this.buttonNew.UseVisualStyleBackColor = true;
-            this.buttonNew.Click += new System.EventHandler(this.buttonNew_Click);
-            // 
-            // buttonOpen
-            // 
-            this.buttonOpen.BackgroundImage = global::CircuitSimulator.Properties.Resources.Open;
-            this.buttonOpen.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.buttonOpen.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
-            this.buttonOpen.FlatAppearance.BorderSize = 0;
-            this.buttonOpen.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(153)))), ((int)(((byte)(255)))));
-            this.buttonOpen.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(194)))), ((int)(((byte)(224)))), ((int)(((byte)(255)))));
-            this.buttonOpen.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonOpen.Location = new System.Drawing.Point(32, 0);
-            this.buttonOpen.Margin = new System.Windows.Forms.Padding(0);
-            this.buttonOpen.Name = "buttonOpen";
-            this.buttonOpen.Size = new System.Drawing.Size(32, 32);
-            this.buttonOpen.TabIndex = 1;
-            this.buttonOpen.UseVisualStyleBackColor = true;
-            this.buttonOpen.Click += new System.EventHandler(this.buttonOpen_Click);
-            // 
-            // buttonSave
-            // 
-            this.buttonSave.BackgroundImage = global::CircuitSimulator.Properties.Resources.Save;
-            this.buttonSave.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.buttonSave.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
-            this.buttonSave.FlatAppearance.BorderSize = 0;
-            this.buttonSave.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(153)))), ((int)(((byte)(255)))));
-            this.buttonSave.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(194)))), ((int)(((byte)(224)))), ((int)(((byte)(255)))));
-            this.buttonSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonSave.Location = new System.Drawing.Point(64, 0);
-            this.buttonSave.Margin = new System.Windows.Forms.Padding(0);
-            this.buttonSave.Name = "buttonSave";
-            this.buttonSave.Size = new System.Drawing.Size(32, 32);
-            this.buttonSave.TabIndex = 3;
-            this.buttonSave.UseVisualStyleBackColor = true;
-            this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
-            // 
-            // labelSep1
-            // 
-            this.labelSep1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.labelSep1.Location = new System.Drawing.Point(99, 0);
-            this.labelSep1.Name = "labelSep1";
-            this.labelSep1.Size = new System.Drawing.Size(2, 32);
-            this.labelSep1.TabIndex = 2;
-            // 
-            // buttonInputPin
-            // 
-            this.buttonInputPin.BackgroundImage = global::CircuitSimulator.Properties.Resources.InputPin;
-            this.buttonInputPin.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
-            this.buttonInputPin.FlatAppearance.BorderSize = 0;
-            this.buttonInputPin.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(153)))), ((int)(((byte)(255)))));
-            this.buttonInputPin.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(194)))), ((int)(((byte)(224)))), ((int)(((byte)(255)))));
-            this.buttonInputPin.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonInputPin.Location = new System.Drawing.Point(104, 0);
-            this.buttonInputPin.Margin = new System.Windows.Forms.Padding(0);
-            this.buttonInputPin.Name = "buttonInputPin";
-            this.buttonInputPin.Size = new System.Drawing.Size(32, 32);
-            this.buttonInputPin.TabIndex = 20;
-            this.buttonInputPin.UseVisualStyleBackColor = true;
-            this.buttonInputPin.Click += new System.EventHandler(this.buttonInputPin_Click);
-            // 
-            // buttonPowerButton
-            // 
-            this.buttonPowerButton.BackgroundImage = global::CircuitSimulator.Properties.Resources.PowerButton;
-            this.buttonPowerButton.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
-            this.buttonPowerButton.FlatAppearance.BorderSize = 0;
-            this.buttonPowerButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(153)))), ((int)(((byte)(255)))));
-            this.buttonPowerButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(194)))), ((int)(((byte)(224)))), ((int)(((byte)(255)))));
-            this.buttonPowerButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonPowerButton.Location = new System.Drawing.Point(136, 0);
-            this.buttonPowerButton.Margin = new System.Windows.Forms.Padding(0);
-            this.buttonPowerButton.Name = "buttonPowerButton";
-            this.buttonPowerButton.Size = new System.Drawing.Size(32, 32);
-            this.buttonPowerButton.TabIndex = 21;
-            this.buttonPowerButton.UseVisualStyleBackColor = true;
-            this.buttonPowerButton.Click += new System.EventHandler(this.buttonPowerButton_Click);
-            // 
-            // buttonDigitalClock
-            // 
-            this.buttonDigitalClock.BackgroundImage = global::CircuitSimulator.Properties.Resources.DigitalClock;
-            this.buttonDigitalClock.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
-            this.buttonDigitalClock.FlatAppearance.BorderSize = 0;
-            this.buttonDigitalClock.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(153)))), ((int)(((byte)(255)))));
-            this.buttonDigitalClock.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(194)))), ((int)(((byte)(224)))), ((int)(((byte)(255)))));
-            this.buttonDigitalClock.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonDigitalClock.Location = new System.Drawing.Point(168, 0);
-            this.buttonDigitalClock.Margin = new System.Windows.Forms.Padding(0);
-            this.buttonDigitalClock.Name = "buttonDigitalClock";
-            this.buttonDigitalClock.Size = new System.Drawing.Size(32, 32);
-            this.buttonDigitalClock.TabIndex = 22;
-            this.buttonDigitalClock.UseVisualStyleBackColor = true;
-            this.buttonDigitalClock.Click += new System.EventHandler(this.buttonDigitalClock_Click);
-            // 
-            // buttonSwitch
-            // 
-            this.buttonSwitch.BackgroundImage = global::CircuitSimulator.Properties.Resources.Switch;
-            this.buttonSwitch.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
-            this.buttonSwitch.FlatAppearance.BorderSize = 0;
-            this.buttonSwitch.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(153)))), ((int)(((byte)(255)))));
-            this.buttonSwitch.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(194)))), ((int)(((byte)(224)))), ((int)(((byte)(255)))));
-            this.buttonSwitch.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonSwitch.Location = new System.Drawing.Point(200, 0);
-            this.buttonSwitch.Margin = new System.Windows.Forms.Padding(0);
-            this.buttonSwitch.Name = "buttonSwitch";
-            this.buttonSwitch.Size = new System.Drawing.Size(32, 32);
-            this.buttonSwitch.TabIndex = 23;
-            this.buttonSwitch.UseVisualStyleBackColor = true;
-            this.buttonSwitch.Click += new System.EventHandler(this.buttonSwitch_Click);
-            // 
-            // labelSep2
-            // 
-            this.labelSep2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.labelSep2.Location = new System.Drawing.Point(235, 0);
-            this.labelSep2.Name = "labelSep2";
-            this.labelSep2.Size = new System.Drawing.Size(2, 32);
-            this.labelSep2.TabIndex = 27;
-            // 
-            // buttonWire
-            // 
-            this.buttonWire.BackgroundImage = global::CircuitSimulator.Properties.Resources.Wire;
-            this.buttonWire.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
-            this.buttonWire.FlatAppearance.BorderSize = 0;
-            this.buttonWire.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(153)))), ((int)(((byte)(255)))));
-            this.buttonWire.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(194)))), ((int)(((byte)(224)))), ((int)(((byte)(255)))));
-            this.buttonWire.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonWire.Location = new System.Drawing.Point(240, 0);
-            this.buttonWire.Margin = new System.Windows.Forms.Padding(0);
-            this.buttonWire.Name = "buttonWire";
-            this.buttonWire.Size = new System.Drawing.Size(32, 32);
-            this.buttonWire.TabIndex = 28;
-            this.buttonWire.UseVisualStyleBackColor = true;
-            this.buttonWire.Click += new System.EventHandler(this.buttonWire_Click);
-            // 
-            // labelSep3
-            // 
-            this.labelSep3.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.labelSep3.Location = new System.Drawing.Point(275, 0);
-            this.labelSep3.Name = "labelSep3";
-            this.labelSep3.Size = new System.Drawing.Size(2, 32);
-            this.labelSep3.TabIndex = 12;
-            // 
-            // buttonBuffer
-            // 
-            this.buttonBuffer.BackgroundImage = global::CircuitSimulator.Properties.Resources.Buffer;
-            this.buttonBuffer.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.buttonBuffer.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
-            this.buttonBuffer.FlatAppearance.BorderSize = 0;
-            this.buttonBuffer.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(153)))), ((int)(((byte)(255)))));
-            this.buttonBuffer.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(194)))), ((int)(((byte)(224)))), ((int)(((byte)(255)))));
-            this.buttonBuffer.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonBuffer.Location = new System.Drawing.Point(280, 0);
-            this.buttonBuffer.Margin = new System.Windows.Forms.Padding(0);
-            this.buttonBuffer.Name = "buttonBuffer";
-            this.buttonBuffer.Size = new System.Drawing.Size(32, 32);
-            this.buttonBuffer.TabIndex = 4;
-            this.buttonBuffer.UseVisualStyleBackColor = true;
-            this.buttonBuffer.Click += new System.EventHandler(this.buttonBuffer_Click);
-            // 
-            // buttonNot
-            // 
-            this.buttonNot.BackgroundImage = global::CircuitSimulator.Properties.Resources.Not;
-            this.buttonNot.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.buttonNot.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
-            this.buttonNot.FlatAppearance.BorderSize = 0;
-            this.buttonNot.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(153)))), ((int)(((byte)(255)))));
-            this.buttonNot.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(194)))), ((int)(((byte)(224)))), ((int)(((byte)(255)))));
-            this.buttonNot.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonNot.Location = new System.Drawing.Point(312, 0);
-            this.buttonNot.Margin = new System.Windows.Forms.Padding(0);
-            this.buttonNot.Name = "buttonNot";
-            this.buttonNot.Size = new System.Drawing.Size(32, 32);
-            this.buttonNot.TabIndex = 5;
-            this.buttonNot.UseVisualStyleBackColor = true;
-            this.buttonNot.Click += new System.EventHandler(this.buttonNot_Click);
-            // 
-            // buttonAnd
-            // 
-            this.buttonAnd.BackgroundImage = global::CircuitSimulator.Properties.Resources.And;
-            this.buttonAnd.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.buttonAnd.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
-            this.buttonAnd.FlatAppearance.BorderSize = 0;
-            this.buttonAnd.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(153)))), ((int)(((byte)(255)))));
-            this.buttonAnd.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(194)))), ((int)(((byte)(224)))), ((int)(((byte)(255)))));
-            this.buttonAnd.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonAnd.Location = new System.Drawing.Point(344, 0);
-            this.buttonAnd.Margin = new System.Windows.Forms.Padding(0);
-            this.buttonAnd.Name = "buttonAnd";
-            this.buttonAnd.Size = new System.Drawing.Size(32, 32);
-            this.buttonAnd.TabIndex = 6;
-            this.buttonAnd.UseVisualStyleBackColor = true;
-            this.buttonAnd.Click += new System.EventHandler(this.buttonAnd_Click);
-            // 
-            // buttonNand
-            // 
-            this.buttonNand.BackgroundImage = global::CircuitSimulator.Properties.Resources.Nand;
-            this.buttonNand.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.buttonNand.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
-            this.buttonNand.FlatAppearance.BorderSize = 0;
-            this.buttonNand.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(153)))), ((int)(((byte)(255)))));
-            this.buttonNand.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(194)))), ((int)(((byte)(224)))), ((int)(((byte)(255)))));
-            this.buttonNand.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonNand.Location = new System.Drawing.Point(376, 0);
-            this.buttonNand.Margin = new System.Windows.Forms.Padding(0);
-            this.buttonNand.Name = "buttonNand";
-            this.buttonNand.Size = new System.Drawing.Size(32, 32);
-            this.buttonNand.TabIndex = 7;
-            this.buttonNand.UseVisualStyleBackColor = true;
-            this.buttonNand.Click += new System.EventHandler(this.buttonNand_Click);
-            // 
-            // buttonOr
-            // 
-            this.buttonOr.BackgroundImage = global::CircuitSimulator.Properties.Resources.Or;
-            this.buttonOr.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.buttonOr.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
-            this.buttonOr.FlatAppearance.BorderSize = 0;
-            this.buttonOr.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(153)))), ((int)(((byte)(255)))));
-            this.buttonOr.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(194)))), ((int)(((byte)(224)))), ((int)(((byte)(255)))));
-            this.buttonOr.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonOr.Location = new System.Drawing.Point(408, 0);
-            this.buttonOr.Margin = new System.Windows.Forms.Padding(0);
-            this.buttonOr.Name = "buttonOr";
-            this.buttonOr.Size = new System.Drawing.Size(32, 32);
-            this.buttonOr.TabIndex = 8;
-            this.buttonOr.UseVisualStyleBackColor = true;
-            this.buttonOr.Click += new System.EventHandler(this.buttonOr_Click);
-            // 
-            // buttonNor
-            // 
-            this.buttonNor.BackgroundImage = global::CircuitSimulator.Properties.Resources.Nor;
-            this.buttonNor.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.buttonNor.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
-            this.buttonNor.FlatAppearance.BorderSize = 0;
-            this.buttonNor.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(153)))), ((int)(((byte)(255)))));
-            this.buttonNor.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(194)))), ((int)(((byte)(224)))), ((int)(((byte)(255)))));
-            this.buttonNor.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonNor.Location = new System.Drawing.Point(440, 0);
-            this.buttonNor.Margin = new System.Windows.Forms.Padding(0);
-            this.buttonNor.Name = "buttonNor";
-            this.buttonNor.Size = new System.Drawing.Size(32, 32);
-            this.buttonNor.TabIndex = 9;
-            this.buttonNor.UseVisualStyleBackColor = true;
-            this.buttonNor.Click += new System.EventHandler(this.buttonNor_Click);
-            // 
-            // buttonXor
-            // 
-            this.buttonXor.BackgroundImage = global::CircuitSimulator.Properties.Resources.Xor;
-            this.buttonXor.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.buttonXor.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
-            this.buttonXor.FlatAppearance.BorderSize = 0;
-            this.buttonXor.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(153)))), ((int)(((byte)(255)))));
-            this.buttonXor.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(194)))), ((int)(((byte)(224)))), ((int)(((byte)(255)))));
-            this.buttonXor.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonXor.Location = new System.Drawing.Point(472, 0);
-            this.buttonXor.Margin = new System.Windows.Forms.Padding(0);
-            this.buttonXor.Name = "buttonXor";
-            this.buttonXor.Size = new System.Drawing.Size(32, 32);
-            this.buttonXor.TabIndex = 10;
-            this.buttonXor.UseVisualStyleBackColor = true;
-            this.buttonXor.Click += new System.EventHandler(this.buttonXor_Click);
-            // 
-            // buttonXnor
-            // 
-            this.buttonXnor.BackgroundImage = global::CircuitSimulator.Properties.Resources.Xnor;
-            this.buttonXnor.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.buttonXnor.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
-            this.buttonXnor.FlatAppearance.BorderSize = 0;
-            this.buttonXnor.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(153)))), ((int)(((byte)(255)))));
-            this.buttonXnor.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(194)))), ((int)(((byte)(224)))), ((int)(((byte)(255)))));
-            this.buttonXnor.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonXnor.Location = new System.Drawing.Point(504, 0);
-            this.buttonXnor.Margin = new System.Windows.Forms.Padding(0);
-            this.buttonXnor.Name = "buttonXnor";
-            this.buttonXnor.Size = new System.Drawing.Size(32, 32);
-            this.buttonXnor.TabIndex = 11;
-            this.buttonXnor.UseVisualStyleBackColor = true;
-            this.buttonXnor.Click += new System.EventHandler(this.buttonXnor_Click);
-            // 
-            // labelSep4
-            // 
-            this.labelSep4.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.labelSep4.Location = new System.Drawing.Point(539, 0);
-            this.labelSep4.Name = "labelSep4";
-            this.labelSep4.Size = new System.Drawing.Size(2, 32);
-            this.labelSep4.TabIndex = 19;
-            // 
-            // buttonOutputPin
-            // 
-            this.buttonOutputPin.BackgroundImage = global::CircuitSimulator.Properties.Resources.OutputPin;
-            this.buttonOutputPin.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.buttonOutputPin.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
-            this.buttonOutputPin.FlatAppearance.BorderSize = 0;
-            this.buttonOutputPin.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(153)))), ((int)(((byte)(255)))));
-            this.buttonOutputPin.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(194)))), ((int)(((byte)(224)))), ((int)(((byte)(255)))));
-            this.buttonOutputPin.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonOutputPin.Location = new System.Drawing.Point(544, 0);
-            this.buttonOutputPin.Margin = new System.Windows.Forms.Padding(0);
-            this.buttonOutputPin.Name = "buttonOutputPin";
-            this.buttonOutputPin.Size = new System.Drawing.Size(32, 32);
-            this.buttonOutputPin.TabIndex = 17;
-            this.buttonOutputPin.UseVisualStyleBackColor = true;
-            this.buttonOutputPin.Click += new System.EventHandler(this.buttonOutputPin_Click);
-            // 
-            // buttonLEDLamp
-            // 
-            this.buttonLEDLamp.BackgroundImage = global::CircuitSimulator.Properties.Resources.LEDLamp;
-            this.buttonLEDLamp.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
-            this.buttonLEDLamp.FlatAppearance.BorderSize = 0;
-            this.buttonLEDLamp.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(153)))), ((int)(((byte)(255)))));
-            this.buttonLEDLamp.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(194)))), ((int)(((byte)(224)))), ((int)(((byte)(255)))));
-            this.buttonLEDLamp.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonLEDLamp.Location = new System.Drawing.Point(576, 0);
-            this.buttonLEDLamp.Margin = new System.Windows.Forms.Padding(0);
-            this.buttonLEDLamp.Name = "buttonLEDLamp";
-            this.buttonLEDLamp.Size = new System.Drawing.Size(32, 32);
-            this.buttonLEDLamp.TabIndex = 13;
-            this.buttonLEDLamp.UseVisualStyleBackColor = true;
-            this.buttonLEDLamp.Click += new System.EventHandler(this.buttonLED_Click);
-            // 
-            // buttonDigitalDisplay4
-            // 
-            this.buttonDigitalDisplay4.BackgroundImage = global::CircuitSimulator.Properties.Resources.DigitalDisplay4;
-            this.buttonDigitalDisplay4.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
-            this.buttonDigitalDisplay4.FlatAppearance.BorderSize = 0;
-            this.buttonDigitalDisplay4.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(153)))), ((int)(((byte)(255)))));
-            this.buttonDigitalDisplay4.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(194)))), ((int)(((byte)(224)))), ((int)(((byte)(255)))));
-            this.buttonDigitalDisplay4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonDigitalDisplay4.Location = new System.Drawing.Point(608, 0);
-            this.buttonDigitalDisplay4.Margin = new System.Windows.Forms.Padding(0);
-            this.buttonDigitalDisplay4.Name = "buttonDigitalDisplay4";
-            this.buttonDigitalDisplay4.Size = new System.Drawing.Size(32, 32);
-            this.buttonDigitalDisplay4.TabIndex = 18;
-            this.buttonDigitalDisplay4.UseVisualStyleBackColor = true;
-            this.buttonDigitalDisplay4.Click += new System.EventHandler(this.buttonDigitalDisplay4_Click);
-            // 
-            // buttonDigitalDisplay8
-            // 
-            this.buttonDigitalDisplay8.BackgroundImage = global::CircuitSimulator.Properties.Resources.DigitalDisplay8;
-            this.buttonDigitalDisplay8.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
-            this.buttonDigitalDisplay8.FlatAppearance.BorderSize = 0;
-            this.buttonDigitalDisplay8.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(153)))), ((int)(((byte)(255)))));
-            this.buttonDigitalDisplay8.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(194)))), ((int)(((byte)(224)))), ((int)(((byte)(255)))));
-            this.buttonDigitalDisplay8.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonDigitalDisplay8.Location = new System.Drawing.Point(640, 0);
-            this.buttonDigitalDisplay8.Margin = new System.Windows.Forms.Padding(0);
-            this.buttonDigitalDisplay8.Name = "buttonDigitalDisplay8";
-            this.buttonDigitalDisplay8.Size = new System.Drawing.Size(32, 32);
-            this.buttonDigitalDisplay8.TabIndex = 14;
-            this.buttonDigitalDisplay8.UseVisualStyleBackColor = true;
-            this.buttonDigitalDisplay8.Click += new System.EventHandler(this.buttonDigitalDisplay8_Click);
-            // 
-            // buttonSevenSegment
-            // 
-            this.buttonSevenSegment.BackgroundImage = global::CircuitSimulator.Properties.Resources.SevenSegment;
-            this.buttonSevenSegment.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.buttonSevenSegment.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
-            this.buttonSevenSegment.FlatAppearance.BorderSize = 0;
-            this.buttonSevenSegment.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(153)))), ((int)(((byte)(255)))));
-            this.buttonSevenSegment.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(194)))), ((int)(((byte)(224)))), ((int)(((byte)(255)))));
-            this.buttonSevenSegment.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonSevenSegment.Location = new System.Drawing.Point(672, 0);
-            this.buttonSevenSegment.Margin = new System.Windows.Forms.Padding(0);
-            this.buttonSevenSegment.Name = "buttonSevenSegment";
-            this.buttonSevenSegment.Size = new System.Drawing.Size(32, 32);
-            this.buttonSevenSegment.TabIndex = 15;
-            this.buttonSevenSegment.UseVisualStyleBackColor = true;
-            this.buttonSevenSegment.Click += new System.EventHandler(this.buttonSevenSegment_Click);
-            // 
-            // buttonTrafficLight
-            // 
-            this.buttonTrafficLight.BackgroundImage = global::CircuitSimulator.Properties.Resources.TrafficLight;
-            this.buttonTrafficLight.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.buttonTrafficLight.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
-            this.buttonTrafficLight.FlatAppearance.BorderSize = 0;
-            this.buttonTrafficLight.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(153)))), ((int)(((byte)(255)))));
-            this.buttonTrafficLight.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(194)))), ((int)(((byte)(224)))), ((int)(((byte)(255)))));
-            this.buttonTrafficLight.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonTrafficLight.Location = new System.Drawing.Point(704, 0);
-            this.buttonTrafficLight.Margin = new System.Windows.Forms.Padding(0);
-            this.buttonTrafficLight.Name = "buttonTrafficLight";
-            this.buttonTrafficLight.Size = new System.Drawing.Size(32, 32);
-            this.buttonTrafficLight.TabIndex = 16;
-            this.buttonTrafficLight.UseVisualStyleBackColor = true;
-            this.buttonTrafficLight.Click += new System.EventHandler(this.buttonTrafficLight_Click);
-            // 
-            // labelSep5
-            // 
-            this.labelSep5.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.labelSep5.Location = new System.Drawing.Point(739, 0);
-            this.labelSep5.Name = "labelSep5";
-            this.labelSep5.Size = new System.Drawing.Size(2, 33);
-            this.labelSep5.TabIndex = 25;
-            // 
-            // buttonIC
-            // 
-            this.buttonIC.BackgroundImage = global::CircuitSimulator.Properties.Resources.IC;
-            this.buttonIC.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
-            this.buttonIC.FlatAppearance.BorderSize = 0;
-            this.buttonIC.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(153)))), ((int)(((byte)(255)))));
-            this.buttonIC.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(194)))), ((int)(((byte)(224)))), ((int)(((byte)(255)))));
-            this.buttonIC.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonIC.Location = new System.Drawing.Point(744, 0);
-            this.buttonIC.Margin = new System.Windows.Forms.Padding(0);
-            this.buttonIC.Name = "buttonIC";
-            this.buttonIC.Size = new System.Drawing.Size(32, 32);
-            this.buttonIC.TabIndex = 26;
-            this.buttonIC.UseVisualStyleBackColor = true;
-            this.buttonIC.Click += new System.EventHandler(this.buttonIC_Click);
             // 
             // tableLayoutPanel1
             // 
             this.tableLayoutPanel1.BackColor = System.Drawing.SystemColors.Control;
             this.tableLayoutPanel1.ColumnCount = 1;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Controls.Add(this.flowLayoutPanel1, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.panel1, 0, 1);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 24);
@@ -912,15 +450,332 @@
             this.tableLayoutPanel1.RowCount = 2;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(882, 436);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(905, 436);
             this.tableLayoutPanel1.TabIndex = 5;
+            // 
+            // toolStrip1
+            // 
+            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripNew,
+            this.toolStripOpen,
+            this.toolStripSave,
+            this.toolStripSeparator1,
+            this.toolStripInputPin,
+            this.toolStripPowerButton,
+            this.toolStripDigitalClock,
+            this.toolStripSwitch,
+            this.toolStripSeparator2,
+            this.toolStripWire,
+            this.toolStripSeparator3,
+            this.toolStripBuffer,
+            this.toolStripNot,
+            this.toolStripAnd,
+            this.toolStripNand,
+            this.toolStripOr,
+            this.toolStripNor,
+            this.toolStripXor,
+            this.toolStripXnor,
+            this.toolStripSeparator4,
+            this.toolStripOutPin,
+            this.toolStripLEDLamp,
+            this.toolStripDigitalDisplay4,
+            this.toolStripDigitalDisplay8,
+            this.toolStripSevenSegment,
+            this.toolStripTrafficLight,
+            this.toolStripSeparator5,
+            this.toolStripIC});
+            this.toolStrip1.Location = new System.Drawing.Point(0, 24);
+            this.toolStrip1.Name = "toolStrip1";
+            this.toolStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
+            this.toolStrip1.Size = new System.Drawing.Size(905, 39);
+            this.toolStrip1.TabIndex = 6;
+            this.toolStrip1.Text = "toolStrip1";
+            // 
+            // toolStripNew
+            // 
+            this.toolStripNew.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripNew.Image = global::CircuitSimulator.Properties.Resources.New;
+            this.toolStripNew.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.toolStripNew.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripNew.Name = "toolStripNew";
+            this.toolStripNew.Size = new System.Drawing.Size(36, 36);
+            this.toolStripNew.Text = "New";
+            this.toolStripNew.Click += new System.EventHandler(this.toolStripButton1_Click);
+            // 
+            // toolStripOpen
+            // 
+            this.toolStripOpen.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripOpen.Image = global::CircuitSimulator.Properties.Resources.Open;
+            this.toolStripOpen.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.toolStripOpen.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripOpen.Name = "toolStripOpen";
+            this.toolStripOpen.Size = new System.Drawing.Size(36, 36);
+            this.toolStripOpen.Text = "Open...";
+            this.toolStripOpen.Click += new System.EventHandler(this.toolStripOpen_Click);
+            // 
+            // toolStripSave
+            // 
+            this.toolStripSave.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripSave.Image = global::CircuitSimulator.Properties.Resources.Save;
+            this.toolStripSave.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.toolStripSave.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripSave.Name = "toolStripSave";
+            this.toolStripSave.Size = new System.Drawing.Size(36, 36);
+            this.toolStripSave.Text = "Save";
+            this.toolStripSave.Click += new System.EventHandler(this.toolStripSave_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 39);
+            // 
+            // toolStripInputPin
+            // 
+            this.toolStripInputPin.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripInputPin.Image = global::CircuitSimulator.Properties.Resources.InputPin;
+            this.toolStripInputPin.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.toolStripInputPin.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripInputPin.Name = "toolStripInputPin";
+            this.toolStripInputPin.Size = new System.Drawing.Size(36, 36);
+            this.toolStripInputPin.Text = "Input Pin";
+            this.toolStripInputPin.Click += new System.EventHandler(this.toolStripInputPin_Click);
+            // 
+            // toolStripPowerButton
+            // 
+            this.toolStripPowerButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripPowerButton.Image = global::CircuitSimulator.Properties.Resources.PowerButton;
+            this.toolStripPowerButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.toolStripPowerButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripPowerButton.Name = "toolStripPowerButton";
+            this.toolStripPowerButton.Size = new System.Drawing.Size(36, 36);
+            this.toolStripPowerButton.Text = "Power Button";
+            this.toolStripPowerButton.Click += new System.EventHandler(this.toolStripPowerButton_Click);
+            // 
+            // toolStripDigitalClock
+            // 
+            this.toolStripDigitalClock.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripDigitalClock.Image = global::CircuitSimulator.Properties.Resources.DigitalClock;
+            this.toolStripDigitalClock.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.toolStripDigitalClock.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripDigitalClock.Name = "toolStripDigitalClock";
+            this.toolStripDigitalClock.Size = new System.Drawing.Size(36, 36);
+            this.toolStripDigitalClock.Text = "Digital Clock";
+            this.toolStripDigitalClock.Click += new System.EventHandler(this.toolStripDigitalClock_Click);
+            // 
+            // toolStripSwitch
+            // 
+            this.toolStripSwitch.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripSwitch.Image = global::CircuitSimulator.Properties.Resources.Switch;
+            this.toolStripSwitch.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.toolStripSwitch.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripSwitch.Name = "toolStripSwitch";
+            this.toolStripSwitch.Size = new System.Drawing.Size(36, 36);
+            this.toolStripSwitch.Text = "Switch";
+            this.toolStripSwitch.Click += new System.EventHandler(this.toolStripSwitch_Click);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 39);
+            // 
+            // toolStripWire
+            // 
+            this.toolStripWire.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripWire.Image = global::CircuitSimulator.Properties.Resources.Wire;
+            this.toolStripWire.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.toolStripWire.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripWire.Name = "toolStripWire";
+            this.toolStripWire.Size = new System.Drawing.Size(36, 36);
+            this.toolStripWire.Text = "Wire";
+            this.toolStripWire.Click += new System.EventHandler(this.toolStripWire_Click);
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 39);
+            // 
+            // toolStripBuffer
+            // 
+            this.toolStripBuffer.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripBuffer.Image = global::CircuitSimulator.Properties.Resources.Buffer;
+            this.toolStripBuffer.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.toolStripBuffer.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripBuffer.Name = "toolStripBuffer";
+            this.toolStripBuffer.Size = new System.Drawing.Size(36, 36);
+            this.toolStripBuffer.Text = "Buffer";
+            this.toolStripBuffer.Click += new System.EventHandler(this.toolStripBuffer_Click);
+            // 
+            // toolStripNot
+            // 
+            this.toolStripNot.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripNot.Image = global::CircuitSimulator.Properties.Resources.Not;
+            this.toolStripNot.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.toolStripNot.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripNot.Name = "toolStripNot";
+            this.toolStripNot.Size = new System.Drawing.Size(36, 36);
+            this.toolStripNot.Text = "Not";
+            this.toolStripNot.Click += new System.EventHandler(this.toolStripNot_Click);
+            // 
+            // toolStripAnd
+            // 
+            this.toolStripAnd.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripAnd.Image = global::CircuitSimulator.Properties.Resources.And;
+            this.toolStripAnd.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.toolStripAnd.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripAnd.Name = "toolStripAnd";
+            this.toolStripAnd.Size = new System.Drawing.Size(36, 36);
+            this.toolStripAnd.Text = "And";
+            this.toolStripAnd.Click += new System.EventHandler(this.toolStripAnd_Click);
+            // 
+            // toolStripNand
+            // 
+            this.toolStripNand.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripNand.Image = global::CircuitSimulator.Properties.Resources.Nand;
+            this.toolStripNand.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.toolStripNand.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripNand.Name = "toolStripNand";
+            this.toolStripNand.Size = new System.Drawing.Size(36, 36);
+            this.toolStripNand.Text = "Nand";
+            this.toolStripNand.Click += new System.EventHandler(this.toolStripNand_Click);
+            // 
+            // toolStripOr
+            // 
+            this.toolStripOr.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripOr.Image = global::CircuitSimulator.Properties.Resources.Or;
+            this.toolStripOr.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.toolStripOr.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripOr.Name = "toolStripOr";
+            this.toolStripOr.Size = new System.Drawing.Size(36, 36);
+            this.toolStripOr.Text = "Or";
+            this.toolStripOr.Click += new System.EventHandler(this.toolStripOr_Click);
+            // 
+            // toolStripNor
+            // 
+            this.toolStripNor.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripNor.Image = global::CircuitSimulator.Properties.Resources.Nor;
+            this.toolStripNor.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.toolStripNor.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripNor.Name = "toolStripNor";
+            this.toolStripNor.Size = new System.Drawing.Size(36, 36);
+            this.toolStripNor.Text = "Nor";
+            this.toolStripNor.Click += new System.EventHandler(this.toolStripNor_Click);
+            // 
+            // toolStripXor
+            // 
+            this.toolStripXor.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripXor.Image = global::CircuitSimulator.Properties.Resources.Xor;
+            this.toolStripXor.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.toolStripXor.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripXor.Name = "toolStripXor";
+            this.toolStripXor.Size = new System.Drawing.Size(36, 36);
+            this.toolStripXor.Text = "Xor";
+            this.toolStripXor.Click += new System.EventHandler(this.toolStripXor_Click);
+            // 
+            // toolStripXnor
+            // 
+            this.toolStripXnor.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripXnor.Image = global::CircuitSimulator.Properties.Resources.Xnor;
+            this.toolStripXnor.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.toolStripXnor.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripXnor.Name = "toolStripXnor";
+            this.toolStripXnor.Size = new System.Drawing.Size(36, 36);
+            this.toolStripXnor.Text = "Xnor";
+            this.toolStripXnor.Click += new System.EventHandler(this.toolStripXnor_Click);
+            // 
+            // toolStripSeparator4
+            // 
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            this.toolStripSeparator4.Size = new System.Drawing.Size(6, 39);
+            // 
+            // toolStripOutPin
+            // 
+            this.toolStripOutPin.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripOutPin.Image = global::CircuitSimulator.Properties.Resources.OutputPin;
+            this.toolStripOutPin.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.toolStripOutPin.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripOutPin.Name = "toolStripOutPin";
+            this.toolStripOutPin.Size = new System.Drawing.Size(36, 36);
+            this.toolStripOutPin.Text = "Output Pin";
+            this.toolStripOutPin.Click += new System.EventHandler(this.toolStripOutPin_Click);
+            // 
+            // toolStripLEDLamp
+            // 
+            this.toolStripLEDLamp.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripLEDLamp.Image = global::CircuitSimulator.Properties.Resources.LEDLamp;
+            this.toolStripLEDLamp.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.toolStripLEDLamp.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripLEDLamp.Name = "toolStripLEDLamp";
+            this.toolStripLEDLamp.Size = new System.Drawing.Size(36, 36);
+            this.toolStripLEDLamp.Text = "LED Lamp";
+            this.toolStripLEDLamp.Click += new System.EventHandler(this.toolStripLEDLamp_Click);
+            // 
+            // toolStripDigitalDisplay4
+            // 
+            this.toolStripDigitalDisplay4.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripDigitalDisplay4.Image = global::CircuitSimulator.Properties.Resources.DigitalDisplay4;
+            this.toolStripDigitalDisplay4.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.toolStripDigitalDisplay4.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripDigitalDisplay4.Name = "toolStripDigitalDisplay4";
+            this.toolStripDigitalDisplay4.Size = new System.Drawing.Size(36, 36);
+            this.toolStripDigitalDisplay4.Text = "4 Bit Display";
+            this.toolStripDigitalDisplay4.Click += new System.EventHandler(this.toolStripDigitalDisplay4_Click);
+            // 
+            // toolStripDigitalDisplay8
+            // 
+            this.toolStripDigitalDisplay8.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripDigitalDisplay8.Image = global::CircuitSimulator.Properties.Resources.DigitalDisplay8;
+            this.toolStripDigitalDisplay8.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.toolStripDigitalDisplay8.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripDigitalDisplay8.Name = "toolStripDigitalDisplay8";
+            this.toolStripDigitalDisplay8.Size = new System.Drawing.Size(36, 36);
+            this.toolStripDigitalDisplay8.Text = "8 Bit Display";
+            this.toolStripDigitalDisplay8.Click += new System.EventHandler(this.toolStripDigitalDisplay8_Click);
+            // 
+            // toolStripSevenSegment
+            // 
+            this.toolStripSevenSegment.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripSevenSegment.Image = global::CircuitSimulator.Properties.Resources.SevenSegment;
+            this.toolStripSevenSegment.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.toolStripSevenSegment.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripSevenSegment.Name = "toolStripSevenSegment";
+            this.toolStripSevenSegment.Size = new System.Drawing.Size(36, 36);
+            this.toolStripSevenSegment.Text = "Seven Segment";
+            this.toolStripSevenSegment.Click += new System.EventHandler(this.toolStripSevenSegment_Click);
+            // 
+            // toolStripTrafficLight
+            // 
+            this.toolStripTrafficLight.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripTrafficLight.Image = global::CircuitSimulator.Properties.Resources.TrafficLight;
+            this.toolStripTrafficLight.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.toolStripTrafficLight.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripTrafficLight.Name = "toolStripTrafficLight";
+            this.toolStripTrafficLight.Size = new System.Drawing.Size(36, 36);
+            this.toolStripTrafficLight.Text = "Traffic Light";
+            this.toolStripTrafficLight.Click += new System.EventHandler(this.toolStripTrafficLight_Click);
+            // 
+            // toolStripSeparator5
+            // 
+            this.toolStripSeparator5.Name = "toolStripSeparator5";
+            this.toolStripSeparator5.Size = new System.Drawing.Size(6, 39);
+            // 
+            // toolStripIC
+            // 
+            this.toolStripIC.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripIC.Image = global::CircuitSimulator.Properties.Resources.IC;
+            this.toolStripIC.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.toolStripIC.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripIC.Name = "toolStripIC";
+            this.toolStripIC.Size = new System.Drawing.Size(36, 36);
+            this.toolStripIC.Text = "IC...";
+            this.toolStripIC.Click += new System.EventHandler(this.toolStripIC_Click);
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Window;
-            this.ClientSize = new System.Drawing.Size(882, 482);
+            this.ClientSize = new System.Drawing.Size(905, 482);
+            this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.menuStrip1);
@@ -931,8 +786,9 @@
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
-            this.flowLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
+            this.toolStrip1.ResumeLayout(false);
+            this.toolStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -956,11 +812,7 @@
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem icToolStripMenuItem;
         private System.Windows.Forms.StatusStrip statusStrip1;
-        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.Button buttonNew;
-        private System.Windows.Forms.Button buttonOpen;
-        private System.Windows.Forms.Label labelSep1;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem9;
         private System.Windows.Forms.ToolStripMenuItem gatesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem bufferToolStripMenuItem;
@@ -971,15 +823,6 @@
         private System.Windows.Forms.ToolStripMenuItem norToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem xorToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem xnorToolStripMenuItem1;
-        private System.Windows.Forms.Button buttonSave;
-        private System.Windows.Forms.Button buttonBuffer;
-        private System.Windows.Forms.Button buttonNot;
-        private System.Windows.Forms.Button buttonAnd;
-        private System.Windows.Forms.Button buttonNand;
-        private System.Windows.Forms.Button buttonOr;
-        private System.Windows.Forms.Button buttonNor;
-        private System.Windows.Forms.Button buttonXor;
-        private System.Windows.Forms.Button buttonXnor;
         private System.Windows.Forms.ToolStripMenuItem outputToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ledToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem digitalDisplay8ToolStripMenuItem;
@@ -988,28 +831,41 @@
         private System.Windows.Forms.ToolStripMenuItem powerButtonToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem digitalClockToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem trafficToolStripMenuItem;
-        private System.Windows.Forms.Button buttonLEDLamp;
-        private System.Windows.Forms.Label labelSep3;
-        private System.Windows.Forms.Button buttonDigitalDisplay8;
-        private System.Windows.Forms.Button buttonSevenSegment;
-        private System.Windows.Forms.Button buttonTrafficLight;
-        private System.Windows.Forms.Button buttonOutputPin;
         private System.Windows.Forms.ToolStripMenuItem outputPinToolStripMenuItem;
-        private System.Windows.Forms.Button buttonDigitalDisplay4;
         private System.Windows.Forms.ToolStripMenuItem digitalDisplay4ToolStripMenuItem;
-        private System.Windows.Forms.Button buttonInputPin;
-        private System.Windows.Forms.Label labelSep4;
-        private System.Windows.Forms.Button buttonPowerButton;
-        private System.Windows.Forms.Button buttonDigitalClock;
-        private System.Windows.Forms.Button buttonSwitch;
         private System.Windows.Forms.ToolStripMenuItem inputPinToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem wireToolStripMenuItem;
-        private System.Windows.Forms.Label labelSep5;
-        private System.Windows.Forms.Button buttonIC;
-        private System.Windows.Forms.Button buttonWire;
-        private System.Windows.Forms.Label labelSep2;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem3;
         private System.Windows.Forms.ToolStripMenuItem switchToolStripMenuItem;
+        private System.Windows.Forms.ToolStrip toolStrip1;
+        private System.Windows.Forms.ToolStripButton toolStripNew;
+        private System.Windows.Forms.ToolStripButton toolStripOpen;
+        private System.Windows.Forms.ToolStripButton toolStripSave;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripButton toolStripInputPin;
+        private System.Windows.Forms.ToolStripButton toolStripPowerButton;
+        private System.Windows.Forms.ToolStripButton toolStripDigitalClock;
+        private System.Windows.Forms.ToolStripButton toolStripSwitch;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripButton toolStripWire;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+        private System.Windows.Forms.ToolStripButton toolStripBuffer;
+        private System.Windows.Forms.ToolStripButton toolStripNot;
+        private System.Windows.Forms.ToolStripButton toolStripAnd;
+        private System.Windows.Forms.ToolStripButton toolStripNand;
+        private System.Windows.Forms.ToolStripButton toolStripOr;
+        private System.Windows.Forms.ToolStripButton toolStripNor;
+        private System.Windows.Forms.ToolStripButton toolStripXor;
+        private System.Windows.Forms.ToolStripButton toolStripXnor;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
+        private System.Windows.Forms.ToolStripButton toolStripOutPin;
+        private System.Windows.Forms.ToolStripButton toolStripLEDLamp;
+        private System.Windows.Forms.ToolStripButton toolStripDigitalDisplay4;
+        private System.Windows.Forms.ToolStripButton toolStripDigitalDisplay8;
+        private System.Windows.Forms.ToolStripButton toolStripSevenSegment;
+        private System.Windows.Forms.ToolStripButton toolStripTrafficLight;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
+        private System.Windows.Forms.ToolStripButton toolStripIC;
     }
 }
 
