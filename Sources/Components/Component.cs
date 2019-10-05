@@ -65,7 +65,6 @@ namespace CircuitSimulator.Components
 
         public virtual void Setup()
         {
-            //
         }
 
         public virtual void Execute()
@@ -121,17 +120,14 @@ namespace CircuitSimulator.Components
 
         public virtual void Write(System.Xml.XmlWriter writer)
         {
-            //
         }
 
         public virtual void Read(System.Xml.XmlReader reader)
         {
-            //
         }
 
         public virtual void OnMouseClick(MouseEventArgs e)
         {
-            //
         }
 
         public Component GetComponent()

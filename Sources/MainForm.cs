@@ -19,12 +19,12 @@ namespace CircuitSimulator
             _components = new Components.ComponentController();
         }
 
-        private void timer1_Tick(object sender, EventArgs e)
+        private void Timer1_Tick(object sender, EventArgs e)
         {
             _components.Run();
         }
 
-        private void funcSaveAs()
+        private void FuncSaveAs()
         {
             SaveFileDialog d = new SaveFileDialog();
             d.Filter = FILTER;
@@ -41,7 +41,7 @@ namespace CircuitSimulator
             }
         }
 
-        private void funcSave()
+        private void FuncSave()
         {
             var s = File.Create(_fileName);
             _components.Write(s);
@@ -52,15 +52,15 @@ namespace CircuitSimulator
         {
             if (_fileName == UNTITLED)
             {
-                funcSaveAs();
+                FuncSaveAs();
             }
             else
             {
-                funcSave();
+                FuncSave();
             }
         }
 
-        private void funcOpen()
+        private void FuncOpen()
         {
             OpenFileDialog d = new OpenFileDialog();
             d.Filter = FILTER;
@@ -81,12 +81,12 @@ namespace CircuitSimulator
             }
         }
 
-        private void openToolStripMenuItem_Click(object sender, EventArgs e)
+        private void OpenToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            funcOpen();
+            FuncOpen();
         }
 
-        private void funcNew()
+        private void FuncNew()
         {
             _fileName = UNTITLED;
             Text = "CircuitSimulator - " + UNTITLED;
@@ -95,7 +95,7 @@ namespace CircuitSimulator
 
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            funcNew();
+            FuncNew();
         }
 
         private Components.Component ShowComponent(Components.Component c)
@@ -120,35 +120,35 @@ namespace CircuitSimulator
             }
         }
 
-        private void contextMenuStrip1_Opening(object sender, CancelEventArgs e)
+        private void ContextMenuStrip1_Opening(object sender, CancelEventArgs e)
         {
             Components.ComponentControl c = contextMenuStrip1.SourceControl as Components.ComponentControl;
             contextMenuStrip1.Items.Clear();
             ToolStripItem delete = new MyToolStripButton("Delete", c);
-            delete.Click += new EventHandler(delete_Click);
+            delete.Click += new EventHandler(Delete_Click);
             delete.AutoToolTip = false;
             contextMenuStrip1.Items.Add(delete);
             c.ShowContextMenu(contextMenuStrip1, e);
             e.Cancel = false;
         }
 
-        private void delete_Click(object sender, EventArgs e)
+        private void Delete_Click(object sender, EventArgs e)
         {
             MyToolStripButton b = sender as MyToolStripButton;
             b.Component.DeleteComponent();
         }
 
-        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ExitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Close();
         }
 
-        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        private void AboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
             MessageBox.Show(
             "Circuit Simulator - Simulation of logical circuits\n" +
             "Copyright (C) 2009 Péter Gyöngyik\n\n" +
-            "Version 0.3.0\n\n" +
+            "Version 0.4.0\n\n" +
             "This program is free software: you can redistribute it and/or modify\n" +
             "it under the terms of the GNU General Public License as published by\n" +
             "the Free Software Foundation, either version 3 of the License, or\n" +
@@ -161,107 +161,107 @@ namespace CircuitSimulator
             "along with this program. If not, see <http://www.gnu.org/licenses/>.", "About...");
         }
 
-        private void bufferToolStripMenuItem_Click(object sender, EventArgs e)
+        private void BufferToolStripMenuItem_Click(object sender, EventArgs e)
         {
             _components.Add(ShowComponent(new Components.Buffer()));
         }
 
-        private void notToolStripMenuItem_Click(object sender, EventArgs e)
+        private void NotToolStripMenuItem_Click(object sender, EventArgs e)
         {
             _components.Add(ShowComponent(new Components.Not()));
         }
 
-        private void andToolStripMenuItem_Click(object sender, EventArgs e)
+        private void AndToolStripMenuItem_Click(object sender, EventArgs e)
         {
             _components.Add(ShowComponent(new Components.And()));
         }
 
-        private void nandToolStripMenuItem_Click(object sender, EventArgs e)
+        private void NandToolStripMenuItem_Click(object sender, EventArgs e)
         {
             _components.Add(ShowComponent(new Components.Nand()));
         }
 
-        private void orToolStripMenuItem_Click(object sender, EventArgs e)
+        private void OrToolStripMenuItem_Click(object sender, EventArgs e)
         {
             _components.Add(ShowComponent(new Components.Or()));
         }
 
-        private void norToolStripMenuItem1_Click(object sender, EventArgs e)
+        private void NorToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             _components.Add(ShowComponent(new Components.Nor()));
         }
 
-        private void xorToolStripMenuItem_Click(object sender, EventArgs e)
+        private void XorToolStripMenuItem_Click(object sender, EventArgs e)
         {
             _components.Add(ShowComponent(new Components.Xor()));
         }
 
-        private void xnorToolStripMenuItem1_Click(object sender, EventArgs e)
+        private void XnorToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             _components.Add(ShowComponent(new Components.Xnor()));
         }
 
-        private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
+        private void SaveAsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            funcSaveAs();
+            FuncSaveAs();
         }
 
-        private void ledLampToolStripMenuItem_Click(object sender, EventArgs e)
+        private void LedLampToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            _components.Add(ShowComponent(new Components.LEDLamp()));
+            _components.Add(ShowComponent(new Components.LedLamp()));
         }
 
-        private void digitalDisplay8ToolStripMenuItem_Click(object sender, EventArgs e)
+        private void DigitalDisplay8ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             _components.Add(ShowComponent(new Components.DigitalDisplay(8)));
         }
 
-        private void digitalClockToolStripMenuItem_Click(object sender, EventArgs e)
+        private void DigitalClockToolStripMenuItem_Click(object sender, EventArgs e)
         {
             _components.Add(ShowComponent(new Components.DigitalClock()));
         }
 
-        private void sevenSegmentToolStripMenuItem_Click(object sender, EventArgs e)
+        private void SevenSegmentToolStripMenuItem_Click(object sender, EventArgs e)
         {
             _components.Add(ShowComponent(new Components.SevenSegment()));
         }
 
-        private void trafficToolStripMenuItem_Click(object sender, EventArgs e)
+        private void TrafficToolStripMenuItem_Click(object sender, EventArgs e)
         {
             _components.Add(ShowComponent(new Components.TrafficLight()));
         }
 
-        private void outputPinToolStripMenuItem_Click(object sender, EventArgs e)
+        private void OutputPinToolStripMenuItem_Click(object sender, EventArgs e)
         {
             _components.Add(ShowComponent(new Components.OutputPin()));
         }
 
-        private void digitalDisplay4ToolStripMenuItem_Click(object sender, EventArgs e)
+        private void DigitalDisplay4ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             _components.Add(ShowComponent(new Components.DigitalDisplay(4)));
         }
 
-        private void wireToolStripMenuItem_Click(object sender, EventArgs e)
+        private void WireToolStripMenuItem_Click(object sender, EventArgs e)
         {
             _components.Add(ShowComponent(new Components.Wire()));
         }
 
-        private void powerButtonToolStripMenuItem_Click(object sender, EventArgs e)
+        private void PowerButtonToolStripMenuItem_Click(object sender, EventArgs e)
         {
             _components.Add(ShowComponent(new Components.PowerButton()));
         }
 
-        private void inputPinToolStripMenuItem_Click(object sender, EventArgs e)
+        private void InputPinToolStripMenuItem_Click(object sender, EventArgs e)
         {
             _components.Add(ShowComponent(new Components.InputPin()));
         }
 
-        private void icToolStripMenuItem_Click(object sender, EventArgs e)
+        private void IcToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            funcIC();
+            FuncIc();
         }
 
-        private void funcIC()
+        private void FuncIc()
         {
             OpenFileDialog d = new OpenFileDialog();
             if (d.ShowDialog() == DialogResult.OK)
@@ -269,7 +269,7 @@ namespace CircuitSimulator
                 Stream s;
                 if ((s = d.OpenFile()) != null)
                 {
-                    Components.IC ic = new Components.IC(GetNameWithoutExtension(d.FileName));
+                    Components.Ic ic = new Components.Ic(GetNameWithoutExtension(d.FileName));
                     ic.LoadCircuit(s);
                     s.Close();
 
@@ -278,141 +278,139 @@ namespace CircuitSimulator
             }
         }
 
-        private void switchToolStripMenuItem_Click(object sender, EventArgs e)
+        private void SwitchToolStripMenuItem_Click(object sender, EventArgs e)
         {
             _components.Add(ShowComponent(new Components.Switch()));
         }
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            //
         }
 
-        private void toolStripButton1_Click(object sender, EventArgs e)
+        private void ToolStripButton1_Click(object sender, EventArgs e)
         {
-            funcNew();
+            FuncNew();
         }
 
-        private void panel1_Paint(object sender, PaintEventArgs e)
+        private void Panel1_Paint(object sender, PaintEventArgs e)
         {
-            //
         }
 
-        private void toolStripOpen_Click(object sender, EventArgs e)
+        private void ToolStripOpen_Click(object sender, EventArgs e)
         {
-            funcOpen();
+            FuncOpen();
         }
 
-        private void toolStripSave_Click(object sender, EventArgs e)
+        private void ToolStripSave_Click(object sender, EventArgs e)
         {
             if (_fileName == UNTITLED)
             {
-                funcSaveAs();
+                FuncSaveAs();
             }
             else
             {
-                funcSave();
+                FuncSave();
             }
         }
 
-        private void toolStripInputPin_Click(object sender, EventArgs e)
+        private void ToolStripInputPin_Click(object sender, EventArgs e)
         {
             _components.Add(ShowComponent(new Components.InputPin()));
         }
 
-        private void toolStripPowerButton_Click(object sender, EventArgs e)
+        private void ToolStripPowerButton_Click(object sender, EventArgs e)
         {
             _components.Add(ShowComponent(new Components.PowerButton()));
         }
 
-        private void toolStripDigitalClock_Click(object sender, EventArgs e)
+        private void ToolStripDigitalClock_Click(object sender, EventArgs e)
         {
             _components.Add(ShowComponent(new Components.DigitalClock()));
         }
 
-        private void toolStripSwitch_Click(object sender, EventArgs e)
+        private void ToolStripSwitch_Click(object sender, EventArgs e)
         {
             _components.Add(ShowComponent(new Components.Switch()));
         }
 
-        private void toolStripWire_Click(object sender, EventArgs e)
+        private void ToolStripWire_Click(object sender, EventArgs e)
         {
             _components.Add(ShowComponent(new Components.Wire()));
         }
 
-        private void toolStripBuffer_Click(object sender, EventArgs e)
+        private void ToolStripBuffer_Click(object sender, EventArgs e)
         {
             _components.Add(ShowComponent(new Components.Buffer()));
         }
 
-        private void toolStripNot_Click(object sender, EventArgs e)
+        private void ToolStripNot_Click(object sender, EventArgs e)
         {
             _components.Add(ShowComponent(new Components.Not()));
         }
 
-        private void toolStripAnd_Click(object sender, EventArgs e)
+        private void ToolStripAnd_Click(object sender, EventArgs e)
         {
             _components.Add(ShowComponent(new Components.And()));
         }
 
-        private void toolStripNand_Click(object sender, EventArgs e)
+        private void ToolStripNand_Click(object sender, EventArgs e)
         {
             _components.Add(ShowComponent(new Components.Nand()));
         }
 
-        private void toolStripOr_Click(object sender, EventArgs e)
+        private void ToolStripOr_Click(object sender, EventArgs e)
         {
             _components.Add(ShowComponent(new Components.Or()));
         }
 
-        private void toolStripNor_Click(object sender, EventArgs e)
+        private void ToolStripNor_Click(object sender, EventArgs e)
         {
             _components.Add(ShowComponent(new Components.Nor()));
         }
 
-        private void toolStripXor_Click(object sender, EventArgs e)
+        private void ToolStripXor_Click(object sender, EventArgs e)
         {
             _components.Add(ShowComponent(new Components.Xor()));
         }
 
-        private void toolStripXnor_Click(object sender, EventArgs e)
+        private void ToolStripXnor_Click(object sender, EventArgs e)
         {
             _components.Add(ShowComponent(new Components.Xnor()));
         }
 
-        private void toolStripOutPin_Click(object sender, EventArgs e)
+        private void ToolStripOutPin_Click(object sender, EventArgs e)
         {
             _components.Add(ShowComponent(new Components.OutputPin()));
         }
 
-        private void toolStripLEDLamp_Click(object sender, EventArgs e)
+        private void ToolStripLedLamp_Click(object sender, EventArgs e)
         {
-            _components.Add(ShowComponent(new Components.LEDLamp()));
+            _components.Add(ShowComponent(new Components.LedLamp()));
         }
 
-        private void toolStripDigitalDisplay4_Click(object sender, EventArgs e)
+        private void ToolStripDigitalDisplay4_Click(object sender, EventArgs e)
         {
             _components.Add(ShowComponent(new Components.DigitalDisplay(4)));
         }
 
-        private void toolStripDigitalDisplay8_Click(object sender, EventArgs e)
+        private void ToolStripDigitalDisplay8_Click(object sender, EventArgs e)
         {
             _components.Add(ShowComponent(new Components.DigitalDisplay(8)));
         }
 
-        private void toolStripSevenSegment_Click(object sender, EventArgs e)
+        private void ToolStripSevenSegment_Click(object sender, EventArgs e)
         {
             _components.Add(ShowComponent(new Components.SevenSegment()));
         }
 
-        private void toolStripTrafficLight_Click(object sender, EventArgs e)
+        private void ToolStripTrafficLight_Click(object sender, EventArgs e)
         {
             _components.Add(ShowComponent(new Components.TrafficLight()));
         }
 
-        private void toolStripIC_Click(object sender, EventArgs e)
+        private void ToolStripIc_Click(object sender, EventArgs e)
         {
-            funcIC();
+            FuncIc();
         }
     }
 }

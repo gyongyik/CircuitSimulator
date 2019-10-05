@@ -74,11 +74,11 @@ namespace CircuitSimulator.Components
 
         private class SwitchControl : ComponentControl
         {
-            private Switch _parent;
+            private Switch _component;
 
-            public SwitchControl(Switch parent) : base(parent)
+            public SwitchControl(Switch component) : base(component)
             {
-                _parent = parent;
+                _component = component;
             }
 
             protected override void OnPaint(PaintEventArgs e)
@@ -96,7 +96,7 @@ namespace CircuitSimulator.Components
                 g.DrawLine(pen, new Point(8, 25), new Point(34, 25));
                 g.DrawLine(pen, new Point(66, 25), new Point(93, 25));
 
-                if (_parent.State)
+                if (_component.State)
                 {
                     g.DrawLine(pen, new Point(33, 25), new Point(66, 25));
                 }
@@ -114,7 +114,7 @@ namespace CircuitSimulator.Components
             private bool _processing;
             private int _index;
 
-            public SwitchConnection(Component parent, int index) : base(parent)
+            public SwitchConnection(Component component, int index) : base(component)
             {
                 _processing = false;
                 _index = index;

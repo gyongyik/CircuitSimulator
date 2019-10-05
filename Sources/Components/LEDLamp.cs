@@ -3,9 +3,9 @@ using System.Drawing;
 
 namespace CircuitSimulator.Components
 {
-    internal class LEDLamp : Component
+    internal class LedLamp : Component
     {
-        public LEDLamp() : base(1, 0)
+        public LedLamp() : base(1, 0)
         {
             Bounds = new Rectangle(0, 0, 40, 30);
             Connections[0].Location = new Point(5, 15);
@@ -18,14 +18,13 @@ namespace CircuitSimulator.Components
 
         protected override ComponentControl CreateComponentControl()
         {
-            return new LEDLampControl(this);
+            return new LedLampControl(this);
         }
 
-        private class LEDLampControl : ComponentControl
+        private class LedLampControl : ComponentControl
         {
-            public LEDLampControl(LEDLamp parent) : base(parent)
+            public LedLampControl(LedLamp _) : base(_)
             {
-                //
             }
 
             protected override void OnPaint(PaintEventArgs e)

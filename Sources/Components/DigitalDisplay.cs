@@ -8,17 +8,23 @@ namespace CircuitSimulator.Components
     internal class DigitalDisplay : Component
     {
         private int _value;
-        private int _numberBase;
+        private bool _isHexadecimal;
+        private bool _showColor;
+        private bool _showChar;
 
         public DigitalDisplay() : base()
         {
-            _numberBase = 10;
+            _isHexadecimal = false;
+            _showColor = false;
+            _showChar = false;
             Initialize(8);
         }
 
         public DigitalDisplay(int inputs) : base()
         {
-            _numberBase = 10;
+            _isHexadecimal = false;
+            _showColor = false;
+            _showChar = false;
             Initialize(inputs);
         }
 
@@ -55,11 +61,13 @@ namespace CircuitSimulator.Components
             }
             base.Execute();
         }
-        
+
         public override void Write(System.Xml.XmlWriter writer)
         {
             writer.WriteElementString("inputs", (Connections.Length - 1).ToString());
-            writer.WriteElementString("base", _numberBase.ToString());
+            writer.WriteElementString("hexadecimal", _isHexadecimal.ToString());
+            writer.WriteElementString("showcolor", _showColor.ToString());
+            writer.WriteElementString("showchar", _showChar.ToString());
         }
 
         public override void Read(System.Xml.XmlReader reader)
@@ -71,10 +79,22 @@ namespace CircuitSimulator.Components
                 Initialize(inputs);
             }
 
-            reader.ReadToFollowing("base");
-            if (reader.IsStartElement("base"))
+            reader.ReadToFollowing("hexadecimal");
+            if (reader.IsStartElement("hexadecimal"))
             {
-                _numberBase = reader.ReadElementContentAsInt();
+                _isHexadecimal = reader.ReadElementContentAsBoolean();
+            }
+
+            reader.ReadToFollowing("showcolor");
+            if (reader.IsStartElement("showcolor"))
+            {
+                _showColor = reader.ReadElementContentAsBoolean();
+            }
+
+            reader.ReadToFollowing("showchar");
+            if (reader.IsStartElement("showchar"))
+            {
+                _showChar = reader.ReadElementContentAsBoolean();
             }
         }
 
@@ -85,30 +105,44 @@ namespace CircuitSimulator.Components
 
         private class DigitalDisplayControl : ComponentControl
         {
-            DigitalDisplay _parent;
+            DigitalDisplay _component;
 
-            public DigitalDisplayControl(DigitalDisplay parent) : base(parent)
+            public DigitalDisplayControl(DigitalDisplay component) : base(component)
             {
-                _parent = parent;
+                _component = component;
             }
 
             public override void ShowContextMenu(ContextMenuStrip menu, CancelEventArgs ce)
             {
-                ToolStripItem dec = new ToolStripButton("Decimal");
-                dec.Click += new EventHandler(delegate (object sender, EventArgs e)
-                {
-                    _parent._numberBase = 10;
-                    _parent.Circuit.ConnectComponent(_parent);
-                });
-                menu.Items.Add(dec);
-
-                ToolStripItem hex = new ToolStripButton("Hexidecimal");
+                ToolStripItem hex = new ToolStripButton(_component._isHexadecimal ? "Decimal" : "Hexadecimal");
                 hex.Click += new EventHandler(delegate (object sender, EventArgs e)
                 {
-                    _parent._numberBase = 16;
-                    _parent.Circuit.ConnectComponent(_parent);
+                    _component._isHexadecimal = !_component._isHexadecimal;
+                    _component.Circuit.ConnectComponent(_component);
                 });
                 menu.Items.Add(hex);
+
+                if (_component.Connections.Length >= 8)
+                {
+                    ToolStripItem chr = new ToolStripButton(_component._showChar ? "Hide Char" : "Show Char");
+                    chr.Click += new EventHandler(delegate (object sender, EventArgs e)
+                    {
+                        _component._showChar = !_component._showChar;
+                        _component.Circuit.ConnectComponent(_component);
+                    });
+                    menu.Items.Add(chr);
+                }
+                else
+                {
+                    ToolStripItem cbg = new ToolStripButton(_component._showColor ? "Hide Color" : "Show Color");
+                    cbg.Click += new EventHandler(delegate (object sender, EventArgs e)
+                    {
+                        _component._showColor = !_component._showColor;
+                        _component.Circuit.ConnectComponent(_component);
+                    });
+                    menu.Items.Add(cbg);
+                    
+                }
             }
 
             protected override void OnPaint(PaintEventArgs e)
@@ -117,15 +151,83 @@ namespace CircuitSimulator.Components
                 Pen pen = new Pen(Color.Black, 3);
                 Rectangle rect = new Rectangle(15, 5, Width - 22, Height - 10);
 
-                g.FillRectangle(Brushes.Black, rect);
-                g.DrawRectangle(pen, rect);
-                g.DrawString(" " + Convert.ToString(_parent._value, _parent._numberBase), new Font("Segoe UI", 16, FontStyle.Bold), Brushes.Lime, rect);
+                Brush textColor;
+                Brush rectColor;
 
-                for (int i = 0; i < _parent.Connections.Length - 1; ++i)
+                if (_component._showColor)
                 {
-                    Color c = _parent.GetValue(i) ? Color.Red : Color.Black;
-                    g.DrawEllipse(new Pen(c, 1), new Rectangle(Point.Subtract(_parent.Connections[i].Location, new Size(2, 2)), new Size(4, 4)));
-                    g.DrawLine(pen, new Point(8, _parent.Connections[i].Location.Y), new Point(rect.Left, _parent.Connections[i].Location.Y));
+                    var brushes = GetBrushes(_component._value);
+                    textColor = brushes.textColor;
+                    rectColor = brushes.rectColor;
+                }
+                else
+                {
+                    textColor = Brushes.Lime;
+                    rectColor = Brushes.Black;
+                }
+                
+                g.FillRectangle(rectColor, rect);
+                g.DrawRectangle(pen, rect);
+
+                Font font = new Font("Consolas", 16);
+                if (_component._isHexadecimal)
+                {
+                    g.DrawString((_component._value < 16 ? "0x0" : "0x").ToString() + Convert.ToString(_component._value, 16).ToUpper(), font, textColor, rect);
+                }
+                else
+                {
+                    g.DrawString(Convert.ToString(_component._value), font, textColor, rect);
+                }
+
+                if (_component._showChar)
+                {
+                    g.DrawString(Convert.ToString($"'{Convert.ToChar(_component._value)}'"), font, Brushes.Lime, new Rectangle(rect.X + 10, rect.Y + 60, rect.Width - 10, rect.Height - 60));
+                }
+  
+                for (int i = 0; i < _component.Connections.Length - 1; ++i)
+                {
+                    Color c = _component.GetValue(i) ? Color.Red : Color.Black;
+                    g.DrawEllipse(new Pen(c, 1), new Rectangle(Point.Subtract(_component.Connections[i].Location, new Size(2, 2)), new Size(4, 4)));
+                    g.DrawLine(pen, new Point(8, _component.Connections[i].Location.Y), new Point(rect.Left, _component.Connections[i].Location.Y));
+                }
+            }
+
+            private (Brush textColor, Brush rectColor) GetBrushes(int value)
+            {
+                switch (value)
+                {
+                    case 1:
+                        return (Brushes.Yellow, Brushes.Navy);
+                    case 2:
+                        return (Brushes.Magenta, Brushes.Green);
+                    case 3:
+                        return (Brushes.Red, Brushes.DarkCyan);
+                    case 4:
+                        return (Brushes.Cyan, Brushes.Maroon);
+                    case 5:
+                        return (Brushes.Lime, Brushes.Purple);
+                    case 6:
+                        return (Brushes.Blue, Brushes.Olive);
+                    case 7:
+                        return (Brushes.Green, Brushes.Silver);
+                    case 8:
+                        return (Brushes.Lime, Brushes.Gray);
+                    case 9:
+                        return (Brushes.Olive, Brushes.Blue);
+                    case 10:
+                        return (Brushes.Purple, Brushes.Lime);
+                    case 11:
+                        return (Brushes.Maroon, Brushes.Cyan);
+                    case 12:
+                        return (Brushes.DarkCyan, Brushes.Red);
+                    case 13:
+                        return (Brushes.Green, Brushes.Magenta);
+                    case 14:
+                        return (Brushes.Navy, Brushes.Yellow);
+                    case 15:
+                        return (Brushes.Green, Brushes.White);
+                    default:
+                        return (Brushes.Lime, Brushes.Black);
                 }
             }
         }

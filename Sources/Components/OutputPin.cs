@@ -23,9 +23,8 @@ namespace CircuitSimulator.Components
 
         private class OutputPinControl : ComponentControl
         {
-            public OutputPinControl(OutputPin parent) : base(parent)
+            public OutputPinControl(OutputPin _) : base(_)
             {
-                //
             }
 
             protected override void OnPaint(PaintEventArgs e)

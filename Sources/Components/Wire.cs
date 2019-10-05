@@ -9,7 +9,7 @@ namespace CircuitSimulator.Components
     {
         bool _processing;
 
-        public WireConnection(Component parent) : base(parent)
+        public WireConnection(Component component) : base(component)
         {
             _processing = false;
         }
@@ -160,11 +160,11 @@ namespace CircuitSimulator.Components
 
         private class WireControl : ComponentControl
         {
-            Wire _parent;
+            Wire _component;
 
-            public WireControl(Wire parent) : base(parent)
+            public WireControl(Wire component) : base(component)
             {
-                _parent = parent;
+                _component = component;
             }
 
             public override void ShowContextMenu(ContextMenuStrip menu, CancelEventArgs ce)
@@ -172,11 +172,11 @@ namespace CircuitSimulator.Components
                 ToolStripItem cw = new ToolStripButton("Change Width");
                 cw.Click += new EventHandler(delegate (object sender, EventArgs e)
                 {
-                    string value = Convert.ToString(_parent.Width - 10);
+                    string value = Convert.ToString(_component.Width - 10);
                     if (InputBox("Change Width", "Width:", ref value) == DialogResult.OK)
                     {
-                        _parent.SetWidth(Convert.ToInt32(value));
-                        _parent.Circuit.ConnectComponent(_parent);
+                        _component.SetWidth(Convert.ToInt32(value));
+                        _component.Circuit.ConnectComponent(_component);
                     }
                 });
                 menu.Items.Add(cw);
@@ -184,11 +184,11 @@ namespace CircuitSimulator.Components
                 ToolStripItem ch = new ToolStripButton("Change Height");
                 ch.Click += new EventHandler(delegate (object sender, EventArgs e)
                 {
-                    string value = Convert.ToString(_parent.Height - 10);
+                    string value = Convert.ToString(_component.Height - 10);
                     if (InputBox("Change Height", "Height:", ref value) == DialogResult.OK)
                     {
-                        _parent.SetHeight(Convert.ToInt32(value));
-                        _parent.Circuit.ConnectComponent(_parent);
+                        _component.SetHeight(Convert.ToInt32(value));
+                        _component.Circuit.ConnectComponent(_component);
                     }
                 });
                 menu.Items.Add(ch);

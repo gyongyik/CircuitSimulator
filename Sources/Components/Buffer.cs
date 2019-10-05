@@ -26,9 +26,8 @@ namespace CircuitSimulator.Components
 
         private class BufferControl : ComponentControl
         {
-            public BufferControl(Buffer parent) : base(parent)
+            public BufferControl(Buffer _) : base(_)
             {
-                //
             }
 
             protected override void OnPaint(PaintEventArgs e)

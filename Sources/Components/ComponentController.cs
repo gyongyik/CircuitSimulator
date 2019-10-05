@@ -145,12 +145,12 @@ namespace CircuitSimulator.Components
                     return new DigitalClock();
                 case "DigitalDisplay":
                     return new DigitalDisplay();
-                case "IC":
-                    return new IC();
+                case "Ic":
+                    return new Ic();
                 case "InputPin":
                     return new InputPin();
-                case "LEDLamp":
-                    return new LEDLamp();
+                case "LedLamp":
+                    return new LedLamp();
                 case "Nand":
                     return new Nand();
                 case "Nor":

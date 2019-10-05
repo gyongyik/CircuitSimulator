@@ -27,9 +27,8 @@ namespace CircuitSimulator.Components
 
         private class AndControl : ComponentControl
         {
-            public AndControl(And parent) : base(parent)
+            public AndControl(And _) : base(_)
             {
-                //
             }
 
             protected override void OnPaint(PaintEventArgs e)

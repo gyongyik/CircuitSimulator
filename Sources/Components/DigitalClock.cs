@@ -65,11 +65,11 @@ namespace CircuitSimulator.Components
 
         private class DigitalClockControl : ComponentControl
         {
-            DigitalClock _parent;
+            private DigitalClock _component;
 
-            public DigitalClockControl(DigitalClock parent) : base(parent)
+            public DigitalClockControl(DigitalClock component) : base(component)
             {
-                _parent = parent;
+                _component = component;
             }
 
             public override void ShowContextMenu(ContextMenuStrip menu, CancelEventArgs ce)
@@ -77,11 +77,11 @@ namespace CircuitSimulator.Components
                 ToolStripItem si = new ToolStripButton("Set Interval");
                 si.Click += new EventHandler(delegate (object sender, EventArgs e)
                 {
-                    string value = Convert.ToString(_parent.Interval);
+                    string value = Convert.ToString(_component.Interval);
                     if (InputBox("Set Interval", "Interval [ms]:", ref value) == DialogResult.OK)
                     {
-                        _parent.Interval = Convert.ToInt32(value);
-                        _parent.Circuit.ConnectComponent(_parent);
+                        _component.Interval = Convert.ToInt32(value);
+                        _component.Circuit.ConnectComponent(_component);
                     }
                 });
                 menu.Items.Add(si);

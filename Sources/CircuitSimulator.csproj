@@ -82,7 +82,7 @@
     <Compile Include="Components\Buffer.cs" />
     <Compile Include="Components\DigitalClock.cs" />
     <Compile Include="Components\InputPin.cs" />
-    <Compile Include="Components\LEDLamp.cs" />
+    <Compile Include="Components\LedLamp.cs" />
     <Compile Include="Components\Nor.cs" />
     <Compile Include="Components\OutputPin.cs" />
     <Compile Include="Components\PowerButton.cs" />
@@ -101,7 +101,7 @@
     </Compile>
     <Compile Include="Components\Connection.cs" />
     <Compile Include="Components\DigitalDisplay.cs" />
-    <Compile Include="Components\IC.cs" />
+    <Compile Include="Components\Ic.cs" />
     <Compile Include="Components\Not.cs" />
     <Compile Include="Components\Or.cs">
     </Compile>

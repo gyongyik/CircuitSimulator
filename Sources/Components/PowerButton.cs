@@ -46,9 +46,8 @@ namespace CircuitSimulator.Components
 
         private class PowerButtonControl : ComponentControl
         {
-            public PowerButtonControl(PowerButton parent) : base(parent)
+            public PowerButtonControl(PowerButton _) : base(_)
             {
-                //
             }
 
             protected override void OnPaint(PaintEventArgs e)

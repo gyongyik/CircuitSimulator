@@ -46,9 +46,8 @@ namespace CircuitSimulator.Components
 
         private class InputPinControl : ComponentControl
         {
-            public InputPinControl(InputPin parent) : base(parent)
+            public InputPinControl(InputPin _) : base(_)
             {
-                //
             }
 
             protected override void OnPaint(PaintEventArgs e)

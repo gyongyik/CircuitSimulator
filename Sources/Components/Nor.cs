@@ -27,9 +27,8 @@ namespace CircuitSimulator.Components
 
         private class NorControl : ComponentControl
         {
-            public NorControl(Nor parent) : base(parent)
+            public NorControl(Nor _) : base(_)
             {
-                //
             }
 
             protected override void OnPaint(PaintEventArgs e)

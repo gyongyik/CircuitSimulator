@@ -27,9 +27,8 @@ namespace CircuitSimulator.Components
 
         private class OrControl : ComponentControl
         {
-            public OrControl(Or parent) : base(parent)
+            public OrControl(Or _) : base(_)
             {
-                //
             }
 
             protected override void OnPaint(PaintEventArgs e)

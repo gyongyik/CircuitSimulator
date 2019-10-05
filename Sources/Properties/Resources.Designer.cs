@@ -113,9 +113,9 @@ namespace CircuitSimulator.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap IC {
+        internal static System.Drawing.Bitmap Ic {
             get {
-                object obj = ResourceManager.GetObject("IC", resourceCulture);
+                object obj = ResourceManager.GetObject("Ic", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -133,9 +133,9 @@ namespace CircuitSimulator.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap LEDLamp {
+        internal static System.Drawing.Bitmap LedLamp {
             get {
-                object obj = ResourceManager.GetObject("LEDLamp", resourceCulture);
+                object obj = ResourceManager.GetObject("LedLamp", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

@@ -27,9 +27,8 @@ namespace CircuitSimulator.Components
 
         private class NandControl : ComponentControl
         {
-            public NandControl(Nand parent) : base(parent)
+            public NandControl(Nand _) : base(_)
             {
-                //
             }
 
             protected override void OnPaint(PaintEventArgs e)

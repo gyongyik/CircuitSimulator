@@ -2,19 +2,20 @@
 using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Drawing;
+using System.ComponentModel;
 
 namespace CircuitSimulator.Components
 {
-    internal class IC : Component
+    internal class Ic : Component
     {
-        public IC()
+        public Ic()
         {
-            Bounds = new Rectangle(0, 0, 105, 50);
+            Bounds = new Rectangle(0, 0, 110, 50);
             InternalCircuit = new ComponentController();
             Name = "unknown";
         }
 
-        public IC(string name) : this()
+        public Ic(string name) : this()
         {
             Name = name;
         }
@@ -39,7 +40,7 @@ namespace CircuitSimulator.Components
 
         protected override ComponentControl CreateComponentControl()
         {
-            return new ICComponentControl(this);
+            return new IcComponentControl(this);
         }
 
         public override void Write(System.Xml.XmlWriter writer)
@@ -113,7 +114,7 @@ namespace CircuitSimulator.Components
 
             int height = 20 + inputOffset * Math.Max(inputCount - 1, outputCount - 1);
             height = Math.Max(height, 50);
-            Bounds = new Rectangle(0, 0, 105, height);
+            Bounds = new Rectangle(0, 0, 110, height);
             Reinitalize(inputCount, outputCount);
 
             for (int i = 0; i < componentList.Count; ++i)
@@ -146,49 +147,38 @@ namespace CircuitSimulator.Components
             }
         }
 
-        private class ICComponentControl : ComponentControl
+        private class IcComponentControl : ComponentControl
         {
-            private IC _component;
+            private Ic _component;
 
-            public ICComponentControl(IC component) : base(component)
+            public IcComponentControl(Ic component) : base(component)
             {
                 _component = component;
             }
 
-            class ICForm : Form
+            class IcForm : Form
             {
-                public ICForm()
+                public IcForm()
                 {
                     BackColor = Color.White;
                 }
+            }
+
+            public override void ShowContextMenu(ContextMenuStrip menu, CancelEventArgs ce)
+            {
+                ToolStripItem show = new ToolStripButton("Show");
+                show.Click += new EventHandler(delegate (object sender, EventArgs e)
+                {
+                    ShowIcForm();
+                });
+                menu.Items.Add(show);
             }
 
             protected override void OnMouseDoubleClick(MouseEventArgs e)
             {
                 base.OnMouseDoubleClick(e);
 
-                Form form = new ICForm();
-
-                Rectangle boundingBox = new Rectangle();
-                foreach (Component c in _component.InternalCircuit.Components)
-                {
-                    c.Show(form, null);
-                    Rectangle controlBounds = c.Bounds;
-                    controlBounds.Offset(c.Location);
-                    if (boundingBox.IsEmpty)
-                    {
-                        boundingBox = controlBounds;
-                    }
-                    else
-                    {
-                        boundingBox = Rectangle.Union(boundingBox, controlBounds);
-                    }
-                }
-                form.Width = boundingBox.Right + 50;
-                form.Height = boundingBox.Bottom + 50;
-                form.Text = _component.Name;
-                form.ShowDialog();
-                form.Dispose();
+                ShowIcForm();
             }
 
             protected override void OnPaint(PaintEventArgs e)
@@ -215,7 +205,33 @@ namespace CircuitSimulator.Components
 
                 g.FillRectangle(Brushes.Black, rect);
                 g.DrawRectangle(pen, rect);
-                g.DrawString(_component.Name, new Font("Segoe UI", 16, FontStyle.Bold), Brushes.White, rect);
+                g.DrawString(_component.Name, new Font("Consolas", 12), Brushes.White, rect);
+            }
+
+            private void ShowIcForm()
+            {
+                Form form = new IcForm();
+
+                Rectangle boundingBox = new Rectangle();
+                foreach (Component c in _component.InternalCircuit.Components)
+                {
+                    c.Show(form, null);
+                    Rectangle controlBounds = c.Bounds;
+                    controlBounds.Offset(c.Location);
+                    if (boundingBox.IsEmpty)
+                    {
+                        boundingBox = controlBounds;
+                    }
+                    else
+                    {
+                        boundingBox = Rectangle.Union(boundingBox, controlBounds);
+                    }
+                }
+                form.Width = boundingBox.Right + boundingBox.Left;
+                form.Height = boundingBox.Bottom + boundingBox.Top + 35;
+                form.Text = _component.Name;
+                form.ShowDialog();
+                form.Dispose();
             }
         }
 
@@ -242,13 +258,12 @@ namespace CircuitSimulator.Components
         {
             public Input() : base()
             {
-                Bounds = new Rectangle(0, 0, 100, 50);
+                Bounds = new Rectangle(0, 0, 105, 50);
                 Connections[0].Location = new Point(this.Width - 5, this.Height / 2);
             }
 
             public Input(Component copy, Connection connection) : base(copy, connection)
             {
-                //
             }
 
             public override bool GetValue(int index)
@@ -281,9 +296,8 @@ namespace CircuitSimulator.Components
 
             private class InputControl : ComponentControl
             {
-                public InputControl(Input parent) : base(parent)
+                public InputControl(Input _) : base(_)
                 {
-                    //
                 }
 
                 protected override void OnPaint(PaintEventArgs e)
@@ -316,7 +330,6 @@ namespace CircuitSimulator.Components
 
             public Output(Component copy, Connection connection) : base(copy, connection)
             {
-                //
             }
 
             public override void Execute()
@@ -338,9 +351,8 @@ namespace CircuitSimulator.Components
 
             private class OutputControl : ComponentControl
             {
-                public OutputControl(Output parent) : base(parent)
+                public OutputControl(Output _) : base(_)
                 {
-                    //
                 }
 
                 protected override void OnPaint(PaintEventArgs e)

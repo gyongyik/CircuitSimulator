@@ -27,9 +27,8 @@ namespace CircuitSimulator.Components
 
         private class XorControl : ComponentControl
         {
-            public XorControl(Xor parent) : base(parent)
+            public XorControl(Xor _) : base(_)
             {
-                //
             }
 
             protected override void OnPaint(PaintEventArgs e)

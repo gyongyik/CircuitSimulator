@@ -27,9 +27,8 @@ namespace CircuitSimulator.Components
 
         private class XnorControl : ComponentControl
         {
-            public XnorControl(Xnor parent) : base(parent)
+            public XnorControl(Xnor _) : base(_)
             {
-                //
             }
 
             protected override void OnPaint(PaintEventArgs e)

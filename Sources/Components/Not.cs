@@ -26,9 +26,8 @@ namespace CircuitSimulator.Components
 
         private class NotControl : ComponentControl
         {
-            public NotControl(Not parent) : base(parent)
+            public NotControl(Not _) : base(_)
             {
-                //
             }
 
             protected override void OnPaint(PaintEventArgs e)
