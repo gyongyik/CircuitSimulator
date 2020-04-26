@@ -34,25 +34,19 @@ namespace CircuitSimulator.Components
             protected override void OnPaint(PaintEventArgs e)
             {
                 Graphics g = e.Graphics;
+                g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
 
-                for (int i = 0; i < Component.GetComponent().Connections.Length; ++i)
-                {
-                    Color c = Component.GetComponent().GetValue(i) ? Color.Red : Color.Black;
-                    int w = Component.GetComponent().Connections[i].Connections.Count > 0 ? 3 : 1;
-                    g.DrawEllipse(new Pen(c, w), new Rectangle(Point.Subtract(Component.GetComponent().Connections[i].Location, new Size(2, 2)), new Size(4, 4)));
-                }
-
-                Pen pen = new Pen(Color.Black, 3);
+                Pen pen = new Pen(Color.DimGray, 3);
                 g.DrawLine(pen, new Point(8, 15), new Point(32, 15));
                 g.DrawLine(pen, new Point(8, 35), new Point(32, 35));
-                g.DrawLine(pen, new Point(85, 25), new Point(93, 25));
-                g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+                g.DrawLine(pen, new Point(85, 25), new Point(92, 25));
                 g.DrawBezier(pen, new Point(25, 5), new Point(55, 5), new Point(65, 10), new Point(75, 25));
                 g.DrawBezier(pen, new Point(25, 45), new Point(55, 45), new Point(65, 40), new Point(75, 25));
                 g.DrawBezier(pen, new Point(25, 5), new Point(35, 20), new Point(35, 30), new Point(25, 45));
                 g.DrawBezier(pen, new Point(19, 5), new Point(29, 20), new Point(29, 30), new Point(19, 45));
                 g.DrawEllipse(pen, new Rectangle(new Point(75, 20), new Size(10, 10)));
-                g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.None;
+
+                DrawConnections(g);
             }
         }
     }

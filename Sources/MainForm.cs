@@ -24,7 +24,7 @@ namespace CircuitSimulator
             _components.Run();
         }
 
-        private void FuncSaveAs()
+        private void SaveAs()
         {
             SaveFileDialog d = new SaveFileDialog();
             d.Filter = FILTER;
@@ -39,63 +39,6 @@ namespace CircuitSimulator
                     s.Close();
                 }
             }
-        }
-
-        private void FuncSave()
-        {
-            var s = File.Create(_fileName);
-            _components.Write(s);
-            s.Close();
-        }
-
-        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (_fileName == UNTITLED)
-            {
-                FuncSaveAs();
-            }
-            else
-            {
-                FuncSave();
-            }
-        }
-
-        private void FuncOpen()
-        {
-            OpenFileDialog d = new OpenFileDialog();
-            d.Filter = FILTER;
-            if (d.ShowDialog() == DialogResult.OK)
-            {
-                _fileName = d.FileName;
-                Text = "CircuitSimulator - " + d.FileName;
-                Stream s;
-                if ((s = d.OpenFile()) != null)
-                {
-                    _components.Read(s);
-                    s.Close();
-                    foreach (Components.Component c in _components.Components)
-                    {
-                        c.Show(panel1, contextMenuStrip1);
-                    }
-                }
-            }
-        }
-
-        private void OpenToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            FuncOpen();
-        }
-
-        private void FuncNew()
-        {
-            _fileName = UNTITLED;
-            Text = "CircuitSimulator - " + UNTITLED;
-            _components.Clear();
-        }
-
-        private void newToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            FuncNew();
         }
 
         private Components.Component ShowComponent(Components.Component c)
@@ -137,179 +80,50 @@ namespace CircuitSimulator
             MyToolStripButton b = sender as MyToolStripButton;
             b.Component.DeleteComponent();
         }
-
-        private void ExitToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Close();
-        }
-
-        private void AboutToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            MessageBox.Show(
-            "Circuit Simulator - Simulation of logical circuits\n" +
-            "Copyright (C) 2009 Péter Gyöngyik\n\n" +
-            "Version 0.4.0\n\n" +
-            "This program is free software: you can redistribute it and/or modify\n" +
-            "it under the terms of the GNU General Public License as published by\n" +
-            "the Free Software Foundation, either version 3 of the License, or\n" +
-            "(at your option) any later version.\n\n" +
-            "This program is distributed in the hope that it will be useful,\n" +
-            "but WITHOUT ANY WARRANTY; without even the implied warranty of\n" +
-            "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the\n" +
-            "GNU General Public License for more details.\n\n" +
-            "You should have received a copy of the GNU General Public License\n" +
-            "along with this program. If not, see <http://www.gnu.org/licenses/>.", "About...");
-        }
-
-        private void BufferToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            _components.Add(ShowComponent(new Components.Buffer()));
-        }
-
-        private void NotToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            _components.Add(ShowComponent(new Components.Not()));
-        }
-
-        private void AndToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            _components.Add(ShowComponent(new Components.And()));
-        }
-
-        private void NandToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            _components.Add(ShowComponent(new Components.Nand()));
-        }
-
-        private void OrToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            _components.Add(ShowComponent(new Components.Or()));
-        }
-
-        private void NorToolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-            _components.Add(ShowComponent(new Components.Nor()));
-        }
-
-        private void XorToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            _components.Add(ShowComponent(new Components.Xor()));
-        }
-
-        private void XnorToolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-            _components.Add(ShowComponent(new Components.Xnor()));
-        }
-
-        private void SaveAsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            FuncSaveAs();
-        }
-
-        private void LedLampToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            _components.Add(ShowComponent(new Components.LedLamp()));
-        }
-
-        private void DigitalDisplay8ToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            _components.Add(ShowComponent(new Components.DigitalDisplay(8)));
-        }
-
-        private void DigitalClockToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            _components.Add(ShowComponent(new Components.DigitalClock()));
-        }
-
-        private void SevenSegmentToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            _components.Add(ShowComponent(new Components.SevenSegment()));
-        }
-
-        private void TrafficToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            _components.Add(ShowComponent(new Components.TrafficLight()));
-        }
-
-        private void OutputPinToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            _components.Add(ShowComponent(new Components.OutputPin()));
-        }
-
-        private void DigitalDisplay4ToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            _components.Add(ShowComponent(new Components.DigitalDisplay(4)));
-        }
-
-        private void WireToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            _components.Add(ShowComponent(new Components.Wire()));
-        }
-
-        private void PowerButtonToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            _components.Add(ShowComponent(new Components.PowerButton()));
-        }
-
-        private void InputPinToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            _components.Add(ShowComponent(new Components.InputPin()));
-        }
-
-        private void IcToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            FuncIc();
-        }
-
-        private void FuncIc()
-        {
-            OpenFileDialog d = new OpenFileDialog();
-            if (d.ShowDialog() == DialogResult.OK)
-            {
-                Stream s;
-                if ((s = d.OpenFile()) != null)
-                {
-                    Components.Ic ic = new Components.Ic(GetNameWithoutExtension(d.FileName));
-                    ic.LoadCircuit(s);
-                    s.Close();
-
-                    _components.Add(ShowComponent(ic));
-                }
-            }
-        }
-
-        private void SwitchToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            _components.Add(ShowComponent(new Components.Switch()));
-        }
-
+                     
         private void MainForm_Load(object sender, EventArgs e)
         {
         }
 
         private void ToolStripButton1_Click(object sender, EventArgs e)
         {
-            FuncNew();
+            _fileName = UNTITLED;
+            Text = "CircuitSimulator - " + UNTITLED;
+            _components.Clear();
         }
-
-        private void Panel1_Paint(object sender, PaintEventArgs e)
-        {
-        }
-
+        
         private void ToolStripOpen_Click(object sender, EventArgs e)
         {
-            FuncOpen();
+            OpenFileDialog d = new OpenFileDialog();
+            d.Filter = FILTER;
+            if (d.ShowDialog() == DialogResult.OK)
+            {
+                _fileName = d.FileName;
+                Text = "CircuitSimulator - " + d.FileName;
+                Stream s;
+                if ((s = d.OpenFile()) != null)
+                {
+                    _components.Read(s);
+                    s.Close();
+                    foreach (Components.Component c in _components.Components)
+                    {
+                        c.Show(panel1, contextMenuStrip1);
+                    }
+                }
+            }
         }
 
         private void ToolStripSave_Click(object sender, EventArgs e)
         {
             if (_fileName == UNTITLED)
             {
-                FuncSaveAs();
+                SaveAs();
             }
             else
             {
-                FuncSave();
+                FileStream s = File.Create(_fileName);
+                _components.Write(s);
+                s.Close();
             }
         }
 
@@ -410,7 +224,48 @@ namespace CircuitSimulator
 
         private void ToolStripIc_Click(object sender, EventArgs e)
         {
-            FuncIc();
+            OpenFileDialog d = new OpenFileDialog();
+            if (d.ShowDialog() == DialogResult.OK)
+            {
+                Stream s;
+                if ((s = d.OpenFile()) != null)
+                {
+                    Components.Ic ic = new Components.Ic(GetNameWithoutExtension(d.FileName));
+                    ic.LoadCircuit(s);
+                    s.Close();
+
+                    _components.Add(ShowComponent(ic));
+                }
+            }
+        }
+
+        private void toolStripSaveAs_Click(object sender, EventArgs e)
+        {
+            SaveAs();
+        }
+
+        private void toolStripAbout_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show(
+                "Circuit Simulator - Simulation of logical circuits\n" +
+                "Copyright (C) 2009 Péter Gyöngyik\n\n" +
+                "Version 0.5.0\n\n" +
+                "This program is free software: you can redistribute it and/or modify\n" +
+                "it under the terms of the GNU General Public License as published by\n" +
+                "the Free Software Foundation, either version 3 of the License, or\n" +
+                "(at your option) any later version.\n\n" +
+                "This program is distributed in the hope that it will be useful,\n" +
+                "but WITHOUT ANY WARRANTY; without even the implied warranty of\n" +
+                "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the\n" +
+                "GNU General Public License for more details.\n\n" +
+                "You should have received a copy of the GNU General Public License\n" +
+                "along with this program. If not, see <http://www.gnu.org/licenses/>.", 
+                "About...");
+        }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 }

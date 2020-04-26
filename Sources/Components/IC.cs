@@ -184,28 +184,29 @@ namespace CircuitSimulator.Components
             protected override void OnPaint(PaintEventArgs e)
             {
                 Graphics g = e.Graphics;
+                g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+
                 Rectangle rect = new Rectangle(15, 5, Width - 30, Height - 10);
-                Pen pen = new Pen(Color.Black, 3);
+                Pen pen = new Pen(Color.DimGray, 3);
 
                 for (int i = 0; i < _component.Connections.Length; ++i)
                 {
                     if (_component.Connections[i].Location.X < rect.Left)
                     {
-                        g.DrawLine(pen, new Point(_component.Connections[i].Location.X + 2, _component.Connections[i].Location.Y), new Point(rect.Left, _component.Connections[i].Location.Y));
+                        g.DrawLine(pen, new Point(_component.Connections[i].Location.X + 3, _component.Connections[i].Location.Y), new Point(rect.Left, _component.Connections[i].Location.Y));
                     }
                     else
                     {
-                        g.DrawLine(pen, new Point(_component.Connections[i].Location.X - 2, _component.Connections[i].Location.Y), new Point(rect.Right, _component.Connections[i].Location.Y));
+                        g.DrawLine(pen, new Point(_component.Connections[i].Location.X - 3, _component.Connections[i].Location.Y), new Point(rect.Right, _component.Connections[i].Location.Y));
                     }
 
-                    Color c = _component.GetValue(i) ? Color.Red : Color.Black;
+                    Color c = _component.GetValue(i) ? Color.Tomato : Color.DimGray;
                     int w = _component.Connections[i].Connections.Count > 0 ? 3 : 1;
-                    g.DrawEllipse(new Pen(c, w), new Rectangle(Point.Subtract(_component.Connections[i].Location, new Size(2, 2)), new Size(4, 4)));
+                    g.DrawEllipse(new Pen(c, w), new Rectangle(Point.Subtract(_component.Connections[i].Location, new Size(3, 3)), new Size(6, 6)));
                 }
 
-                g.FillRectangle(Brushes.Black, rect);
                 g.DrawRectangle(pen, rect);
-                g.DrawString(_component.Name, new Font("Consolas", 12), Brushes.White, rect);
+                g.DrawString(_component.Name, new Font("Consolas", 12, FontStyle.Bold), Brushes.DimGray, rect);
             }
 
             private void ShowIcForm()

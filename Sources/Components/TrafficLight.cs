@@ -38,41 +38,31 @@ namespace CircuitSimulator.Components
             protected override void OnPaint(PaintEventArgs e)
             {
                 Graphics g = e.Graphics;
-                Pen penB = new Pen(Color.Black, 3);
-                Pen penM = new Pen(Color.Maroon, 1);
-                Pen penR = new Pen(Color.Red, 1);
-                Pen penO = new Pen(Color.Olive, 1);
-                Pen penY = new Pen(Color.Yellow, 1);
-                Pen penG = new Pen(Color.Green, 1);
-                Pen penL = new Pen(Color.Lime, 1);
+                g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
 
+                Pen pen = new Pen(Color.DimGray, 3);
                 Rectangle rect = new Rectangle(15, 5, Width - 22, Height - 10);
 
                 for (int i = 0; i < _component.Connections.Length - 1; ++i)
                 {
-                    Color c = _component.GetValue(i) ? Color.Red : Color.Black;
-                    g.DrawEllipse(new Pen(c, 1), new Rectangle(Point.Subtract(_component.Connections[i].Location, new Size(2, 2)), new Size(4, 4)));
-                    g.DrawLine(penB, new Point(8, _component.Connections[i].Location.Y), new Point(rect.Left, _component.Connections[i].Location.Y));
+                    Color c = _component.GetValue(i) ? Color.Tomato : Color.DimGray;
+                    g.DrawLine(pen, new Point(8, _component.Connections[i].Location.Y), new Point(rect.Left, _component.Connections[i].Location.Y));
+                    g.DrawEllipse(new Pen(c, 1), new Rectangle(Point.Subtract(_component.Connections[i].Location, new Size(3, 3)), new Size(6, 6)));
                 }
 
-                g.FillRectangle(Brushes.Black, rect);
-                g.DrawRectangle(penB, rect);
+                g.DrawRectangle(pen, rect);
 
-                g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+                Rectangle rectRed = new Rectangle(26, 10, 42, 42);
+                g.FillEllipse(_component.GetValue(0) ? Brushes.Tomato : Brushes.DimGray, rectRed);
+                g.DrawEllipse(_component.GetValue(0) ? new Pen(Color.Tomato, 1) : pen, rectRed);
 
-                Rectangle redRect = new Rectangle(26, 10, 42, 42);
-                g.FillEllipse(_component.GetValue(0) ? Brushes.Red : Brushes.Maroon, redRect);
-                g.DrawEllipse(_component.GetValue(0) ? penR : penM, redRect);
+                Rectangle rectYellow = new Rectangle(26, 59, 42, 42);
+                g.FillEllipse(_component.GetValue(1) ? Brushes.Gold : Brushes.DimGray, rectYellow);
+                g.DrawEllipse(_component.GetValue(1) ? new Pen(Color.Gold, 1) : pen, rectYellow);
 
-                Rectangle yellowRect = new Rectangle(26, 59, 42, 42);
-                g.FillEllipse(_component.GetValue(1) ? Brushes.Yellow : Brushes.Olive, yellowRect);
-                g.DrawEllipse(_component.GetValue(1) ? penY : penO, yellowRect);
-
-                Rectangle greenRect = new Rectangle(26, 108, 42, 42);
-                g.FillEllipse(_component.GetValue(2) ? Brushes.Lime: Brushes.Green, greenRect);
-                g.DrawEllipse(_component.GetValue(2) ? penL : penG, greenRect);
-
-                g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.None;
+                Rectangle rectGreen = new Rectangle(26, 108, 42, 42);
+                g.FillEllipse(_component.GetValue(2) ? Brushes.Chartreuse : Brushes.DimGray, rectGreen);
+                g.DrawEllipse(_component.GetValue(2) ? new Pen(Color.Chartreuse, 1) : pen, rectGreen);
             }
         }
     }

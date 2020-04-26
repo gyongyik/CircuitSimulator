@@ -197,16 +197,18 @@ namespace CircuitSimulator.Components
             protected override void OnPaint(PaintEventArgs e)
             {
                 Graphics g = e.Graphics;
-                Pen pen = new Pen(Color.Black, 3);
                 g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
-                g.DrawLine(pen, new Point(Component.GetComponent().Connections[0].Location.X, Component.GetComponent().Connections[0].Location.Y), new Point(Component.GetComponent().Connections[1].Location.X, Component.GetComponent().Connections[1].Location.Y));
-                g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.None;
 
-                for (int i = 0; i < Component.GetComponent().Connections.Length; ++i)
+                g.DrawLine(
+                    new Pen(Color.DimGray, 3), 
+                    new Point(Component.GetComponent().Connections[0].Location.X, Component.GetComponent().Connections[0].Location.Y), 
+                    new Point(Component.GetComponent().Connections[1].Location.X, Component.GetComponent().Connections[1].Location.Y));
+
+                DrawConnections(g); for (int i = 0; i < Component.GetComponent().Connections.Length; ++i)
                 {
-                    Color c = Component.GetComponent().GetValue(i) ? Color.Red : Color.Black;
+                    Color c = Component.GetComponent().GetValue(i) ? Color.Tomato : Color.DimGray;
                     int w = Component.GetComponent().Connections[i].Connections.Count > 0 ? 3 : 1;
-                    Rectangle rect = new Rectangle(Point.Subtract(Component.GetComponent().Connections[i].Location, new Size(2, 2)), new Size(4, 4));
+                    Rectangle rect = new Rectangle(Point.Subtract(Component.GetComponent().Connections[i].Location, new Size(3, 3)), new Size(6, 6));
                     g.FillEllipse(Brushes.White, rect);
                     g.DrawEllipse(new Pen(c, w), rect);
                 }

@@ -184,25 +184,27 @@
     <None Include="Resources\Xor.png" />
     <None Include="Resources\Buffer.png" />
     <None Include="Resources\And.png" />
+	<None Include="Resources\About.png" />
     <None Include="Resources\Nand.png" />
     <None Include="Resources\DigitalDisplay8.png" />
     <None Include="Resources\DigitalDisplay4.png" />
     <None Include="Resources\DigitalClock.png" />
     <None Include="Resources\InputPin.png" />
     <None Include="Resources\IC.png" />
-    <Content Include="Resources\New.png" />
+    <None Include="Resources\New.png" />
     <None Include="Resources\Not.png" />
     <None Include="Resources\Nor.png" />
-    <Content Include="Resources\Open.png" />
+    <None Include="Resources\Open.png" />
     <None Include="Resources\Or.png" />
     <None Include="Resources\OutputPin.png" />
     <None Include="Resources\PowerButton.png" />
-    <Content Include="Resources\Save.png" />
+    <None Include="Resources\Save.png" />
+	<None Include="Resources\SaveAs.png" />
     <None Include="Resources\SevenSegment.png" />
     <None Include="Resources\TrafficLight.png" />
     <None Include="Resources\Wire.png" />
     <None Include="Resources\Switch.png" />
-    <Content Include="Resources\Xnor.png" />
+    <None Include="Resources\Xnor.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -148,7 +148,9 @@ namespace CircuitSimulator.Components
             protected override void OnPaint(PaintEventArgs e)
             {
                 Graphics g = e.Graphics;
-                Pen pen = new Pen(Color.Black, 3);
+                g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+
+                Pen pen = new Pen(Color.DimGray, 3);
                 Rectangle rect = new Rectangle(15, 5, Width - 22, Height - 10);
 
                 Brush textColor;
@@ -162,14 +164,14 @@ namespace CircuitSimulator.Components
                 }
                 else
                 {
-                    textColor = Brushes.Lime;
-                    rectColor = Brushes.Black;
+                    textColor = Brushes.Tomato;
+                    rectColor = Brushes.White;
                 }
                 
                 g.FillRectangle(rectColor, rect);
                 g.DrawRectangle(pen, rect);
 
-                Font font = new Font("Consolas", 16);
+                Font font = new Font("Consolas", 16, FontStyle.Bold);
                 if (_component._isHexadecimal)
                 {
                     g.DrawString((_component._value < 16 ? "0x0" : "0x").ToString() + Convert.ToString(_component._value, 16).ToUpper(), font, textColor, rect);
@@ -181,14 +183,15 @@ namespace CircuitSimulator.Components
 
                 if (_component._showChar)
                 {
-                    g.DrawString(Convert.ToString($"'{Convert.ToChar(_component._value)}'"), font, Brushes.Lime, new Rectangle(rect.X + 10, rect.Y + 60, rect.Width - 10, rect.Height - 60));
+                    g.DrawString(Convert.ToString($"'{Convert.ToChar(_component._value)}'"), font, Brushes.Tomato, new Rectangle(rect.X + 10, rect.Y + 60, rect.Width - 10, rect.Height - 60));
                 }
   
                 for (int i = 0; i < _component.Connections.Length - 1; ++i)
                 {
-                    Color c = _component.GetValue(i) ? Color.Red : Color.Black;
-                    g.DrawEllipse(new Pen(c, 1), new Rectangle(Point.Subtract(_component.Connections[i].Location, new Size(2, 2)), new Size(4, 4)));
+                    Color c = _component.GetValue(i) ? Color.Tomato : Color.DimGray;
                     g.DrawLine(pen, new Point(8, _component.Connections[i].Location.Y), new Point(rect.Left, _component.Connections[i].Location.Y));
+                    g.DrawEllipse(new Pen(c, 1), new Rectangle(Point.Subtract(_component.Connections[i].Location, new Size(3, 3)), new Size(6, 6)));
+
                 }
             }
 
@@ -197,37 +200,37 @@ namespace CircuitSimulator.Components
                 switch (value)
                 {
                     case 1:
-                        return (Brushes.Yellow, Brushes.Navy);
+                        return (Brushes.Khaki, Brushes.MidnightBlue);
                     case 2:
-                        return (Brushes.Magenta, Brushes.Green);
+                        return (Brushes.Orchid, Brushes.Green);
                     case 3:
-                        return (Brushes.Red, Brushes.DarkCyan);
+                        return (Brushes.Tomato, Brushes.DarkCyan);
                     case 4:
-                        return (Brushes.Cyan, Brushes.Maroon);
+                        return (Brushes.Cyan, Brushes.Firebrick);
                     case 5:
-                        return (Brushes.Lime, Brushes.Purple);
+                        return (Brushes.Chartreuse, Brushes.DarkMagenta);
                     case 6:
-                        return (Brushes.Blue, Brushes.Olive);
+                        return (Brushes.RoyalBlue, Brushes.DarkGoldenrod);
                     case 7:
-                        return (Brushes.Green, Brushes.Silver);
+                        return (Brushes.Green, Brushes.LightGray);
                     case 8:
-                        return (Brushes.Lime, Brushes.Gray);
+                        return (Brushes.Chartreuse, Brushes.DarkGray);
                     case 9:
-                        return (Brushes.Olive, Brushes.Blue);
+                        return (Brushes.DarkGoldenrod, Brushes.RoyalBlue);
                     case 10:
-                        return (Brushes.Purple, Brushes.Lime);
+                        return (Brushes.DarkMagenta, Brushes.Chartreuse);
                     case 11:
-                        return (Brushes.Maroon, Brushes.Cyan);
+                        return (Brushes.Firebrick, Brushes.Cyan);
                     case 12:
-                        return (Brushes.DarkCyan, Brushes.Red);
+                        return (Brushes.DarkCyan, Brushes.Tomato);
                     case 13:
-                        return (Brushes.Green, Brushes.Magenta);
+                        return (Brushes.Green, Brushes.Orchid);
                     case 14:
-                        return (Brushes.Navy, Brushes.Yellow);
+                        return (Brushes.MidnightBlue, Brushes.Khaki);
                     case 15:
                         return (Brushes.Green, Brushes.White);
                     default:
-                        return (Brushes.Lime, Brushes.Black);
+                        return (Brushes.Chartreuse, Brushes.DimGray);
                 }
             }
         }

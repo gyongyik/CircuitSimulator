@@ -33,23 +33,17 @@ namespace CircuitSimulator.Components
             protected override void OnPaint(PaintEventArgs e)
             {
                 Graphics g = e.Graphics;
-
-                for (int i = 0; i < Component.GetComponent().Connections.Length; ++i)
-                {
-                    Color c = Component.GetComponent().GetValue(i) ? Color.Red : Color.Black;
-                    int w = Component.GetComponent().Connections[i].Connections.Count > 0 ? 3 : 1;
-                    g.DrawEllipse(new Pen(c, w), new Rectangle(Point.Subtract(Component.GetComponent().Connections[i].Location, new Size(2, 2)), new Size(4, 4)));
-                }
-
-                Pen pen = new Pen(Color.Black, 3);
-                g.DrawLine(pen, new Point(8, 25), new Point(33, 25));
-                g.DrawLine(pen, new Point(85, 25), new Point(93, 25));
-                g.DrawLine(pen, new Point(33, 5), new Point(33, 45));
                 g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+
+                Pen pen = new Pen(Color.DimGray, 3);
+                g.DrawLine(pen, new Point(8, 25), new Point(33, 25));
+                g.DrawLine(pen, new Point(85, 25), new Point(92, 25));
+                g.DrawLine(pen, new Point(33, 5), new Point(33, 45));
                 g.DrawLine(pen, new Point(33, 5), new Point(75, 25));
                 g.DrawLine(pen, new Point(33, 45), new Point(75, 25));
                 g.DrawEllipse(pen, new Rectangle(new Point(75, 20), new Size(10, 10)));
-                g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.None;
+
+                DrawConnections(g);
             }
         }
     }

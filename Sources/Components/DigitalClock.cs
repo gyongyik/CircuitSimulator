@@ -90,26 +90,19 @@ namespace CircuitSimulator.Components
             protected override void OnPaint(PaintEventArgs e)
             {
                 Graphics g = e.Graphics;
+                g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
 
-                for (int i = 0; i < Component.GetComponent().Connections.Length; ++i)
-                {
-                    Color c = Component.GetComponent().GetValue(i) ? Color.Red : Color.Black;
-                    int w = Component.GetComponent().Connections[i].Connections.Count > 0 ? 3 : 1;
-                    g.DrawEllipse(new Pen(c, w), new Rectangle(Point.Subtract(Component.GetComponent().Connections[i].Location, new Size(2, 2)), new Size(4, 4)));
-                }
-
-                Pen penB = new Pen(Color.Black, 3);
-                g.DrawLine(penB, new Point(66, 25), new Point(93, 25));
+                Pen pen = new Pen(Color.DimGray, 3);
+                g.DrawLine(pen, new Point(80, 25), new Point(93, 25));
                 Rectangle rect = new Rectangle(5, 5, 75, Height - 10);
-                g.FillRectangle(Brushes.Black, rect);
-                g.DrawRectangle(penB, rect);
+                g.DrawRectangle(pen, new Rectangle(5, 5, 75, Height - 10));
+                g.DrawLine(pen, new Point(14, 35), new Point(33, 35));
+                g.DrawLine(pen, new Point(32, 35), new Point(32, 14));
+                g.DrawLine(pen, new Point(32, 15), new Point(54, 15));
+                g.DrawLine(pen, new Point(53, 15), new Point(53, 35));
+                g.DrawLine(pen, new Point(52, 35), new Point(72, 35));
 
-                Pen penW = new Pen(Color.White, 3);
-                g.DrawLine(penW, new Point(14, 35), new Point(34, 35));
-                g.DrawLine(penW, new Point(32, 35), new Point(32, 15));
-                g.DrawLine(penW, new Point(32, 15), new Point(54, 15));
-                g.DrawLine(penW, new Point(53, 15), new Point(53, 35));
-                g.DrawLine(penW, new Point(52, 35), new Point(72, 35));
+                DrawConnections(g);
             }
         }
 
