@@ -114,10 +114,9 @@ namespace CircuitSimulator.Components
                     int x = int.Parse(reader.GetAttribute("x"));
                     int y = int.Parse(reader.GetAttribute("y"));
 
-                    Component c = GetComponent(type);
-
-                    c.Read(reader.ReadSubtree());
+                    Component c = CreateComponent(type);
                     c.Location = new Point(x, y);
+                    c.Read(reader.ReadSubtree());
 
                     Add(c);
                     ConnectComponent(c);
@@ -133,7 +132,7 @@ namespace CircuitSimulator.Components
 
         public List<Component> Components { get; }
 
-        private Component GetComponent(string type)
+        private Component CreateComponent(string type)
         {
             switch (type)
             {

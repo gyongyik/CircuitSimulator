@@ -10,7 +10,7 @@ namespace CircuitSimulator.Components
             Bounds = new Rectangle(0, 0, 40, 30);
 
             Connections[0].Location = new Point(Width - 5, 15);
-            Connections[0].Value = true;
+            Connections[0].Value = false;
          }
 
         public override void Execute()

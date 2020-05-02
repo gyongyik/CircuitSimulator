@@ -53,6 +53,28 @@ namespace CircuitSimulator.Components
 
         public Wire(Point in0, Point in1) : base(1, 1)
         {
+            if (in0.X < in1.X)
+            {
+                in0.X += 5;
+                in1.X -= 5;
+            }
+            else
+            {
+                in0.X -= 5;
+                in1.X += 5;
+            }
+
+            if (in0.Y < in1.Y)
+            {
+                in0.Y += 5;
+                in1.Y -= 5;
+            }
+            else
+            {
+                in0.Y -= 5;
+                in1.Y += 5;
+            }
+
             Bounds = new Rectangle(0, 0, Math.Max(in0.X, in1.X) + 5, Math.Max(in0.Y, in1.Y) + 5);
 
             Connections[0] = new WireConnection(this);

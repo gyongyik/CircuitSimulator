@@ -9,8 +9,7 @@ namespace CircuitSimulator.Components
     {
         protected Component Component { get; set; }
         protected bool IsMouseDown { get; set; }
-        protected int MouseX { get; set; }
-        protected int MouseY { get; set; }
+        protected Point MouseLocation { get; set; }
         protected Point MouseDownLocation { get; set; }
 
         public ComponentControl(Component component)
@@ -47,8 +46,7 @@ namespace CircuitSimulator.Components
             if (e.Button == MouseButtons.Left)
             {
                 IsMouseDown = true;
-                MouseX = e.X;
-                MouseY = e.Y;
+                MouseLocation = new Point(e.X, e.Y);
                 MouseDownLocation = Location;
                 BringToFront();
             }
@@ -78,7 +76,7 @@ namespace CircuitSimulator.Components
         {
             if (IsMouseDown)
             {
-                SetBounds(Location.X + e.X - MouseX, Location.Y + e.Y - MouseY, Bounds.Width, Bounds.Height);
+                SetBounds(Location.X + e.X - MouseLocation.X, Location.Y + e.Y - MouseLocation.Y, Bounds.Width, Bounds.Height);
                 base.OnMouseMove(e);
                 InvalidateEx();
             }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 
@@ -11,6 +12,8 @@ namespace CircuitSimulator
         const string FILTER = "CircuitSimulator XML (*.csx)|*.csx";
         private string _fileName;
         private Components.ComponentController _components;
+        private ToolStripButton _checkedButton;
+        private Point _wireStartLocation = new Point(-1, -1);
 
         public MainForm()
         {
@@ -41,10 +44,18 @@ namespace CircuitSimulator
             }
         }
 
-        private Components.Component ShowComponent(Components.Component c)
+        private Components.Component ShowComponent(Components.Component component, Point location)
         {
-            c.Show(panel1, contextMenuStrip1);
-            return c;
+            if (toolStripWire.Checked || toolStripIc.Checked)
+            {
+                component.Location = location;
+            }
+            else
+            {
+                component.Location = new Point((location.X - component.Width / 2) / 5 * 5, (location.Y - component.Height / 2) / 5 * 5);
+            }
+            component.Show(panel1, contextMenuStrip1);
+            return component;
         }
 
         private string GetNameWithoutExtension(string filename)
@@ -129,97 +140,97 @@ namespace CircuitSimulator
 
         private void ToolStripInputPin_Click(object sender, EventArgs e)
         {
-            _components.Add(ShowComponent(new Components.InputPin()));
+            SetCheckState((ToolStripButton)sender);
         }
 
         private void ToolStripPowerButton_Click(object sender, EventArgs e)
         {
-            _components.Add(ShowComponent(new Components.PowerButton()));
+            SetCheckState((ToolStripButton)sender);
         }
 
         private void ToolStripDigitalClock_Click(object sender, EventArgs e)
         {
-            _components.Add(ShowComponent(new Components.DigitalClock()));
+            SetCheckState((ToolStripButton)sender);
         }
 
         private void ToolStripSwitch_Click(object sender, EventArgs e)
         {
-            _components.Add(ShowComponent(new Components.Switch()));
+            SetCheckState((ToolStripButton)sender);
         }
 
         private void ToolStripWire_Click(object sender, EventArgs e)
         {
-            _components.Add(ShowComponent(new Components.Wire()));
+            SetCheckState((ToolStripButton)sender);
         }
 
         private void ToolStripBuffer_Click(object sender, EventArgs e)
         {
-            _components.Add(ShowComponent(new Components.Buffer()));
+            SetCheckState((ToolStripButton)sender);
         }
 
         private void ToolStripNot_Click(object sender, EventArgs e)
         {
-            _components.Add(ShowComponent(new Components.Not()));
+            SetCheckState((ToolStripButton)sender);
         }
 
         private void ToolStripAnd_Click(object sender, EventArgs e)
         {
-            _components.Add(ShowComponent(new Components.And()));
+            SetCheckState((ToolStripButton)sender);
         }
 
         private void ToolStripNand_Click(object sender, EventArgs e)
         {
-            _components.Add(ShowComponent(new Components.Nand()));
+            SetCheckState((ToolStripButton)sender);
         }
 
         private void ToolStripOr_Click(object sender, EventArgs e)
         {
-            _components.Add(ShowComponent(new Components.Or()));
+            SetCheckState((ToolStripButton)sender);
         }
 
         private void ToolStripNor_Click(object sender, EventArgs e)
         {
-            _components.Add(ShowComponent(new Components.Nor()));
+            SetCheckState((ToolStripButton)sender);
         }
 
         private void ToolStripXor_Click(object sender, EventArgs e)
         {
-            _components.Add(ShowComponent(new Components.Xor()));
+            SetCheckState((ToolStripButton)sender);
         }
 
         private void ToolStripXnor_Click(object sender, EventArgs e)
         {
-            _components.Add(ShowComponent(new Components.Xnor()));
+            SetCheckState((ToolStripButton)sender);
         }
 
         private void ToolStripOutPin_Click(object sender, EventArgs e)
         {
-            _components.Add(ShowComponent(new Components.OutputPin()));
+            SetCheckState((ToolStripButton)sender);
         }
 
         private void ToolStripLedLamp_Click(object sender, EventArgs e)
         {
-            _components.Add(ShowComponent(new Components.LedLamp()));
+            SetCheckState((ToolStripButton)sender);
         }
 
         private void ToolStripDigitalDisplay4_Click(object sender, EventArgs e)
         {
-            _components.Add(ShowComponent(new Components.DigitalDisplay(4)));
+            SetCheckState((ToolStripButton)sender);
         }
 
         private void ToolStripDigitalDisplay8_Click(object sender, EventArgs e)
         {
-            _components.Add(ShowComponent(new Components.DigitalDisplay(8)));
+            SetCheckState((ToolStripButton)sender);
         }
 
         private void ToolStripSevenSegment_Click(object sender, EventArgs e)
         {
-            _components.Add(ShowComponent(new Components.SevenSegment()));
+            SetCheckState((ToolStripButton)sender);
         }
 
         private void ToolStripTrafficLight_Click(object sender, EventArgs e)
         {
-            _components.Add(ShowComponent(new Components.TrafficLight()));
+            SetCheckState((ToolStripButton)sender);
         }
 
         private void ToolStripIc_Click(object sender, EventArgs e)
@@ -234,7 +245,8 @@ namespace CircuitSimulator
                     ic.LoadCircuit(s);
                     s.Close();
 
-                    _components.Add(ShowComponent(ic));
+                    ic.Show(panel1, contextMenuStrip1);
+                    _components.Add(ic);
                 }
             }
         }
@@ -249,7 +261,7 @@ namespace CircuitSimulator
             MessageBox.Show(
                 "Circuit Simulator - Simulation of logical circuits\n" +
                 "Copyright (C) 2009 Péter Gyöngyik\n\n" +
-                "Version 0.5.0\n\n" +
+                "Version 0.6.0\n\n" +
                 "This program is free software: you can redistribute it and/or modify\n" +
                 "it under the terms of the GNU General Public License as published by\n" +
                 "the Free Software Foundation, either version 3 of the License, or\n" +
@@ -263,9 +275,130 @@ namespace CircuitSimulator
                 "About...");
         }
 
-        private void panel1_Paint(object sender, PaintEventArgs e)
+        private void toolStripMove_Click(object sender, EventArgs e)
         {
+            SetCheckState((ToolStripButton)sender);
+        }
 
+        private void SetCheckState(ToolStripButton newCheckedButton)
+        {
+            if (_checkedButton != null)
+            {
+                _checkedButton.Checked = false;
+            }
+            else
+            {
+                toolStripWire.Checked = false;
+            }
+            _checkedButton = newCheckedButton;
+            _checkedButton.Checked = true;
+        }
+
+        private void panel1_Click(object sender, EventArgs e)
+        {
+            Point location = panel1.PointToClient(Cursor.Position);
+
+            if (toolStripWire.Checked)
+            {
+                Graphics g = panel1.CreateGraphics();
+                g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+
+                if (_wireStartLocation.X < 0)
+                {
+                    _wireStartLocation = new Point(location.X / 5 * 5, location.Y / 5 * 5);
+
+                    Pen pen = new Pen(Color.DimGray, 1);
+                    g.DrawEllipse(pen, new Rectangle(_wireStartLocation.X - 3, _wireStartLocation.Y - 3, 6, 6));
+                }
+                else
+                {
+                    Pen pen = new Pen(Color.White, 3);
+                    g.DrawEllipse(pen, new Rectangle(_wireStartLocation.X - 3, _wireStartLocation.Y - 3, 6, 6));
+
+                    location = new Point(location.X / 5 * 5, location.Y / 5 * 5);
+                    int left = Math.Min(_wireStartLocation.X, location.X);
+                    int top = Math.Min(_wireStartLocation.Y, location.Y);
+
+                    _components.Add(ShowComponent(new Components.Wire(
+                            new Point(_wireStartLocation.X - left, _wireStartLocation.Y - top),
+                            new Point(location.X - left, location.Y - top)),
+                            new Point(left, top)));
+
+                    _wireStartLocation = new Point(-1, -1);
+                }
+            }
+            else if (toolStripInputPin.Checked)
+            {
+                _components.Add(ShowComponent(new Components.InputPin(), location));
+            }
+            else if (toolStripPowerButton.Checked)
+            {
+                _components.Add(ShowComponent(new Components.PowerButton(), location));
+            }
+            else if (toolStripDigitalClock.Checked)
+            {
+                _components.Add(ShowComponent(new Components.DigitalClock(), location));
+            }
+            else if (toolStripSwitch.Checked)
+            {
+                _components.Add(ShowComponent(new Components.Switch(), location));
+            }
+            else if (toolStripBuffer.Checked)
+            {
+                _components.Add(ShowComponent(new Components.Buffer(), location));
+            }
+            else if (toolStripNot.Checked)
+            {
+                _components.Add(ShowComponent(new Components.Not(), location));
+            }
+            else if (toolStripAnd.Checked)
+            {
+                _components.Add(ShowComponent(new Components.And(), location));
+            }
+            else if (toolStripNand.Checked)
+            {
+                _components.Add(ShowComponent(new Components.Nand(), location));
+            }
+            else if (toolStripOr.Checked)
+            {
+                _components.Add(ShowComponent(new Components.Or(), location));
+            }
+            else if (toolStripNor.Checked)
+            {
+                _components.Add(ShowComponent(new Components.Nor(), location));
+            }
+            else if (toolStripXor.Checked)
+            {
+                _components.Add(ShowComponent(new Components.Xor(), location));
+            }
+            else if (toolStripXnor.Checked)
+            {
+                _components.Add(ShowComponent(new Components.Xnor(), location));
+            }
+            else if (toolStripOutPin.Checked)
+            {
+                _components.Add(ShowComponent(new Components.OutputPin(), location));
+            }
+            else if (toolStripLedLamp.Checked)
+            {
+                _components.Add(ShowComponent(new Components.LedLamp(), location));
+            }
+            else if (toolStripDigitalDisplay4.Checked)
+            {
+                _components.Add(ShowComponent(new Components.DigitalDisplay(4), location));
+            }
+            else if (toolStripDigitalDisplay8.Checked)
+            {
+                _components.Add(ShowComponent(new Components.DigitalDisplay(8), location));
+            }
+            else if (toolStripSevenSegment.Checked)
+            {
+                _components.Add(ShowComponent(new Components.SevenSegment(), location));
+            }
+            else if (toolStripTrafficLight.Checked)
+            {
+                _components.Add(ShowComponent(new Components.TrafficLight(), location));
+            }
         }
     }
 }

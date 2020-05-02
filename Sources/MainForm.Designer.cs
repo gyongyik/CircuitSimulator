@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.panel1 = new System.Windows.Forms.Panel();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -86,7 +87,7 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(1175, 447);
             this.panel1.TabIndex = 1;
-            this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
+            this.panel1.Click += new System.EventHandler(this.panel1_Click);
             // 
             // contextMenuStrip1
             // 
@@ -124,12 +125,12 @@
             this.toolStripSeparator1,
             this.toolStripAbout,
             this.toolStripSeparator2,
+            this.toolStripWire,
+            this.toolStripSeparator3,
             this.toolStripInputPin,
             this.toolStripPowerButton,
             this.toolStripDigitalClock,
             this.toolStripSwitch,
-            this.toolStripSeparator3,
-            this.toolStripWire,
             this.toolStripSeparator4,
             this.toolStripBuffer,
             this.toolStripNot,
@@ -158,7 +159,7 @@
             // toolStripNew
             // 
             this.toolStripNew.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripNew.Image = global::CircuitSimulator.Properties.Resources.New;
+            this.toolStripNew.Image = ((System.Drawing.Image)(resources.GetObject("toolStripNew.Image")));
             this.toolStripNew.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.toolStripNew.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripNew.Name = "toolStripNew";
@@ -169,7 +170,7 @@
             // toolStripOpen
             // 
             this.toolStripOpen.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripOpen.Image = global::CircuitSimulator.Properties.Resources.Open;
+            this.toolStripOpen.Image = ((System.Drawing.Image)(resources.GetObject("toolStripOpen.Image")));
             this.toolStripOpen.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.toolStripOpen.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripOpen.Name = "toolStripOpen";
@@ -180,7 +181,7 @@
             // toolStripSave
             // 
             this.toolStripSave.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripSave.Image = global::CircuitSimulator.Properties.Resources.Save;
+            this.toolStripSave.Image = ((System.Drawing.Image)(resources.GetObject("toolStripSave.Image")));
             this.toolStripSave.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.toolStripSave.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripSave.Name = "toolStripSave";
@@ -191,7 +192,7 @@
             // toolStripSaveAs
             // 
             this.toolStripSaveAs.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripSaveAs.Image = global::CircuitSimulator.Properties.Resources.SaveAs;
+            this.toolStripSaveAs.Image = ((System.Drawing.Image)(resources.GetObject("toolStripSaveAs.Image")));
             this.toolStripSaveAs.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.toolStripSaveAs.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripSaveAs.Name = "toolStripSaveAs";
@@ -207,7 +208,7 @@
             // toolStripAbout
             // 
             this.toolStripAbout.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripAbout.Image = global::CircuitSimulator.Properties.Resources.About;
+            this.toolStripAbout.Image = ((System.Drawing.Image)(resources.GetObject("toolStripAbout.Image")));
             this.toolStripAbout.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.toolStripAbout.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripAbout.Name = "toolStripAbout";
@@ -224,7 +225,7 @@
             // toolStripInputPin
             // 
             this.toolStripInputPin.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripInputPin.Image = global::CircuitSimulator.Properties.Resources.InputPin;
+            this.toolStripInputPin.Image = ((System.Drawing.Image)(resources.GetObject("toolStripInputPin.Image")));
             this.toolStripInputPin.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.toolStripInputPin.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripInputPin.Name = "toolStripInputPin";
@@ -235,7 +236,7 @@
             // toolStripPowerButton
             // 
             this.toolStripPowerButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripPowerButton.Image = global::CircuitSimulator.Properties.Resources.PowerButton;
+            this.toolStripPowerButton.Image = ((System.Drawing.Image)(resources.GetObject("toolStripPowerButton.Image")));
             this.toolStripPowerButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.toolStripPowerButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripPowerButton.Name = "toolStripPowerButton";
@@ -246,7 +247,7 @@
             // toolStripDigitalClock
             // 
             this.toolStripDigitalClock.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripDigitalClock.Image = global::CircuitSimulator.Properties.Resources.DigitalClock;
+            this.toolStripDigitalClock.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDigitalClock.Image")));
             this.toolStripDigitalClock.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.toolStripDigitalClock.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripDigitalClock.Name = "toolStripDigitalClock";
@@ -257,7 +258,7 @@
             // toolStripSwitch
             // 
             this.toolStripSwitch.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripSwitch.Image = global::CircuitSimulator.Properties.Resources.Switch;
+            this.toolStripSwitch.Image = ((System.Drawing.Image)(resources.GetObject("toolStripSwitch.Image")));
             this.toolStripSwitch.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.toolStripSwitch.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripSwitch.Name = "toolStripSwitch";
@@ -272,8 +273,10 @@
             // 
             // toolStripWire
             // 
+            this.toolStripWire.Checked = true;
+            this.toolStripWire.CheckState = System.Windows.Forms.CheckState.Checked;
             this.toolStripWire.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripWire.Image = global::CircuitSimulator.Properties.Resources.Wire;
+            this.toolStripWire.Image = ((System.Drawing.Image)(resources.GetObject("toolStripWire.Image")));
             this.toolStripWire.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.toolStripWire.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripWire.Name = "toolStripWire";
@@ -289,7 +292,7 @@
             // toolStripBuffer
             // 
             this.toolStripBuffer.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripBuffer.Image = global::CircuitSimulator.Properties.Resources.Buffer;
+            this.toolStripBuffer.Image = ((System.Drawing.Image)(resources.GetObject("toolStripBuffer.Image")));
             this.toolStripBuffer.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.toolStripBuffer.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripBuffer.Name = "toolStripBuffer";
@@ -300,7 +303,7 @@
             // toolStripNot
             // 
             this.toolStripNot.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripNot.Image = global::CircuitSimulator.Properties.Resources.Not;
+            this.toolStripNot.Image = ((System.Drawing.Image)(resources.GetObject("toolStripNot.Image")));
             this.toolStripNot.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.toolStripNot.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripNot.Name = "toolStripNot";
@@ -311,7 +314,7 @@
             // toolStripAnd
             // 
             this.toolStripAnd.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripAnd.Image = global::CircuitSimulator.Properties.Resources.And;
+            this.toolStripAnd.Image = ((System.Drawing.Image)(resources.GetObject("toolStripAnd.Image")));
             this.toolStripAnd.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.toolStripAnd.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripAnd.Name = "toolStripAnd";
@@ -322,7 +325,7 @@
             // toolStripNand
             // 
             this.toolStripNand.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripNand.Image = global::CircuitSimulator.Properties.Resources.Nand;
+            this.toolStripNand.Image = ((System.Drawing.Image)(resources.GetObject("toolStripNand.Image")));
             this.toolStripNand.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.toolStripNand.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripNand.Name = "toolStripNand";
@@ -333,7 +336,7 @@
             // toolStripOr
             // 
             this.toolStripOr.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripOr.Image = global::CircuitSimulator.Properties.Resources.Or;
+            this.toolStripOr.Image = ((System.Drawing.Image)(resources.GetObject("toolStripOr.Image")));
             this.toolStripOr.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.toolStripOr.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripOr.Name = "toolStripOr";
@@ -344,7 +347,7 @@
             // toolStripNor
             // 
             this.toolStripNor.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripNor.Image = global::CircuitSimulator.Properties.Resources.Nor;
+            this.toolStripNor.Image = ((System.Drawing.Image)(resources.GetObject("toolStripNor.Image")));
             this.toolStripNor.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.toolStripNor.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripNor.Name = "toolStripNor";
@@ -355,7 +358,7 @@
             // toolStripXor
             // 
             this.toolStripXor.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripXor.Image = global::CircuitSimulator.Properties.Resources.Xor;
+            this.toolStripXor.Image = ((System.Drawing.Image)(resources.GetObject("toolStripXor.Image")));
             this.toolStripXor.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.toolStripXor.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripXor.Name = "toolStripXor";
@@ -366,7 +369,7 @@
             // toolStripXnor
             // 
             this.toolStripXnor.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripXnor.Image = global::CircuitSimulator.Properties.Resources.Xnor;
+            this.toolStripXnor.Image = ((System.Drawing.Image)(resources.GetObject("toolStripXnor.Image")));
             this.toolStripXnor.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.toolStripXnor.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripXnor.Name = "toolStripXnor";
@@ -382,7 +385,7 @@
             // toolStripOutPin
             // 
             this.toolStripOutPin.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripOutPin.Image = global::CircuitSimulator.Properties.Resources.OutputPin;
+            this.toolStripOutPin.Image = ((System.Drawing.Image)(resources.GetObject("toolStripOutPin.Image")));
             this.toolStripOutPin.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.toolStripOutPin.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripOutPin.Name = "toolStripOutPin";
@@ -393,7 +396,7 @@
             // toolStripLedLamp
             // 
             this.toolStripLedLamp.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripLedLamp.Image = global::CircuitSimulator.Properties.Resources.LedLamp;
+            this.toolStripLedLamp.Image = ((System.Drawing.Image)(resources.GetObject("toolStripLedLamp.Image")));
             this.toolStripLedLamp.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.toolStripLedLamp.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripLedLamp.Name = "toolStripLedLamp";
@@ -404,7 +407,7 @@
             // toolStripDigitalDisplay4
             // 
             this.toolStripDigitalDisplay4.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripDigitalDisplay4.Image = global::CircuitSimulator.Properties.Resources.DigitalDisplay4;
+            this.toolStripDigitalDisplay4.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDigitalDisplay4.Image")));
             this.toolStripDigitalDisplay4.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.toolStripDigitalDisplay4.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripDigitalDisplay4.Name = "toolStripDigitalDisplay4";
@@ -415,7 +418,7 @@
             // toolStripDigitalDisplay8
             // 
             this.toolStripDigitalDisplay8.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripDigitalDisplay8.Image = global::CircuitSimulator.Properties.Resources.DigitalDisplay8;
+            this.toolStripDigitalDisplay8.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDigitalDisplay8.Image")));
             this.toolStripDigitalDisplay8.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.toolStripDigitalDisplay8.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripDigitalDisplay8.Name = "toolStripDigitalDisplay8";
@@ -426,7 +429,7 @@
             // toolStripSevenSegment
             // 
             this.toolStripSevenSegment.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripSevenSegment.Image = global::CircuitSimulator.Properties.Resources.SevenSegment;
+            this.toolStripSevenSegment.Image = ((System.Drawing.Image)(resources.GetObject("toolStripSevenSegment.Image")));
             this.toolStripSevenSegment.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.toolStripSevenSegment.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripSevenSegment.Name = "toolStripSevenSegment";
@@ -437,7 +440,7 @@
             // toolStripTrafficLight
             // 
             this.toolStripTrafficLight.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripTrafficLight.Image = global::CircuitSimulator.Properties.Resources.TrafficLight;
+            this.toolStripTrafficLight.Image = ((System.Drawing.Image)(resources.GetObject("toolStripTrafficLight.Image")));
             this.toolStripTrafficLight.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.toolStripTrafficLight.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripTrafficLight.Name = "toolStripTrafficLight";
@@ -453,7 +456,7 @@
             // toolStripIc
             // 
             this.toolStripIc.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripIc.Image = global::CircuitSimulator.Properties.Resources.Ic;
+            this.toolStripIc.Image = ((System.Drawing.Image)(resources.GetObject("toolStripIc.Image")));
             this.toolStripIc.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.toolStripIc.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripIc.Name = "toolStripIc";
