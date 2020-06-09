@@ -130,8 +130,6 @@ namespace CircuitSimulator.Components
         {
         }
 
-        public Component GetComponent() => this;
-
         public Rectangle Bounds
         {
             get => _bounds;

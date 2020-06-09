@@ -35,7 +35,7 @@ namespace CircuitSimulator.Components
                 Pen pen = new Pen(Color.DimGray, 3);
                 g.DrawLine(pen, new Point(8, 15), new Point(15, 15));
                 Rectangle rect = new Rectangle(15, 5, 20, 20);
-                g.FillEllipse(Component.GetComponent().GetValue(0) ? Brushes.Tomato : Brushes.White, rect);
+                g.FillEllipse(Component.GetValue(0) ? Brushes.Tomato : Brushes.White, rect);
                 g.DrawEllipse(pen, rect);
 
                 DrawConnections(g);

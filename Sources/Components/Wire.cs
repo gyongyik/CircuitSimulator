@@ -223,14 +223,14 @@ namespace CircuitSimulator.Components
 
                 g.DrawLine(
                     new Pen(Color.DimGray, 3), 
-                    new Point(Component.GetComponent().Connections[0].Location.X, Component.GetComponent().Connections[0].Location.Y), 
-                    new Point(Component.GetComponent().Connections[1].Location.X, Component.GetComponent().Connections[1].Location.Y));
+                    new Point(_component.Connections[0].Location.X, _component.Connections[0].Location.Y), 
+                    new Point(_component.Connections[1].Location.X, _component.Connections[1].Location.Y));
 
-                DrawConnections(g); for (int i = 0; i < Component.GetComponent().Connections.Length; ++i)
+                DrawConnections(g); for (int i = 0; i < _component.Connections.Length; ++i)
                 {
-                    Color c = Component.GetComponent().GetValue(i) ? Color.Tomato : Color.DimGray;
-                    int w = Component.GetComponent().Connections[i].Connections.Count > 0 ? 3 : 1;
-                    Rectangle rect = new Rectangle(Point.Subtract(Component.GetComponent().Connections[i].Location, new Size(3, 3)), new Size(6, 6));
+                    Color c = _component.GetValue(i) ? Color.Tomato : Color.DimGray;
+                    int w = _component.Connections[i].Connections.Count > 0 ? 3 : 1;
+                    Rectangle rect = new Rectangle(Point.Subtract(_component.Connections[i].Location, new Size(3, 3)), new Size(6, 6));
                     g.FillEllipse(Brushes.White, rect);
                     g.DrawEllipse(new Pen(c, w), rect);
                 }

@@ -155,11 +155,11 @@ namespace CircuitSimulator.Components
 
         protected void DrawConnections(Graphics g)
         {
-            for (int i = 0; i < Component.GetComponent().Connections.Length; ++i)
+            for (int i = 0; i < Component.Connections.Length; ++i)
             {
-                Color c = Component.GetComponent().GetValue(i) ? Color.Tomato : Color.DimGray;
-                int w = Component.GetComponent().Connections[i].Connections.Count > 0 ? 3 : 1;
-                g.DrawEllipse(new Pen(c, w), new Rectangle(Point.Subtract(Component.GetComponent().Connections[i].Location, new Size(3, 3)), new Size(6, 6)));
+                Color c = Component.GetValue(i) ? Color.Tomato : Color.DimGray;
+                int w = Component.Connections[i].Connections.Count > 0 ? 3 : 1;
+                g.DrawEllipse(new Pen(c, w), new Rectangle(Point.Subtract(Component.Connections[i].Location, new Size(3, 3)), new Size(6, 6)));
             }
         }
 

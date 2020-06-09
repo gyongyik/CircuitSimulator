@@ -13,7 +13,7 @@ namespace CircuitSimulator
         private string _fileName;
         private Components.ComponentController _components;
         private ToolStripButton _checkedButton;
-        private Point _wireStartLocation = new Point(-1, -1);
+        private Point _wireStartLocation = new Point(int.MinValue, int.MinValue);
 
         public MainForm()
         {
@@ -303,7 +303,7 @@ namespace CircuitSimulator
                 Graphics g = panel1.CreateGraphics();
                 g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
 
-                if (_wireStartLocation.X < 0)
+                if (_wireStartLocation.X == int.MinValue)
                 {
                     _wireStartLocation = new Point(location.X / 5 * 5, location.Y / 5 * 5);
 
@@ -324,7 +324,7 @@ namespace CircuitSimulator
                             new Point(location.X - left, location.Y - top)),
                             new Point(left, top)));
 
-                    _wireStartLocation = new Point(-1, -1);
+                    _wireStartLocation = new Point(int.MinValue, int.MinValue);
                 }
             }
             else if (toolStripInputPin.Checked)
