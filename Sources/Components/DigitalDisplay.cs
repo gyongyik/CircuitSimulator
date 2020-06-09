@@ -195,44 +195,25 @@ namespace CircuitSimulator.Components
                 }
             }
 
-            private (Brush textColor, Brush rectColor) GetBrushes(int value)
+            private (Brush textColor, Brush rectColor) GetBrushes(int value) => value switch
             {
-                switch (value)
-                {
-                    case 1:
-                        return (Brushes.Khaki, Brushes.MidnightBlue);
-                    case 2:
-                        return (Brushes.Orchid, Brushes.Green);
-                    case 3:
-                        return (Brushes.Tomato, Brushes.DarkCyan);
-                    case 4:
-                        return (Brushes.Cyan, Brushes.Firebrick);
-                    case 5:
-                        return (Brushes.Chartreuse, Brushes.DarkMagenta);
-                    case 6:
-                        return (Brushes.RoyalBlue, Brushes.DarkGoldenrod);
-                    case 7:
-                        return (Brushes.Green, Brushes.LightGray);
-                    case 8:
-                        return (Brushes.Chartreuse, Brushes.DarkGray);
-                    case 9:
-                        return (Brushes.DarkGoldenrod, Brushes.RoyalBlue);
-                    case 10:
-                        return (Brushes.DarkMagenta, Brushes.Chartreuse);
-                    case 11:
-                        return (Brushes.Firebrick, Brushes.Cyan);
-                    case 12:
-                        return (Brushes.DarkCyan, Brushes.Tomato);
-                    case 13:
-                        return (Brushes.Green, Brushes.Orchid);
-                    case 14:
-                        return (Brushes.MidnightBlue, Brushes.Khaki);
-                    case 15:
-                        return (Brushes.Green, Brushes.White);
-                    default:
-                        return (Brushes.Chartreuse, Brushes.DimGray);
-                }
-            }
+                1 => (Brushes.Khaki, Brushes.MidnightBlue),
+                2 => (Brushes.Orchid, Brushes.Green),
+                3 => (Brushes.Tomato, Brushes.DarkCyan),
+                4 => (Brushes.Cyan, Brushes.Firebrick),
+                5 => (Brushes.Chartreuse, Brushes.DarkMagenta),
+                6 => (Brushes.RoyalBlue, Brushes.DarkGoldenrod),
+                7 => (Brushes.Green, Brushes.LightGray),
+                8 => (Brushes.Chartreuse, Brushes.DarkGray),
+                9 => (Brushes.DarkGoldenrod, Brushes.RoyalBlue),
+                10 => (Brushes.DarkMagenta, Brushes.Chartreuse),
+                11 => (Brushes.Firebrick, Brushes.Cyan),
+                12 => (Brushes.DarkCyan, Brushes.Tomato),
+                13 => (Brushes.Green, Brushes.Orchid),
+                14 => (Brushes.MidnightBlue, Brushes.Khaki),
+                15 => (Brushes.Green, Brushes.White),
+                _ => (Brushes.Chartreuse, Brushes.DimGray),
+            };
         }
     }
 }

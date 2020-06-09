@@ -7,10 +7,7 @@ namespace CircuitSimulator.Components
 {
     internal class ComponentController
     {
-        public ComponentController()
-        {
-            Components = new List<Component>();
-        }
+        public ComponentController() => Components = new List<Component>();
 
         public void Clear()
         {
@@ -132,51 +129,28 @@ namespace CircuitSimulator.Components
 
         public List<Component> Components { get; }
 
-        private Component CreateComponent(string type)
+        private Component CreateComponent(string type) => type switch
         {
-            switch (type)
-            {
-                case "And":
-                    return new And();
-                case "Buffer":
-                    return new Buffer();
-                case "DigitalClock":
-                    return new DigitalClock();
-                case "DigitalDisplay":
-                    return new DigitalDisplay();
-                case "Ic":
-                    return new Ic();
-                case "InputPin":
-                    return new InputPin();
-                case "LedLamp":
-                    return new LedLamp();
-                case "Nand":
-                    return new Nand();
-                case "Nor":
-                    return new Nor();
-                case "Not":
-                    return new Not();
-                case "Or":
-                    return new Or();
-                case "OutputPin":
-                    return new OutputPin();
-                case "PowerButton":
-                    return new PowerButton();
-                case "SevenSegment":
-                    return new SevenSegment();
-                case "Switch":
-                    return new Switch();
-                case "TrafficLight":
-                    return new TrafficLight();
-                case "Wire":
-                    return new Wire();
-                case "Xnor":
-                    return new Xnor();
-                case "Xor":
-                    return new Xor();
-                default:
-                    throw new NotSupportedException($"Not supported component type: {type}");
-            }
-        }
+            "Wire" => new Wire(),
+            "And" => new And(),
+            "Buffer" => new Buffer(),
+            "DigitalClock" => new DigitalClock(),
+            "DigitalDisplay" => new DigitalDisplay(),
+            "Ic" => new Ic(),
+            "InputPin" => new InputPin(),
+            "LedLamp" => new LedLamp(),
+            "Nand" => new Nand(),
+            "Nor" => new Nor(),
+            "Not" => new Not(),
+            "Or" => new Or(),
+            "OutputPin" => new OutputPin(),
+            "PowerButton" => new PowerButton(),
+            "SevenSegment" => new SevenSegment(),
+            "Switch" => new Switch(),
+            "TrafficLight" => new TrafficLight(),
+            "Xnor" => new Xnor(),
+            "Xor" => new Xor(),
+            _ => throw new NotSupportedException($"Not supported component type: {type}")
+        };
     }
 }

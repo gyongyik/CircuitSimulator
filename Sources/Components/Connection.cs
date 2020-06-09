@@ -56,13 +56,7 @@ namespace CircuitSimulator.Components
                 return result;
             }
 
-            public Connection Current
-            {
-                get
-                {
-                    return _enumerator.Current.Target as Connection;
-                }
-            }
+            public Connection Current => _enumerator.Current.Target as Connection;
         }
     }
 

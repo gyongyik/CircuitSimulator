@@ -130,17 +130,11 @@ namespace CircuitSimulator.Components
         {
         }
 
-        public Component GetComponent()
-        {
-            return this;
-        }
+        public Component GetComponent() => this;
 
         public Rectangle Bounds
         {
-            get
-            {
-                return _bounds;
-            }
+            get => _bounds;
             set
             {
                 if (Control != null)
@@ -151,21 +145,9 @@ namespace CircuitSimulator.Components
             }
         }
 
-        public int Width
-        {
-            get
-            {
-                return Bounds.Width;
-            }
-        }
+        public int Width => Bounds.Width;
 
-        public int Height
-        {
-            get
-            {
-                return Bounds.Height;
-            }
-        }
+        public int Height => Bounds.Height;
 
         public Point Location
         {

@@ -108,10 +108,7 @@ namespace CircuitSimulator.Components
 
         public double Interval
         {
-            get
-            {
-                return _interval;
-            }
+            get => _interval;
             set
             {
                 _interval = value;
