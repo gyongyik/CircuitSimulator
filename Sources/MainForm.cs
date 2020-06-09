@@ -306,16 +306,13 @@ namespace CircuitSimulator
                 if (_wireStartLocation.X == int.MinValue)
                 {
                     _wireStartLocation = new Point(location.X / 5 * 5, location.Y / 5 * 5);
-
-                    Pen pen = new Pen(Color.DimGray, 1);
-                    g.DrawEllipse(pen, new Rectangle(_wireStartLocation.X - 3, _wireStartLocation.Y - 3, 6, 6));
+                    g.DrawEllipse(new Pen(Color.DimGray, 1), new Rectangle(_wireStartLocation.X - 3, _wireStartLocation.Y - 3, 6, 6));
                 }
                 else
                 {
-                    Pen pen = new Pen(Color.White, 3);
-                    g.DrawEllipse(pen, new Rectangle(_wireStartLocation.X - 3, _wireStartLocation.Y - 3, 6, 6));
-
                     location = new Point(location.X / 5 * 5, location.Y / 5 * 5);
+                    g.DrawEllipse(new Pen(Color.White, 3), new Rectangle(_wireStartLocation.X - 3, _wireStartLocation.Y - 3, 6, 6));
+                   
                     int left = Math.Min(_wireStartLocation.X, location.X);
                     int top = Math.Min(_wireStartLocation.Y, location.Y);
 
