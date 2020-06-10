@@ -39,11 +39,6 @@ namespace CircuitSimulator.Components
             }
         }
 
-        public override void Execute()
-        {
-            base.Execute();
-        }
-
         public override void Write(System.Xml.XmlWriter writer)
         {
             writer.WriteElementString("interval", Interval.ToString());

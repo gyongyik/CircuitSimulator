@@ -13,11 +13,6 @@ namespace CircuitSimulator.Components
             Connections[0].Value = false;
         }
 
-        public override void Execute()
-        {
-            base.Execute();
-        }
-
         public override void Write(System.Xml.XmlWriter writer)
         {
             writer.WriteStartElement("state");

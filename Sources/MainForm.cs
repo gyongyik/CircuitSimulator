@@ -11,7 +11,7 @@ namespace CircuitSimulator
         const string UNTITLED = "Untitled.csx";
         const string FILTER = "CircuitSimulator XML (*.csx)|*.csx";
         private string _fileName;
-        private Components.ComponentController _components;
+        private Components.ComponentController _componentController;
         private ToolStripButton _checkedButton;
         private Point _wireStartLocation = new Point(int.MinValue, int.MinValue);
 
@@ -19,12 +19,12 @@ namespace CircuitSimulator
         {
             InitializeComponent();
             _fileName = UNTITLED;
-            _components = new Components.ComponentController();
+            _componentController = new Components.ComponentController();
         }
 
         private void Timer1_Tick(object sender, EventArgs e)
         {
-            _components.Run();
+            _componentController.Run();
         }
 
         private void SaveAs()
@@ -38,13 +38,13 @@ namespace CircuitSimulator
                 Stream s;
                 if ((s = d.OpenFile()) != null)
                 {
-                    _components.Write(s);
+                    _componentController.Write(s);
                     s.Close();
                 }
             }
         }
 
-        private Components.Component ShowComponent(Components.Component component, Point location)
+        private void AddComponent(Components.Component component, Point location)
         {
             if (toolStripWire.Checked || toolStripIc.Checked)
             {
@@ -52,16 +52,14 @@ namespace CircuitSimulator
             }
             else
             {
-                component.Location = new Point((location.X - component.Width / 2) / 5 * 5, (location.Y - component.Height / 2) / 5 * 5);
+                int grid = 5;
+                component.Location = new Point((location.X - component.Width / 2) / grid * grid, (location.Y - component.Height / 2) / grid * grid);
             }
-            component.Show(panel1, contextMenuStrip1);
-            return component;
-        }
 
-        private string GetNameWithoutExtension(string filename)
-        {
-            FileInfo info = new FileInfo(filename);
-            return info.Name.Remove(info.Name.Length - info.Extension.Length);
+            component.Show(panel1, contextMenuStrip1);
+
+            _componentController.Add(component);
+            _componentController.ConnectComponent(component);
         }
 
         private class MyToolStripButton : ToolStripButton
@@ -91,7 +89,7 @@ namespace CircuitSimulator
             MyToolStripButton b = sender as MyToolStripButton;
             b.Component.DeleteComponent();
         }
-                     
+
         private void MainForm_Load(object sender, EventArgs e)
         {
         }
@@ -100,9 +98,9 @@ namespace CircuitSimulator
         {
             _fileName = UNTITLED;
             Text = "CircuitSimulator - " + UNTITLED;
-            _components.Clear();
+            _componentController.Clear();
         }
-        
+
         private void ToolStripOpen_Click(object sender, EventArgs e)
         {
             OpenFileDialog d = new OpenFileDialog();
@@ -114,9 +112,9 @@ namespace CircuitSimulator
                 Stream s;
                 if ((s = d.OpenFile()) != null)
                 {
-                    _components.Read(s);
+                    _componentController.Read(s);
                     s.Close();
-                    foreach (Components.Component c in _components.Components)
+                    foreach (Components.Component c in _componentController.Components)
                     {
                         c.Show(panel1, contextMenuStrip1);
                     }
@@ -133,7 +131,7 @@ namespace CircuitSimulator
             else
             {
                 FileStream s = File.Create(_fileName);
-                _components.Write(s);
+                _componentController.Write(s);
                 s.Close();
             }
         }
@@ -241,12 +239,14 @@ namespace CircuitSimulator
                 Stream s;
                 if ((s = d.OpenFile()) != null)
                 {
-                    Components.Ic ic = new Components.Ic(GetNameWithoutExtension(d.FileName));
+                    FileInfo fileInfo = new FileInfo(d.FileName);
+                    string nameWithoutExtension = fileInfo.Name.Remove(fileInfo.Name.Length - fileInfo.Extension.Length);
+                    Components.Ic ic = new Components.Ic(nameWithoutExtension);
                     ic.LoadCircuit(s);
                     s.Close();
 
                     ic.Show(panel1, contextMenuStrip1);
-                    _components.Add(ic);
+                    _componentController.Add(ic);
                 }
             }
         }
@@ -261,7 +261,7 @@ namespace CircuitSimulator
             MessageBox.Show(
                 "Circuit Simulator - Simulation of logical circuits\n" +
                 "Copyright (C) 2009 Péter Gyöngyik\n\n" +
-                "Version 0.7\n\n" +
+                "Version 0.8\n\n" +
                 "This program is free software: you can redistribute it and/or modify\n" +
                 "it under the terms of the GNU General Public License as published by\n" +
                 "the Free Software Foundation, either version 3 of the License, or\n" +
@@ -271,7 +271,7 @@ namespace CircuitSimulator
                 "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the\n" +
                 "GNU General Public License for more details.\n\n" +
                 "You should have received a copy of the GNU General Public License\n" +
-                "along with this program. If not, see <http://www.gnu.org/licenses/>.", 
+                "along with this program. If not, see <http://www.gnu.org/licenses/>.",
                 "About...");
         }
 
@@ -305,96 +305,96 @@ namespace CircuitSimulator
 
                 if (_wireStartLocation.X == int.MinValue)
                 {
-                    _wireStartLocation = new Point(location.X / 5 * 5, location.Y / 5 * 5);
+                    _wireStartLocation = AutoConnect.Connect(location, _componentController);
                     g.DrawEllipse(new Pen(Color.DimGray, 1), new Rectangle(_wireStartLocation.X - 3, _wireStartLocation.Y - 3, 6, 6));
                 }
                 else
                 {
-                    location = new Point(location.X / 5 * 5, location.Y / 5 * 5);
+                    location = AutoConnect.Connect(location, _componentController);
                     g.DrawEllipse(new Pen(Color.White, 3), new Rectangle(_wireStartLocation.X - 3, _wireStartLocation.Y - 3, 6, 6));
                    
                     int left = Math.Min(_wireStartLocation.X, location.X);
                     int top = Math.Min(_wireStartLocation.Y, location.Y);
 
-                    _components.Add(ShowComponent(new Components.Wire(
-                            new Point(_wireStartLocation.X - left, _wireStartLocation.Y - top),
-                            new Point(location.X - left, location.Y - top)),
-                            new Point(left, top)));
+                    AddComponent(new Components.Wire(
+                            new Point(_wireStartLocation.X - left + 10 * ((location.X < _wireStartLocation.X) ? 1 : 0), _wireStartLocation.Y - top + 10 * ((location.Y < _wireStartLocation.Y) ? 1 : 0)),
+                            new Point(location.X - left + 10 * ((_wireStartLocation.X < location.X) ? 1 : 0), location.Y - top + 10 * ((_wireStartLocation.Y < location.Y) ? 1 : 0))),
+                            new Point(left - 5, top - 5));
 
                     _wireStartLocation = new Point(int.MinValue, int.MinValue);
                 }
             }
             else if (toolStripInputPin.Checked)
             {
-                _components.Add(ShowComponent(new Components.InputPin(), location));
+                AddComponent(new Components.InputPin(), location);
             }
             else if (toolStripPowerButton.Checked)
             {
-                _components.Add(ShowComponent(new Components.PowerButton(), location));
+                AddComponent(new Components.PowerButton(), location);
             }
             else if (toolStripDigitalClock.Checked)
             {
-                _components.Add(ShowComponent(new Components.DigitalClock(), location));
+                AddComponent(new Components.DigitalClock(), location);
             }
             else if (toolStripSwitch.Checked)
             {
-                _components.Add(ShowComponent(new Components.Switch(), location));
+                AddComponent(new Components.Switch(), location);
             }
             else if (toolStripBuffer.Checked)
             {
-                _components.Add(ShowComponent(new Components.Buffer(), location));
+                AddComponent(new Components.Buffer(), location);
             }
             else if (toolStripNot.Checked)
             {
-                _components.Add(ShowComponent(new Components.Not(), location));
+                AddComponent(new Components.Not(), location);
             }
             else if (toolStripAnd.Checked)
             {
-                _components.Add(ShowComponent(new Components.And(), location));
+                AddComponent(new Components.And(), location);
             }
             else if (toolStripNand.Checked)
             {
-                _components.Add(ShowComponent(new Components.Nand(), location));
+                AddComponent(new Components.Nand(), location);
             }
             else if (toolStripOr.Checked)
             {
-                _components.Add(ShowComponent(new Components.Or(), location));
+                AddComponent(new Components.Or(), location);
             }
             else if (toolStripNor.Checked)
             {
-                _components.Add(ShowComponent(new Components.Nor(), location));
+                AddComponent(new Components.Nor(), location);
             }
             else if (toolStripXor.Checked)
             {
-                _components.Add(ShowComponent(new Components.Xor(), location));
+                AddComponent(new Components.Xor(), location);
             }
             else if (toolStripXnor.Checked)
             {
-                _components.Add(ShowComponent(new Components.Xnor(), location));
+                AddComponent(new Components.Xnor(), location);
             }
             else if (toolStripOutPin.Checked)
             {
-                _components.Add(ShowComponent(new Components.OutputPin(), location));
+                AddComponent(new Components.OutputPin(), location);
             }
             else if (toolStripLedLamp.Checked)
             {
-                _components.Add(ShowComponent(new Components.LedLamp(), location));
+                AddComponent(new Components.LedLamp(), location);
             }
             else if (toolStripDigitalDisplay4.Checked)
             {
-                _components.Add(ShowComponent(new Components.DigitalDisplay(4), location));
+                AddComponent(new Components.DigitalDisplay(4), location);
             }
             else if (toolStripDigitalDisplay8.Checked)
             {
-                _components.Add(ShowComponent(new Components.DigitalDisplay(8), location));
+                AddComponent(new Components.DigitalDisplay(8), location);
             }
             else if (toolStripSevenSegment.Checked)
             {
-                _components.Add(ShowComponent(new Components.SevenSegment(), location));
+                AddComponent(new Components.SevenSegment(), location);
             }
             else if (toolStripTrafficLight.Checked)
             {
-                _components.Add(ShowComponent(new Components.TrafficLight(), location));
+               AddComponent(new Components.TrafficLight(), location);
             }
         }
     }

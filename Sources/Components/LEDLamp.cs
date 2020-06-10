@@ -11,11 +11,6 @@ namespace CircuitSimulator.Components
             Connections[0].Location = new Point(5, 15);
         }
 
-        public override void Execute()
-        {
-            base.Execute();
-        }
-
         protected override ComponentControl CreateComponentControl()
         {
             return new LedLampControl(this);

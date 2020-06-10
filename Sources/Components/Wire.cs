@@ -89,11 +89,6 @@ namespace CircuitSimulator.Components
             _value = false;
         }
 
-        public override void Execute()
-        {
-            base.Execute();
-        }
-
         public override void Write(System.Xml.XmlWriter writer)
         {
             writer.WriteStartElement("width");

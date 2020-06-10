@@ -58,14 +58,11 @@ namespace CircuitSimulator.Components
             {
                 IsMouseDown = false;
 
-                // Snap
-                int gridSize = 5;
-                Component.Location = new Point((Component.Location.X + (gridSize / 2)) / gridSize * gridSize, (Component.Location.Y + (gridSize / 2)) / gridSize * gridSize);
-
-                // Reconnect
+                int grid = 5;
+                Component.Location = new Point((Component.Location.X + (grid / 2)) / grid * grid, (Component.Location.Y + (grid / 2)) / grid * grid);
                 Component.Circuit.ConnectComponent(Component);
 
-                if ((Math.Abs(Location.X - MouseDownLocation.X) < gridSize) && (Math.Abs(Location.Y - MouseDownLocation.Y) < gridSize))
+                if ((Math.Abs(Location.X - MouseDownLocation.X) < grid) && (Math.Abs(Location.Y - MouseDownLocation.Y) < grid))
                 {
                     Component.OnMouseClick(e);
                 }

@@ -42,12 +42,12 @@
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripAbout = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripWire = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripInputPin = new System.Windows.Forms.ToolStripButton();
             this.toolStripPowerButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripDigitalClock = new System.Windows.Forms.ToolStripButton();
             this.toolStripSwitch = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripWire = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripBuffer = new System.Windows.Forms.ToolStripButton();
             this.toolStripNot = new System.Windows.Forms.ToolStripButton();
@@ -82,10 +82,9 @@
             this.panel1.BackColor = System.Drawing.Color.White;
             this.panel1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(0, 35);
-            this.panel1.Margin = new System.Windows.Forms.Padding(0);
+            this.panel1.Location = new System.Drawing.Point(3, 43);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1175, 447);
+            this.panel1.Size = new System.Drawing.Size(1365, 510);
             this.panel1.TabIndex = 1;
             this.panel1.Click += new System.EventHandler(this.panel1_Click);
             // 
@@ -105,12 +104,11 @@
             this.tableLayoutPanel1.Controls.Add(this.panel1, 0, 1);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
-            this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 2;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(1175, 482);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(1371, 556);
             this.tableLayoutPanel1.TabIndex = 5;
             // 
             // toolStrip1
@@ -152,7 +150,7 @@
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.toolStrip1.Size = new System.Drawing.Size(1175, 39);
+            this.toolStrip1.Size = new System.Drawing.Size(1371, 39);
             this.toolStrip1.TabIndex = 6;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -222,6 +220,24 @@
             this.toolStripSeparator2.Name = "toolStripSeparator2";
             this.toolStripSeparator2.Size = new System.Drawing.Size(6, 39);
             // 
+            // toolStripWire
+            // 
+            this.toolStripWire.Checked = true;
+            this.toolStripWire.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.toolStripWire.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripWire.Image = ((System.Drawing.Image)(resources.GetObject("toolStripWire.Image")));
+            this.toolStripWire.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.toolStripWire.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripWire.Name = "toolStripWire";
+            this.toolStripWire.Size = new System.Drawing.Size(36, 36);
+            this.toolStripWire.Text = "Wire";
+            this.toolStripWire.Click += new System.EventHandler(this.ToolStripWire_Click);
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 39);
+            // 
             // toolStripInputPin
             // 
             this.toolStripInputPin.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -265,24 +281,6 @@
             this.toolStripSwitch.Size = new System.Drawing.Size(36, 36);
             this.toolStripSwitch.Text = "Switch";
             this.toolStripSwitch.Click += new System.EventHandler(this.ToolStripSwitch_Click);
-            // 
-            // toolStripSeparator3
-            // 
-            this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 39);
-            // 
-            // toolStripWire
-            // 
-            this.toolStripWire.Checked = true;
-            this.toolStripWire.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.toolStripWire.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripWire.Image = ((System.Drawing.Image)(resources.GetObject("toolStripWire.Image")));
-            this.toolStripWire.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.toolStripWire.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripWire.Name = "toolStripWire";
-            this.toolStripWire.Size = new System.Drawing.Size(36, 36);
-            this.toolStripWire.Text = "Wire";
-            this.toolStripWire.Click += new System.EventHandler(this.ToolStripWire_Click);
             // 
             // toolStripSeparator4
             // 
@@ -466,10 +464,10 @@
             // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Window;
-            this.ClientSize = new System.Drawing.Size(1175, 482);
+            this.ClientSize = new System.Drawing.Size(1371, 556);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "MainForm";
