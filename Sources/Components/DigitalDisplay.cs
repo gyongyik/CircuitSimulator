@@ -1,12 +1,18 @@
 ﻿using System;
 using System.ComponentModel;
-using System.Windows.Forms;
 using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Windows.Forms;
 
 namespace CircuitSimulator.Components
 {
     internal class DigitalDisplay : Component
     {
+        private const string INPUTS = "inputs";
+        private const string HEXADECIMAL = "hexadecimal";
+        private const string SHOWCOLOR = "showcolor";
+        private const string SHOWCAR = "showchar";
+
         private int _value;
         private bool _isHexadecimal;
         private bool _showColor;
@@ -64,35 +70,35 @@ namespace CircuitSimulator.Components
 
         public override void Write(System.Xml.XmlWriter writer)
         {
-            writer.WriteElementString("inputs", (Connections.Length - 1).ToString());
-            writer.WriteElementString("hexadecimal", _isHexadecimal.ToString());
-            writer.WriteElementString("showcolor", _showColor.ToString());
-            writer.WriteElementString("showchar", _showChar.ToString());
+            writer.WriteElementString(INPUTS, (Connections.Length - 1).ToString());
+            writer.WriteElementString(HEXADECIMAL, _isHexadecimal.ToString());
+            writer.WriteElementString(SHOWCOLOR, _showColor.ToString());
+            writer.WriteElementString(SHOWCAR, _showChar.ToString());
         }
 
         public override void Read(System.Xml.XmlReader reader)
         {
-            reader.ReadToDescendant("inputs");
-            if (reader.IsStartElement("inputs"))
+            reader.ReadToDescendant(INPUTS);
+            if (reader.IsStartElement(INPUTS))
             {
                 int inputs = reader.ReadElementContentAsInt();
                 Initialize(inputs);
             }
 
-            reader.ReadToFollowing("hexadecimal");
-            if (reader.IsStartElement("hexadecimal"))
+            reader.ReadToFollowing(HEXADECIMAL);
+            if (reader.IsStartElement(HEXADECIMAL))
             {
                 _isHexadecimal = reader.ReadElementContentAsBoolean();
             }
 
-            reader.ReadToFollowing("showcolor");
-            if (reader.IsStartElement("showcolor"))
+            reader.ReadToFollowing(SHOWCOLOR);
+            if (reader.IsStartElement(SHOWCOLOR))
             {
                 _showColor = reader.ReadElementContentAsBoolean();
             }
 
-            reader.ReadToFollowing("showchar");
-            if (reader.IsStartElement("showchar"))
+            reader.ReadToFollowing(SHOWCAR);
+            if (reader.IsStartElement(SHOWCAR))
             {
                 _showChar = reader.ReadElementContentAsBoolean();
             }
@@ -148,7 +154,7 @@ namespace CircuitSimulator.Components
             protected override void OnPaint(PaintEventArgs e)
             {
                 Graphics g = e.Graphics;
-                g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+                g.SmoothingMode = SmoothingMode.AntiAlias;
 
                 Pen pen = new Pen(Color.DimGray, 3);
                 Rectangle rect = new Rectangle(15, 5, Width - 22, Height - 10);
@@ -158,7 +164,7 @@ namespace CircuitSimulator.Components
 
                 if (_component._showColor)
                 {
-                    var brushes = GetBrushes(_component._value);
+                    (Brush textColor, Brush rectColor) brushes = GetBrushes(_component._value);
                     textColor = brushes.textColor;
                     rectColor = brushes.rectColor;
                 }
@@ -191,7 +197,6 @@ namespace CircuitSimulator.Components
                     Color c = _component.GetValue(i) ? Color.Tomato : Color.DimGray;
                     g.DrawLine(pen, new Point(8, _component.Connections[i].Location.Y), new Point(rect.Left, _component.Connections[i].Location.Y));
                     g.DrawEllipse(new Pen(c, 1), new Rectangle(Point.Subtract(_component.Connections[i].Location, new Size(3, 3)), new Size(6, 6)));
-
                 }
             }
 

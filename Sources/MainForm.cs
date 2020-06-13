@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.IO;
 using System.Windows.Forms;
 
@@ -8,18 +9,37 @@ namespace CircuitSimulator
 {
     public partial class MainForm : Form
     {
-        const string UNTITLED = "Untitled.csx";
-        const string FILTER = "CircuitSimulator XML (*.csx)|*.csx";
+        private const string CIRCUITSIMULATOR = "CircuitSimulator - ";
+        private const string UNTITLED = "Untitled.csx";
+        private const string FILTER = "CircuitSimulator XML (*.csx)|*.csx";
+        private const string ABOUT = CIRCUITSIMULATOR + @"Simulation of logical circuits
+Version 0.9
+
+Copyright (C) 2009 Péter Gyöngyik
+
+This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with this program. If not, see <http://www.gnu.org/licenses/>.";
+
+        private readonly Components.ComponentController _componentController;
+        private readonly Graphics _g;
+
         private string _fileName;
-        private Components.ComponentController _componentController;
         private ToolStripButton _checkedButton;
         private Point _wireStartLocation = new Point(int.MinValue, int.MinValue);
 
         public MainForm()
         {
             InitializeComponent();
-            _fileName = UNTITLED;
+            panel1.Margin = new Padding(0);
+
             _componentController = new Components.ComponentController();
+            _g = panel1.CreateGraphics();
+            _g.SmoothingMode = SmoothingMode.AntiAlias;
+
+            _fileName = UNTITLED;
         }
 
         private void Timer1_Tick(object sender, EventArgs e)
@@ -34,13 +54,61 @@ namespace CircuitSimulator
             if (d.ShowDialog() == DialogResult.OK)
             {
                 _fileName = d.FileName;
-                Text = "CircuitSimulator - " + d.FileName;
+                Text = CIRCUITSIMULATOR + d.FileName;
                 Stream s;
                 if ((s = d.OpenFile()) != null)
                 {
                     _componentController.Write(s);
                     s.Close();
                 }
+            }
+        }
+
+        private void SetCheckState(ToolStripButton newCheckedButton)
+        {
+            ClearWireCreation();
+            if (_checkedButton != null)
+            {
+                _checkedButton.Checked = false;
+            }
+            else
+            {
+                toolStripWire.Checked = false;
+            }
+            _checkedButton = newCheckedButton;
+            _checkedButton.Checked = true;
+        }
+
+        private void ClearWireCreation()
+        {
+            if (_wireStartLocation.X != int.MinValue)
+            { 
+                _g.DrawEllipse(new Pen(Color.White, 3), new Rectangle(_wireStartLocation.X - 3, _wireStartLocation.Y - 3, 6, 6));
+                _wireStartLocation = new Point(int.MinValue, int.MinValue);
+            }
+        }
+
+        private void AddWire(Point location)
+        {
+            if (_wireStartLocation.X == int.MinValue)
+            {
+                _wireStartLocation = AutoConnect.Connect(location, _componentController);
+                _g.DrawEllipse(new Pen(Color.DimGray, 1), new Rectangle(_wireStartLocation.X - 3, _wireStartLocation.Y - 3, 6, 6));
+            }
+            else
+            {
+                location = AutoConnect.Connect(location, _componentController);
+                _g.DrawEllipse(new Pen(Color.White, 3), new Rectangle(_wireStartLocation.X - 3, _wireStartLocation.Y - 3, 6, 6));
+
+                int left = Math.Min(_wireStartLocation.X, location.X);
+                int top = Math.Min(_wireStartLocation.Y, location.Y);
+
+                AddComponent(new Components.Wire(
+                        new Point(_wireStartLocation.X - left + 10 * ((location.X < _wireStartLocation.X) ? 1 : 0), _wireStartLocation.Y - top + 10 * ((location.Y < _wireStartLocation.Y) ? 1 : 0)),
+                        new Point(location.X - left + 10 * ((_wireStartLocation.X < location.X) ? 1 : 0), location.Y - top + 10 * ((_wireStartLocation.Y < location.Y) ? 1 : 0))),
+                        new Point(left - 5, top - 5));
+
+                _wireStartLocation = new Point(int.MinValue, int.MinValue);
             }
         }
 
@@ -60,6 +128,10 @@ namespace CircuitSimulator
 
             _componentController.Add(component);
             _componentController.ConnectComponent(component);
+        }
+
+        private void MainForm_Load(object sender, EventArgs e)
+        {
         }
 
         private class MyToolStripButton : ToolStripButton
@@ -90,25 +162,23 @@ namespace CircuitSimulator
             b.Component.DeleteComponent();
         }
 
-        private void MainForm_Load(object sender, EventArgs e)
+        private void ToolStripNew_Click(object sender, EventArgs e)
         {
-        }
-
-        private void ToolStripButton1_Click(object sender, EventArgs e)
-        {
+            ClearWireCreation();
             _fileName = UNTITLED;
-            Text = "CircuitSimulator - " + UNTITLED;
+            Text = CIRCUITSIMULATOR + UNTITLED;
             _componentController.Clear();
         }
 
         private void ToolStripOpen_Click(object sender, EventArgs e)
         {
+            ClearWireCreation();
             OpenFileDialog d = new OpenFileDialog();
             d.Filter = FILTER;
             if (d.ShowDialog() == DialogResult.OK)
             {
                 _fileName = d.FileName;
-                Text = "CircuitSimulator - " + d.FileName;
+                Text = CIRCUITSIMULATOR + d.FileName;
                 Stream s;
                 if ((s = d.OpenFile()) != null)
                 {
@@ -124,6 +194,7 @@ namespace CircuitSimulator
 
         private void ToolStripSave_Click(object sender, EventArgs e)
         {
+            ClearWireCreation();
             if (_fileName == UNTITLED)
             {
                 SaveAs();
@@ -134,6 +205,23 @@ namespace CircuitSimulator
                 _componentController.Write(s);
                 s.Close();
             }
+        }
+
+        private void ToolStripSaveAs_Click(object sender, EventArgs e)
+        {
+            ClearWireCreation();
+            SaveAs();
+        }
+
+        private void ToolStripAbout_Click(object sender, EventArgs e)
+        {
+            ClearWireCreation();
+            MessageBox.Show(ABOUT, "About...");
+        }
+
+        private void ToolStripWire_Click(object sender, EventArgs e)
+        {
+            SetCheckState((ToolStripButton)sender);
         }
 
         private void ToolStripInputPin_Click(object sender, EventArgs e)
@@ -152,11 +240,6 @@ namespace CircuitSimulator
         }
 
         private void ToolStripSwitch_Click(object sender, EventArgs e)
-        {
-            SetCheckState((ToolStripButton)sender);
-        }
-
-        private void ToolStripWire_Click(object sender, EventArgs e)
         {
             SetCheckState((ToolStripButton)sender);
         }
@@ -233,6 +316,7 @@ namespace CircuitSimulator
 
         private void ToolStripIc_Click(object sender, EventArgs e)
         {
+            ClearWireCreation();
             OpenFileDialog d = new OpenFileDialog();
             if (d.ShowDialog() == DialogResult.OK)
             {
@@ -251,78 +335,13 @@ namespace CircuitSimulator
             }
         }
 
-        private void toolStripSaveAs_Click(object sender, EventArgs e)
-        {
-            SaveAs();
-        }
-
-        private void toolStripAbout_Click(object sender, EventArgs e)
-        {
-            MessageBox.Show(
-                "Circuit Simulator - Simulation of logical circuits\n" +
-                "Copyright (C) 2009 Péter Gyöngyik\n\n" +
-                "Version 0.8\n\n" +
-                "This program is free software: you can redistribute it and/or modify\n" +
-                "it under the terms of the GNU General Public License as published by\n" +
-                "the Free Software Foundation, either version 3 of the License, or\n" +
-                "(at your option) any later version.\n\n" +
-                "This program is distributed in the hope that it will be useful,\n" +
-                "but WITHOUT ANY WARRANTY; without even the implied warranty of\n" +
-                "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the\n" +
-                "GNU General Public License for more details.\n\n" +
-                "You should have received a copy of the GNU General Public License\n" +
-                "along with this program. If not, see <http://www.gnu.org/licenses/>.",
-                "About...");
-        }
-
-        private void toolStripMove_Click(object sender, EventArgs e)
-        {
-            SetCheckState((ToolStripButton)sender);
-        }
-
-        private void SetCheckState(ToolStripButton newCheckedButton)
-        {
-            if (_checkedButton != null)
-            {
-                _checkedButton.Checked = false;
-            }
-            else
-            {
-                toolStripWire.Checked = false;
-            }
-            _checkedButton = newCheckedButton;
-            _checkedButton.Checked = true;
-        }
-
-        private void panel1_Click(object sender, EventArgs e)
+        private void Panel1_Click(object sender, EventArgs e)
         {
             Point location = panel1.PointToClient(Cursor.Position);
 
             if (toolStripWire.Checked)
             {
-                Graphics g = panel1.CreateGraphics();
-                g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
-
-                if (_wireStartLocation.X == int.MinValue)
-                {
-                    _wireStartLocation = AutoConnect.Connect(location, _componentController);
-                    g.DrawEllipse(new Pen(Color.DimGray, 1), new Rectangle(_wireStartLocation.X - 3, _wireStartLocation.Y - 3, 6, 6));
-                }
-                else
-                {
-                    location = AutoConnect.Connect(location, _componentController);
-                    g.DrawEllipse(new Pen(Color.White, 3), new Rectangle(_wireStartLocation.X - 3, _wireStartLocation.Y - 3, 6, 6));
-                   
-                    int left = Math.Min(_wireStartLocation.X, location.X);
-                    int top = Math.Min(_wireStartLocation.Y, location.Y);
-
-                    AddComponent(new Components.Wire(
-                            new Point(_wireStartLocation.X - left + 10 * ((location.X < _wireStartLocation.X) ? 1 : 0), _wireStartLocation.Y - top + 10 * ((location.Y < _wireStartLocation.Y) ? 1 : 0)),
-                            new Point(location.X - left + 10 * ((_wireStartLocation.X < location.X) ? 1 : 0), location.Y - top + 10 * ((_wireStartLocation.Y < location.Y) ? 1 : 0))),
-                            new Point(left - 5, top - 5));
-
-                    _wireStartLocation = new Point(int.MinValue, int.MinValue);
-                }
+                AddWire(location);
             }
             else if (toolStripInputPin.Checked)
             {

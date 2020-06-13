@@ -1,13 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Windows.Forms;
-using System.Drawing;
 using System.ComponentModel;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Windows.Forms;
 
 namespace CircuitSimulator.Components
 {
     internal class Ic : Component
     {
+        private const string NAME = "name";
+        private const string SUBCIRCUIT = "subcircuit";
+
         public Ic()
         {
             Bounds = new Rectangle(0, 0, 110, 50);
@@ -45,8 +49,8 @@ namespace CircuitSimulator.Components
 
         public override void Write(System.Xml.XmlWriter writer)
         {
-            writer.WriteElementString("name", Name);
-            writer.WriteStartElement("subcircuit");
+            writer.WriteElementString(NAME, Name);
+            writer.WriteStartElement(SUBCIRCUIT);
             InternalCircuit.Write(writer);
             writer.WriteEndElement();
         }
@@ -58,11 +62,11 @@ namespace CircuitSimulator.Components
                 switch (reader.NodeType)
                 {
                     case System.Xml.XmlNodeType.Element:
-                        if (reader.Name == "name")
+                        if (reader.Name == NAME)
                         {
                             Name = reader.ReadElementContentAsString();
                         }
-                        else if (reader.Name == "subcircuit")
+                        else if (reader.Name == SUBCIRCUIT)
                         {
                             System.Xml.XmlReader subreader = reader.ReadSubtree();
                             LoadCircuit(subreader);
@@ -278,18 +282,6 @@ namespace CircuitSimulator.Components
                 return result;
             }
 
-            public override void Execute()
-            {
-                //bool result = false;
-                //foreach (Connection c in IOConnection.Connections)
-                //{
-                //    result |= c.Value;
-                //}
-
-                //SetValue(0, result);
-                base.Execute();
-            }
-
             protected override ComponentControl CreateComponentControl()
             {
                 return new InputControl(this);
@@ -359,6 +351,7 @@ namespace CircuitSimulator.Components
                 protected override void OnPaint(PaintEventArgs e)
                 {
                     Graphics g = e.Graphics;
+                    g.SmoothingMode = SmoothingMode.AntiAlias;
 
                     for (int i = 0; i < Component.Connections.Length; ++i)
                     {

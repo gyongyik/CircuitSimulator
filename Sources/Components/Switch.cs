@@ -1,10 +1,13 @@
-﻿using System.Windows.Forms;
-using System.Drawing;
+﻿using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Windows.Forms;
 
 namespace CircuitSimulator.Components
 {
     internal class Switch : Component
     {
+        private const string STATE = "state";
+
         public bool State { get; private set; }
 
         public Switch() : base(1, 1)
@@ -22,8 +25,8 @@ namespace CircuitSimulator.Components
 
             if (State)
             {
-                var value0 = GetValue(0);
-                var value1 = GetValue(1);
+                bool value0 = GetValue(0);
+                bool value1 = GetValue(1);
                 SetValue(0, value0);
                 SetValue(1, value1);
             }
@@ -53,15 +56,15 @@ namespace CircuitSimulator.Components
 
         public override void Write(System.Xml.XmlWriter writer)
         {
-            writer.WriteStartElement("state");
+            writer.WriteStartElement(STATE);
             writer.WriteValue(State);
             writer.WriteEndElement();
         }
 
         public override void Read(System.Xml.XmlReader reader)
         {
-            reader.ReadToFollowing("state");
-            if (reader.IsStartElement("state"))
+            reader.ReadToFollowing(STATE);
+            if (reader.IsStartElement(STATE))
             {
                 State = reader.ReadElementContentAsBoolean();
             }
@@ -84,7 +87,7 @@ namespace CircuitSimulator.Components
             protected override void OnPaint(PaintEventArgs e)
             {
                 Graphics g = e.Graphics;
-                g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+                g.SmoothingMode = SmoothingMode.AntiAlias;
 
                 Pen pen = new Pen(Color.DimGray, 3);
                 g.DrawLine(pen, new Point(8, 25), new Point(34, 25));

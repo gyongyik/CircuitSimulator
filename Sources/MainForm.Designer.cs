@@ -86,7 +86,7 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(1365, 510);
             this.panel1.TabIndex = 1;
-            this.panel1.Click += new System.EventHandler(this.panel1_Click);
+            this.panel1.Click += new System.EventHandler(this.Panel1_Click);
             // 
             // contextMenuStrip1
             // 
@@ -163,7 +163,7 @@
             this.toolStripNew.Name = "toolStripNew";
             this.toolStripNew.Size = new System.Drawing.Size(36, 36);
             this.toolStripNew.Text = "New";
-            this.toolStripNew.Click += new System.EventHandler(this.ToolStripButton1_Click);
+            this.toolStripNew.Click += new System.EventHandler(this.ToolStripNew_Click);
             // 
             // toolStripOpen
             // 
@@ -196,7 +196,7 @@
             this.toolStripSaveAs.Name = "toolStripSaveAs";
             this.toolStripSaveAs.Size = new System.Drawing.Size(36, 36);
             this.toolStripSaveAs.Text = "Save As...";
-            this.toolStripSaveAs.Click += new System.EventHandler(this.toolStripSaveAs_Click);
+            this.toolStripSaveAs.Click += new System.EventHandler(this.ToolStripSaveAs_Click);
             // 
             // toolStripSeparator1
             // 
@@ -213,7 +213,7 @@
             this.toolStripAbout.Size = new System.Drawing.Size(36, 36);
             this.toolStripAbout.Text = "toolStripButton1";
             this.toolStripAbout.ToolTipText = "About...";
-            this.toolStripAbout.Click += new System.EventHandler(this.toolStripAbout_Click);
+            this.toolStripAbout.Click += new System.EventHandler(this.ToolStripAbout_Click);
             // 
             // toolStripSeparator2
             // 
@@ -521,4 +521,3 @@
         private System.Windows.Forms.ToolStripButton toolStripAbout;
     }
 }
-

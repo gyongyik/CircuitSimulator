@@ -7,6 +7,11 @@ namespace CircuitSimulator.Components
 {
     internal class ComponentController
     {
+        private const string COMPONENT = "component";
+        private const string TYPE = "type";
+        private const string X = "x";
+        private const string Y = "y";
+
         public ComponentController() => Components = new List<Component>();
 
         public void Clear()
@@ -77,12 +82,11 @@ namespace CircuitSimulator.Components
             writer.WriteStartElement("circuit");
             foreach (Component c in Components)
             {
-                writer.WriteStartElement("component");
+                writer.WriteStartElement(COMPONENT);
                 string type = c.GetType().ToString();
-                string nameSpace = "CircuitSimulator.Components";
-                writer.WriteAttributeString("type", type.Substring(nameSpace.Length + 1));
-                writer.WriteAttributeString("x", c.Location.X.ToString());
-                writer.WriteAttributeString("y", c.Location.Y.ToString());
+                writer.WriteAttributeString(TYPE, type.Substring("CircuitSimulator.Components".Length + 1));
+                writer.WriteAttributeString(X, c.Location.X.ToString());
+                writer.WriteAttributeString(Y, c.Location.Y.ToString());
                 c.Write(writer);
                 writer.WriteEndElement();
             }
@@ -105,11 +109,11 @@ namespace CircuitSimulator.Components
 
             while (reader.Read())
             {
-                if (reader.IsStartElement("component"))
+                if (reader.IsStartElement(COMPONENT))
                 {
-                    string type = reader.GetAttribute("type");
-                    int x = int.Parse(reader.GetAttribute("x"));
-                    int y = int.Parse(reader.GetAttribute("y"));
+                    string type = reader.GetAttribute(TYPE);
+                    int x = int.Parse(reader.GetAttribute(X));
+                    int y = int.Parse(reader.GetAttribute(Y));
 
                     Component c = CreateComponent(type);
                     c.Location = new Point(x, y);

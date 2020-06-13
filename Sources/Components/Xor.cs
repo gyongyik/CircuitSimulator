@@ -1,5 +1,6 @@
-﻿using System.Windows.Forms;
-using System.Drawing;
+﻿using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Windows.Forms;
 
 namespace CircuitSimulator.Components
 {
@@ -34,7 +35,7 @@ namespace CircuitSimulator.Components
             protected override void OnPaint(PaintEventArgs e)
             {
                 Graphics g = e.Graphics;
-                g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+                g.SmoothingMode = SmoothingMode.AntiAlias;
 
                 Pen pen = new Pen(Color.DimGray, 3);
                 g.DrawLine(pen, new Point(8, 15), new Point(32, 15));

@@ -1,13 +1,14 @@
 ﻿using System;
 using System.ComponentModel;
-using System.Windows.Forms;
 using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Windows.Forms;
 
 namespace CircuitSimulator.Components
 {
     internal class WireConnection : Connection
     {
-        bool _processing;
+        private bool _processing;
 
         public WireConnection(Component component) : base(component)
         {
@@ -25,7 +26,7 @@ namespace CircuitSimulator.Components
                 else
                 {
                     _processing = true;
-                    bool value = Parent.GetValue(0); // || Parent.GetValue(1);
+                    bool value = Parent.GetValue(0) || Parent.GetValue(1);
                     _processing = false;
                     return value;
                 }
@@ -35,8 +36,11 @@ namespace CircuitSimulator.Components
 
     internal class Wire : Component
     {
-        private bool _calculated;
-        private bool _value;
+        private const string WIDTH = "width";
+        private const string HEIGHT = "height";
+        private const string FLIPPED = "flipped";
+
+        public bool Flipped { get; set; }
 
         public Wire() : base(1, 1)
         {
@@ -53,6 +57,8 @@ namespace CircuitSimulator.Components
 
         public Wire(Point in0, Point in1) : base(1, 1)
         {
+            int direction = 0;
+
             if (in0.X < in1.X)
             {
                 in0.X += 5;
@@ -62,6 +68,8 @@ namespace CircuitSimulator.Components
             {
                 in0.X -= 5;
                 in1.X += 5;
+
+                direction++;
             }
 
             if (in0.Y < in1.Y)
@@ -73,6 +81,13 @@ namespace CircuitSimulator.Components
             {
                 in0.Y -= 5;
                 in1.Y += 5;
+
+                direction++;
+            }
+
+            if (direction == 1)
+            {
+                Flipped = true;
             }
 
             Bounds = new Rectangle(0, 0, Math.Max(in0.X, in1.X) + 5, Math.Max(in0.Y, in1.Y) + 5);
@@ -83,35 +98,43 @@ namespace CircuitSimulator.Components
             Connections[1].Location = in1;
         }
 
-        public override void Setup()
-        {
-            _calculated = false;
-            _value = false;
-        }
-
         public override void Write(System.Xml.XmlWriter writer)
         {
-            writer.WriteStartElement("width");
+            writer.WriteStartElement(WIDTH);
             writer.WriteValue(Width - 10);
             writer.WriteEndElement();
 
-            writer.WriteStartElement("height");
+            writer.WriteStartElement(HEIGHT);
             writer.WriteValue(Height - 10);
+            writer.WriteEndElement();
+
+            writer.WriteStartElement(FLIPPED);
+            writer.WriteValue(Flipped);
             writer.WriteEndElement();
         }
 
         public override void Read(System.Xml.XmlReader reader)
         {
-            reader.ReadToFollowing("width");
-            if (reader.IsStartElement("width"))
+            reader.ReadToFollowing(WIDTH);
+            if (reader.IsStartElement(WIDTH))
             {
                 SetWidth(reader.ReadElementContentAsInt());
             }
 
-            reader.ReadToFollowing("height");
-            if (reader.IsStartElement("height"))
+            reader.ReadToFollowing(HEIGHT);
+            if (reader.IsStartElement(HEIGHT))
             {
                 SetHeight(reader.ReadElementContentAsInt());
+            }
+
+            reader.ReadToFollowing(FLIPPED);
+            if (reader.IsStartElement(FLIPPED))
+            {
+                Flipped = reader.ReadElementContentAsBoolean();
+                if (Flipped)
+                {
+                    Flip();
+                }
             }
         }
 
@@ -141,13 +164,15 @@ namespace CircuitSimulator.Components
             Bounds = new Rectangle(Location.X, Location.Y, Math.Max(Connections[0].Location.X, Connections[1].Location.X) + 5, Math.Max(Connections[0].Location.Y, Connections[1].Location.Y) + 5);
         }
 
+        public void Flip()
+        {
+            int x = Connections[0].Location.X;
+            Connections[0].Location = new Point(Connections[1].Location.X, Connections[0].Location.Y);
+            Connections[1].Location = new Point(x, Connections[1].Location.Y);
+        }
+
         public override bool GetValue(int index)
         {
-            if (_calculated)
-            {
-                return _value;
-            }
-
             bool result = false;
 
             foreach (Connection c in Connections[0].Connections)
@@ -186,25 +211,36 @@ namespace CircuitSimulator.Components
 
             public override void ShowContextMenu(ContextMenuStrip menu, CancelEventArgs ce)
             {
-                ToolStripItem cw = new ToolStripButton("Change Width");
+                ToolStripItem f = new ToolStripButton("Flip");
+                f.Click += new EventHandler(delegate (object sender, EventArgs e)
+                {
+                    _component.Flip();
+                    _component.Circuit.ConnectComponent(_component);
+                    _component.Flipped = !_component.Flipped;
+                });
+                menu.Items.Add(f);
+
+                const string SET_WIDTH = "Set Width";
+                ToolStripItem cw = new ToolStripButton(SET_WIDTH);
                 cw.Click += new EventHandler(delegate (object sender, EventArgs e)
                 {
                     string value = Convert.ToString(_component.Width - 10);
-                    if (InputBox("Change Width", "Width:", ref value) == DialogResult.OK)
+                    if (InputBox(SET_WIDTH, "Width:", ref value) == DialogResult.OK)
                     {
-                        _component.SetWidth(Convert.ToInt32(value));
+                        _component.SetWidth(Math.Abs(Convert.ToInt32(value)));
                         _component.Circuit.ConnectComponent(_component);
                     }
                 });
                 menu.Items.Add(cw);
 
-                ToolStripItem ch = new ToolStripButton("Change Height");
+                const string SET_HEIGHT = "Set Height";
+                ToolStripItem ch = new ToolStripButton(SET_HEIGHT);
                 ch.Click += new EventHandler(delegate (object sender, EventArgs e)
                 {
                     string value = Convert.ToString(_component.Height - 10);
-                    if (InputBox("Change Height", "Height:", ref value) == DialogResult.OK)
+                    if (InputBox(SET_HEIGHT, "Height:", ref value) == DialogResult.OK)
                     {
-                        _component.SetHeight(Convert.ToInt32(value));
+                        _component.SetHeight(Math.Abs(Convert.ToInt32(value)));
                         _component.Circuit.ConnectComponent(_component);
                     }
                 });
@@ -214,7 +250,7 @@ namespace CircuitSimulator.Components
             protected override void OnPaint(PaintEventArgs e)
             {
                 Graphics g = e.Graphics;
-                g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+                g.SmoothingMode = SmoothingMode.AntiAlias;
 
                 g.DrawLine(
                     new Pen(Color.DimGray, 3), 

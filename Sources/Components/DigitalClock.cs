@@ -1,12 +1,15 @@
 ﻿using System;
 using System.ComponentModel;
-using System.Windows.Forms;
 using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Windows.Forms;
 
 namespace CircuitSimulator.Components
 {
     internal class DigitalClock : Component
     {
+        private const string INTERVAL = "interval";
+
         private System.Timers.Timer _timer;
         private double _interval;
 
@@ -41,13 +44,13 @@ namespace CircuitSimulator.Components
 
         public override void Write(System.Xml.XmlWriter writer)
         {
-            writer.WriteElementString("interval", Interval.ToString());
+            writer.WriteElementString(INTERVAL, Interval.ToString());
         }
 
         public override void Read(System.Xml.XmlReader reader)
         {
-            reader.ReadToDescendant("interval");
-            if (reader.IsStartElement("interval"))
+            reader.ReadToDescendant(INTERVAL);
+            if (reader.IsStartElement(INTERVAL))
             {
                 Interval = reader.ReadElementContentAsDouble();
             }
@@ -69,11 +72,12 @@ namespace CircuitSimulator.Components
 
             public override void ShowContextMenu(ContextMenuStrip menu, CancelEventArgs ce)
             {
-                ToolStripItem si = new ToolStripButton("Set Interval");
+                const string SET_INTERVAL = "Set Interval";
+                ToolStripItem si = new ToolStripButton(SET_INTERVAL);
                 si.Click += new EventHandler(delegate (object sender, EventArgs e)
                 {
                     string value = Convert.ToString(_component.Interval);
-                    if (InputBox("Set Interval", "Interval [ms]:", ref value) == DialogResult.OK)
+                    if (InputBox(SET_INTERVAL, "Interval [ms]:", ref value) == DialogResult.OK)
                     {
                         _component.Interval = Convert.ToInt32(value);
                         _component.Circuit.ConnectComponent(_component);
@@ -85,11 +89,10 @@ namespace CircuitSimulator.Components
             protected override void OnPaint(PaintEventArgs e)
             {
                 Graphics g = e.Graphics;
-                g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+                g.SmoothingMode = SmoothingMode.AntiAlias;
 
                 Pen pen = new Pen(Color.DimGray, 3);
                 g.DrawLine(pen, new Point(80, 25), new Point(93, 25));
-                Rectangle rect = new Rectangle(5, 5, 75, Height - 10);
                 g.DrawRectangle(pen, new Rectangle(5, 5, 75, Height - 10));
                 g.DrawLine(pen, new Point(14, 35), new Point(33, 35));
                 g.DrawLine(pen, new Point(32, 35), new Point(32, 14));
@@ -127,7 +130,7 @@ namespace CircuitSimulator.Components
             }
         }
 
-        void OnTimerElapsed(object sender, System.Timers.ElapsedEventArgs e)
+        private void OnTimerElapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
             SetState(!GetState());
         }
