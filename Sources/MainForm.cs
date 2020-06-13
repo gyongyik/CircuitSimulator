@@ -13,9 +13,9 @@ namespace CircuitSimulator
         private const string UNTITLED = "Untitled.csx";
         private const string FILTER = "CircuitSimulator XML (*.csx)|*.csx";
         private const string ABOUT = CIRCUITSIMULATOR + @"Simulation of logical circuits
-Version 0.9
-
 Copyright (C) 2009 Péter Gyöngyik
+
+Version 0.9
 
 This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
 
