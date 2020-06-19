@@ -29,13 +29,25 @@ The following components allow you to make circuits in the application:
 	- 8 Bit Display
 	- Seven Segment
 	- Traffic Light
-4. Compound components
-	- IC (Integrated Circuit)
+<!--
+5. Arithmetic components
+	- Adder
+	- Subtractor
+	- Multiplier
+	- Divider
+	- Left Shift
+	- Right Shift
+	- Bitwise Not
+	- Bitwise And
+	- Bitwise Or
+	- Bitwise Xor
+-->
+5. Custom components
 
-### Circuits
+### Custom components
 
-Work in process...
+Work in progress...
 
 ### Samples
 
-Work in process...
+Work in progress...

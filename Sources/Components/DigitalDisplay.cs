@@ -124,7 +124,7 @@ namespace CircuitSimulator.Components
                 hex.Click += new EventHandler(delegate (object sender, EventArgs e)
                 {
                     _component._isHexadecimal = !_component._isHexadecimal;
-                    _component.Circuit.ConnectComponent(_component);
+                    _component.Controller.ConnectComponent(_component);
                 });
                 menu.Items.Add(hex);
 
@@ -134,7 +134,7 @@ namespace CircuitSimulator.Components
                     chr.Click += new EventHandler(delegate (object sender, EventArgs e)
                     {
                         _component._showChar = !_component._showChar;
-                        _component.Circuit.ConnectComponent(_component);
+                        _component.Controller.ConnectComponent(_component);
                     });
                     menu.Items.Add(chr);
                 }
@@ -144,7 +144,7 @@ namespace CircuitSimulator.Components
                     cbg.Click += new EventHandler(delegate (object sender, EventArgs e)
                     {
                         _component._showColor = !_component._showColor;
-                        _component.Circuit.ConnectComponent(_component);
+                        _component.Controller.ConnectComponent(_component);
                     });
                     menu.Items.Add(cbg);
                     

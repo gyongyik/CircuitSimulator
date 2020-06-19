@@ -167,7 +167,7 @@ namespace CircuitSimulator.Components
 
         internal virtual Connection[] Connections { get; private set; }
 
-        internal virtual ComponentController Circuit { get; set; }
+        internal virtual ComponentController Controller { get; set; }
 
         public ComponentControl Control { get; private set; }
 

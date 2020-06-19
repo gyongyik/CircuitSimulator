@@ -215,7 +215,7 @@ namespace CircuitSimulator.Components
                 f.Click += new EventHandler(delegate (object sender, EventArgs e)
                 {
                     _component.Flip();
-                    _component.Circuit.ConnectComponent(_component);
+                    _component.Controller.ConnectComponent(_component);
                     _component.Flipped = !_component.Flipped;
                 });
                 menu.Items.Add(f);
@@ -228,7 +228,7 @@ namespace CircuitSimulator.Components
                     if (InputBox(SET_WIDTH, "Width:", ref value) == DialogResult.OK)
                     {
                         _component.SetWidth(Math.Abs(Convert.ToInt32(value)));
-                        _component.Circuit.ConnectComponent(_component);
+                        _component.Controller.ConnectComponent(_component);
                     }
                 });
                 menu.Items.Add(cw);
@@ -241,7 +241,7 @@ namespace CircuitSimulator.Components
                     if (InputBox(SET_HEIGHT, "Height:", ref value) == DialogResult.OK)
                     {
                         _component.SetHeight(Math.Abs(Convert.ToInt32(value)));
-                        _component.Circuit.ConnectComponent(_component);
+                        _component.Controller.ConnectComponent(_component);
                     }
                 });
                 menu.Items.Add(ch);

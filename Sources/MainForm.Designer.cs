@@ -65,7 +65,18 @@
             this.toolStripSevenSegment = new System.Windows.Forms.ToolStripButton();
             this.toolStripTrafficLight = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripIc = new System.Windows.Forms.ToolStripButton();
+            this.toolStripAdder = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSubtractor = new System.Windows.Forms.ToolStripButton();
+            this.toolStripMultiplier = new System.Windows.Forms.ToolStripButton();
+            this.toolStripDivider = new System.Windows.Forms.ToolStripButton();
+            this.toolStripShiftLeft = new System.Windows.Forms.ToolStripButton();
+            this.toolStripShiftRight = new System.Windows.Forms.ToolStripButton();
+            this.toolStripBitwiseNot = new System.Windows.Forms.ToolStripButton();
+            this.toolStripBitwiseAnd = new System.Windows.Forms.ToolStripButton();
+            this.toolStripBitwiseOr = new System.Windows.Forms.ToolStripButton();
+            this.toolStripBitwiseXor = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripCustomComponent = new System.Windows.Forms.ToolStripButton();
             this.tableLayoutPanel1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -84,7 +95,7 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(3, 43);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1365, 510);
+            this.panel1.Size = new System.Drawing.Size(1298, 510);
             this.panel1.TabIndex = 1;
             this.panel1.Click += new System.EventHandler(this.Panel1_Click);
             // 
@@ -108,7 +119,7 @@
             this.tableLayoutPanel1.RowCount = 2;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(1371, 556);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(1304, 556);
             this.tableLayoutPanel1.TabIndex = 5;
             // 
             // toolStrip1
@@ -146,11 +157,22 @@
             this.toolStripSevenSegment,
             this.toolStripTrafficLight,
             this.toolStripSeparator6,
-            this.toolStripIc});
+            this.toolStripAdder,
+            this.toolStripSubtractor,
+            this.toolStripMultiplier,
+            this.toolStripDivider,
+            this.toolStripShiftLeft,
+            this.toolStripShiftRight,
+            this.toolStripBitwiseNot,
+            this.toolStripBitwiseAnd,
+            this.toolStripBitwiseOr,
+            this.toolStripBitwiseXor,
+            this.toolStripSeparator7,
+            this.toolStripCustomComponent});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.toolStrip1.Size = new System.Drawing.Size(1371, 39);
+            this.toolStrip1.Size = new System.Drawing.Size(1304, 39);
             this.toolStrip1.TabIndex = 6;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -451,23 +473,141 @@
             this.toolStripSeparator6.Name = "toolStripSeparator6";
             this.toolStripSeparator6.Size = new System.Drawing.Size(6, 39);
             // 
-            // toolStripIc
+            // toolStripAdder
             // 
-            this.toolStripIc.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripIc.Image = ((System.Drawing.Image)(resources.GetObject("toolStripIc.Image")));
-            this.toolStripIc.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.toolStripIc.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripIc.Name = "toolStripIc";
-            this.toolStripIc.Size = new System.Drawing.Size(36, 36);
-            this.toolStripIc.Text = "IC...";
-            this.toolStripIc.Click += new System.EventHandler(this.ToolStripIc_Click);
+            this.toolStripAdder.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripAdder.Image = ((System.Drawing.Image)(resources.GetObject("toolStripAdder.Image")));
+            this.toolStripAdder.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.toolStripAdder.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripAdder.Name = "toolStripAdder";
+            this.toolStripAdder.Size = new System.Drawing.Size(36, 36);
+            this.toolStripAdder.Text = "Adder";
+            this.toolStripAdder.ToolTipText = "Adder";
+            this.toolStripAdder.Click += new System.EventHandler(this.ToolStripAdder_Click);
+            // 
+            // toolStripSubtractor
+            // 
+            this.toolStripSubtractor.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripSubtractor.Image = ((System.Drawing.Image)(resources.GetObject("toolStripSubtractor.Image")));
+            this.toolStripSubtractor.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.toolStripSubtractor.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripSubtractor.Name = "toolStripSubtractor";
+            this.toolStripSubtractor.Size = new System.Drawing.Size(36, 36);
+            this.toolStripSubtractor.Text = "Subtractor";
+            this.toolStripSubtractor.ToolTipText = "Subtractor";
+            this.toolStripSubtractor.Click += new System.EventHandler(this.ToolStripSubtractor_Click);
+            // 
+            // toolStripMultiplier
+            // 
+            this.toolStripMultiplier.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripMultiplier.Image = ((System.Drawing.Image)(resources.GetObject("toolStripMultiplier.Image")));
+            this.toolStripMultiplier.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.toolStripMultiplier.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripMultiplier.Name = "toolStripMultiplier";
+            this.toolStripMultiplier.Size = new System.Drawing.Size(36, 36);
+            this.toolStripMultiplier.Text = "Multiplier";
+            this.toolStripMultiplier.ToolTipText = "Multiplier";
+            this.toolStripMultiplier.Click += new System.EventHandler(this.ToolStripMultiplier_Click);
+            // 
+            // toolStripDivider
+            // 
+            this.toolStripDivider.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripDivider.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDivider.Image")));
+            this.toolStripDivider.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.toolStripDivider.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripDivider.Name = "toolStripDivider";
+            this.toolStripDivider.Size = new System.Drawing.Size(36, 36);
+            this.toolStripDivider.Text = "Divider";
+            this.toolStripDivider.Click += new System.EventHandler(this.ToolStripDivider_Click);
+            // 
+            // toolStripShiftLeft
+            // 
+            this.toolStripShiftLeft.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripShiftLeft.Image = ((System.Drawing.Image)(resources.GetObject("toolStripShiftLeft.Image")));
+            this.toolStripShiftLeft.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.toolStripShiftLeft.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripShiftLeft.Name = "toolStripShiftLeft";
+            this.toolStripShiftLeft.Size = new System.Drawing.Size(36, 36);
+            this.toolStripShiftLeft.Text = "Left Shift";
+            this.toolStripShiftLeft.Click += new System.EventHandler(this.ToolStripShiftLeft_Click);
+            // 
+            // toolStripShiftRight
+            // 
+            this.toolStripShiftRight.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripShiftRight.Image = ((System.Drawing.Image)(resources.GetObject("toolStripShiftRight.Image")));
+            this.toolStripShiftRight.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.toolStripShiftRight.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripShiftRight.Name = "toolStripShiftRight";
+            this.toolStripShiftRight.Size = new System.Drawing.Size(36, 36);
+            this.toolStripShiftRight.Text = "Right Shift";
+            this.toolStripShiftRight.Click += new System.EventHandler(this.ToolStripShiftRight_Click);
+            // 
+            // toolStripBitwiseNot
+            // 
+            this.toolStripBitwiseNot.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripBitwiseNot.Image = ((System.Drawing.Image)(resources.GetObject("toolStripBitwiseNot.Image")));
+            this.toolStripBitwiseNot.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.toolStripBitwiseNot.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripBitwiseNot.Name = "toolStripBitwiseNot";
+            this.toolStripBitwiseNot.Size = new System.Drawing.Size(36, 36);
+            this.toolStripBitwiseNot.Text = "Bitwise Not";
+            this.toolStripBitwiseNot.Click += new System.EventHandler(this.ToolStripBitwiseNot_Click);
+            // 
+            // toolStripBitwiseAnd
+            // 
+            this.toolStripBitwiseAnd.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripBitwiseAnd.Image = ((System.Drawing.Image)(resources.GetObject("toolStripBitwiseAnd.Image")));
+            this.toolStripBitwiseAnd.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.toolStripBitwiseAnd.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripBitwiseAnd.Name = "toolStripBitwiseAnd";
+            this.toolStripBitwiseAnd.Size = new System.Drawing.Size(36, 36);
+            this.toolStripBitwiseAnd.Text = "Bitwise And";
+            this.toolStripBitwiseAnd.Click += new System.EventHandler(this.ToolStripBitwiseAnd_Click);
+            // 
+            // toolStripBitwiseOr
+            // 
+            this.toolStripBitwiseOr.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripBitwiseOr.Image = ((System.Drawing.Image)(resources.GetObject("toolStripBitwiseOr.Image")));
+            this.toolStripBitwiseOr.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.toolStripBitwiseOr.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripBitwiseOr.Name = "toolStripBitwiseOr";
+            this.toolStripBitwiseOr.Size = new System.Drawing.Size(36, 36);
+            this.toolStripBitwiseOr.Text = "Bitwise Or";
+            this.toolStripBitwiseOr.Click += new System.EventHandler(this.ToolStripBitwiseOr_Click);
+            // 
+            // toolStripBitwiseXor
+            // 
+            this.toolStripBitwiseXor.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripBitwiseXor.Image = ((System.Drawing.Image)(resources.GetObject("toolStripBitwiseXor.Image")));
+            this.toolStripBitwiseXor.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.toolStripBitwiseXor.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripBitwiseXor.Name = "toolStripBitwiseXor";
+            this.toolStripBitwiseXor.Size = new System.Drawing.Size(36, 36);
+            this.toolStripBitwiseXor.Text = "Bitwise Xor";
+            this.toolStripBitwiseXor.Click += new System.EventHandler(this.ToolStripBitwiseXor_Click);
+            // 
+            // toolStripSeparator7
+            // 
+            this.toolStripSeparator7.Name = "toolStripSeparator7";
+            this.toolStripSeparator7.Size = new System.Drawing.Size(6, 39);
+            // 
+            // toolStripCustomComponent
+            // 
+            this.toolStripCustomComponent.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripCustomComponent.Image = ((System.Drawing.Image)(resources.GetObject("toolStripCustomComponent.Image")));
+            this.toolStripCustomComponent.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.toolStripCustomComponent.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripCustomComponent.Name = "toolStripCustomComponent";
+            this.toolStripCustomComponent.Size = new System.Drawing.Size(36, 36);
+            this.toolStripCustomComponent.Text = "Custom Component...";
+            this.toolStripCustomComponent.Click += new System.EventHandler(this.ToolStripCustomCircuit_Click);
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Window;
-            this.ClientSize = new System.Drawing.Size(1371, 556);
+            this.ClientSize = new System.Drawing.Size(1304, 556);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "MainForm";
@@ -515,9 +655,20 @@
         private System.Windows.Forms.ToolStripButton toolStripSevenSegment;
         private System.Windows.Forms.ToolStripButton toolStripTrafficLight;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
-        private System.Windows.Forms.ToolStripButton toolStripIc;
+        private System.Windows.Forms.ToolStripButton toolStripCustomComponent;
         private System.Windows.Forms.ToolStripButton toolStripSaveAs;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
         private System.Windows.Forms.ToolStripButton toolStripAbout;
+        private System.Windows.Forms.ToolStripButton toolStripAdder;
+        private System.Windows.Forms.ToolStripButton toolStripSubtractor;
+        private System.Windows.Forms.ToolStripButton toolStripMultiplier;
+        private System.Windows.Forms.ToolStripButton toolStripDivider;
+        private System.Windows.Forms.ToolStripButton toolStripShiftLeft;
+        private System.Windows.Forms.ToolStripButton toolStripShiftRight;
+        private System.Windows.Forms.ToolStripButton toolStripBitwiseNot;
+        private System.Windows.Forms.ToolStripButton toolStripBitwiseAnd;
+        private System.Windows.Forms.ToolStripButton toolStripBitwiseOr;
+        private System.Windows.Forms.ToolStripButton toolStripBitwiseXor;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
     }
 }

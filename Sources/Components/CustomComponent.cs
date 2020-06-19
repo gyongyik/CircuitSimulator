@@ -7,26 +7,26 @@ using System.Windows.Forms;
 
 namespace CircuitSimulator.Components
 {
-    internal class Ic : Component
+    internal class CustomComponent : Component
     {
         private const string NAME = "name";
-        private const string SUBCIRCUIT = "subcircuit";
+        private const string SUBCOMPONENT = "subcomponent";
 
-        public Ic()
+        public CustomComponent()
         {
             Bounds = new Rectangle(0, 0, 110, 50);
-            InternalCircuit = new ComponentController();
+            CustomController = new ComponentController();
             Name = "unknown";
         }
 
-        public Ic(string name) : this()
+        public CustomComponent(string name) : this()
         {
             Name = name;
         }
 
         public void LoadCircuit(System.Xml.XmlReader reader)
         {
-            InternalCircuit.Read(reader);
+            CustomController.Read(reader);
             InitializeFromCircuit();
         }
 
@@ -38,20 +38,20 @@ namespace CircuitSimulator.Components
 
         public override void Execute()
         {
-            InternalCircuit.Run();
+            CustomController.Run();
             base.Execute();
         }
 
         protected override ComponentControl CreateComponentControl()
         {
-            return new IcComponentControl(this);
+            return new CustomComponentControl(this);
         }
 
         public override void Write(System.Xml.XmlWriter writer)
         {
             writer.WriteElementString(NAME, Name);
-            writer.WriteStartElement(SUBCIRCUIT);
-            InternalCircuit.Write(writer);
+            writer.WriteStartElement(SUBCOMPONENT);
+            CustomController.Write(writer);
             writer.WriteEndElement();
         }
 
@@ -66,7 +66,7 @@ namespace CircuitSimulator.Components
                         {
                             Name = reader.ReadElementContentAsString();
                         }
-                        else if (reader.Name == SUBCIRCUIT)
+                        else if (reader.Name == SUBCOMPONENT)
                         {
                             System.Xml.XmlReader subreader = reader.ReadSubtree();
                             LoadCircuit(subreader);
@@ -76,7 +76,7 @@ namespace CircuitSimulator.Components
             }
         }
 
-        public ComponentController InternalCircuit { get; }
+        public ComponentController CustomController{ get; }
 
         public string Name { get; private set; }
 
@@ -97,7 +97,7 @@ namespace CircuitSimulator.Components
             int inputCount = 0;
             int outputCount = 0;
 
-            foreach (Component c in InternalCircuit.Components)
+            foreach (Component c in CustomController.Components)
             {
                 if (IsInput(c))
                 {
@@ -128,9 +128,9 @@ namespace CircuitSimulator.Components
                 {
                     // Replace InputPin with Input
                     Input input = new Input(componentList[i], Connections[i]);
-                    InternalCircuit.Remove(componentList[i]);
-                    InternalCircuit.Add(input);
-                    InternalCircuit.ConnectComponent(input);
+                    CustomController.Remove(componentList[i]);
+                    CustomController.Add(input);
+                    CustomController.ConnectComponent(input);
 
                     Connections[i].Location = new Point(5, inputLocation);
                     inputLocation += inputOffset;
@@ -141,9 +141,9 @@ namespace CircuitSimulator.Components
                 {
                     // Replace OutputPin with Output
                     Output output = new Output(componentList[i], Connections[i]);
-                    InternalCircuit.Remove(componentList[i]);
-                    InternalCircuit.Add(output);
-                    InternalCircuit.ConnectComponent(output);
+                    CustomController.Remove(componentList[i]);
+                    CustomController.Add(output);
+                    CustomController.ConnectComponent(output);
 
                     Connections[i].Location = new Point(Width - 5, outputLocation);
                     outputLocation += outputOffset;
@@ -151,18 +151,18 @@ namespace CircuitSimulator.Components
             }
         }
 
-        private class IcComponentControl : ComponentControl
+        private class CustomComponentControl : ComponentControl
         {
-            private Ic _component;
+            private CustomComponent _component;
 
-            public IcComponentControl(Ic component) : base(component)
+            public CustomComponentControl(CustomComponent component) : base(component)
             {
                 _component = component;
             }
 
-            class IcForm : Form
+            class CustomComponentForm : Form
             {
-                public IcForm()
+                public CustomComponentForm()
                 {
                     BackColor = Color.White;
                 }
@@ -173,7 +173,7 @@ namespace CircuitSimulator.Components
                 ToolStripItem show = new ToolStripButton("Show");
                 show.Click += new EventHandler(delegate (object sender, EventArgs e)
                 {
-                    ShowIcForm();
+                    ShowCustomComponentForm();
                 });
                 menu.Items.Add(show);
             }
@@ -182,13 +182,13 @@ namespace CircuitSimulator.Components
             {
                 base.OnMouseDoubleClick(e);
 
-                ShowIcForm();
+                ShowCustomComponentForm();
             }
 
             protected override void OnPaint(PaintEventArgs e)
             {
                 Graphics g = e.Graphics;
-                g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+                g.SmoothingMode = SmoothingMode.AntiAlias;
 
                 Rectangle rect = new Rectangle(15, 5, Width - 30, Height - 10);
                 Pen pen = new Pen(Color.DimGray, 3);
@@ -213,12 +213,12 @@ namespace CircuitSimulator.Components
                 g.DrawString(_component.Name, new Font("Consolas", 12, FontStyle.Bold), Brushes.DimGray, rect);
             }
 
-            private void ShowIcForm()
+            private void ShowCustomComponentForm()
             {
-                Form form = new IcForm();
+                Form form = new CustomComponentForm();
 
                 Rectangle boundingBox = new Rectangle();
-                foreach (Component c in _component.InternalCircuit.Components)
+                foreach (Component c in _component.CustomController.Components)
                 {
                     c.Show(form, null);
                     Rectangle controlBounds = c.Bounds;

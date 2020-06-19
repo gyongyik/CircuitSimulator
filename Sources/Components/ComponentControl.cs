@@ -38,7 +38,7 @@ namespace CircuitSimulator.Components
             Dispose();
             Parent = null;
 
-            Component.Circuit.Remove(Component);
+            Component.Controller.Remove(Component);
             Component = null;
         }
 
@@ -61,7 +61,7 @@ namespace CircuitSimulator.Components
 
                 int grid = 5;
                 Component.Location = new Point((Component.Location.X + (grid / 2)) / grid * grid, (Component.Location.Y + (grid / 2)) / grid * grid);
-                Component.Circuit.ConnectComponent(Component);
+                Component.Controller.ConnectComponent(Component);
 
                 if ((Math.Abs(Location.X - MouseDownLocation.X) < grid) && (Math.Abs(Location.Y - MouseDownLocation.Y) < grid))
                 {

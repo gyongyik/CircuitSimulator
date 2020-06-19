@@ -25,7 +25,7 @@ namespace CircuitSimulator.Components
 
         public void Add(Component component)
         {
-            component.Circuit = this;
+            component.Controller = this;
             Components.Add(component);
         }
 
@@ -79,7 +79,7 @@ namespace CircuitSimulator.Components
 
         public void Write(XmlWriter writer)
         {
-            writer.WriteStartElement("circuit");
+            writer.WriteStartElement("components");
             foreach (Component c in Components)
             {
                 writer.WriteStartElement(COMPONENT);
@@ -140,7 +140,7 @@ namespace CircuitSimulator.Components
             "Buffer" => new Buffer(),
             "DigitalClock" => new DigitalClock(),
             "DigitalDisplay" => new DigitalDisplay(),
-            "Ic" => new Ic(),
+            "CustomComponent" => new CustomComponent(),
             "InputPin" => new InputPin(),
             "LedLamp" => new LedLamp(),
             "Nand" => new Nand(),

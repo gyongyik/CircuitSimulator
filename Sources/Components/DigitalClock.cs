@@ -80,7 +80,7 @@ namespace CircuitSimulator.Components
                     if (InputBox(SET_INTERVAL, "Interval [ms]:", ref value) == DialogResult.OK)
                     {
                         _component.Interval = Convert.ToInt32(value);
-                        _component.Circuit.ConnectComponent(_component);
+                        _component.Controller.ConnectComponent(_component);
                     }
                 });
                 menu.Items.Add(si);

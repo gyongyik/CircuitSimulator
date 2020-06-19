@@ -24,7 +24,7 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
 You should have received a copy of the GNU General Public License along with this program. If not, see <http://www.gnu.org/licenses/>.";
 
         private readonly Components.ComponentController _componentController;
-        private readonly Graphics _g;
+        private readonly Graphics _graphics;
 
         private string _fileName;
         private ToolStripButton _checkedButton;
@@ -36,8 +36,8 @@ You should have received a copy of the GNU General Public License along with thi
             panel1.Margin = new Padding(0);
 
             _componentController = new Components.ComponentController();
-            _g = panel1.CreateGraphics();
-            _g.SmoothingMode = SmoothingMode.AntiAlias;
+            _graphics = panel1.CreateGraphics();
+            _graphics.SmoothingMode = SmoothingMode.AntiAlias;
 
             _fileName = UNTITLED;
         }
@@ -49,17 +49,17 @@ You should have received a copy of the GNU General Public License along with thi
 
         private void SaveAs()
         {
-            SaveFileDialog d = new SaveFileDialog();
-            d.Filter = FILTER;
-            if (d.ShowDialog() == DialogResult.OK)
+            SaveFileDialog dialog = new SaveFileDialog();
+            dialog.Filter = FILTER;
+            if (dialog.ShowDialog() == DialogResult.OK)
             {
-                _fileName = d.FileName;
-                Text = CIRCUITSIMULATOR + d.FileName;
-                Stream s;
-                if ((s = d.OpenFile()) != null)
+                _fileName = dialog.FileName;
+                Text = CIRCUITSIMULATOR + dialog.FileName;
+                Stream stream;
+                if ((stream = dialog.OpenFile()) != null)
                 {
-                    _componentController.Write(s);
-                    s.Close();
+                    _componentController.Write(stream);
+                    stream.Close();
                 }
             }
         }
@@ -83,7 +83,7 @@ You should have received a copy of the GNU General Public License along with thi
         {
             if (_wireStartLocation.X != int.MinValue)
             { 
-                _g.DrawEllipse(new Pen(Color.White, 3), new Rectangle(_wireStartLocation.X - 3, _wireStartLocation.Y - 3, 6, 6));
+                _graphics.DrawEllipse(new Pen(Color.White, 3), new Rectangle(_wireStartLocation.X - 3, _wireStartLocation.Y - 3, 6, 6));
                 _wireStartLocation = new Point(int.MinValue, int.MinValue);
             }
         }
@@ -93,12 +93,12 @@ You should have received a copy of the GNU General Public License along with thi
             if (_wireStartLocation.X == int.MinValue)
             {
                 _wireStartLocation = AutoConnect.Connect(location, _componentController);
-                _g.DrawEllipse(new Pen(Color.DimGray, 1), new Rectangle(_wireStartLocation.X - 3, _wireStartLocation.Y - 3, 6, 6));
+                _graphics.DrawEllipse(new Pen(Color.DimGray, 1), new Rectangle(_wireStartLocation.X - 3, _wireStartLocation.Y - 3, 6, 6));
             }
             else
             {
                 location = AutoConnect.Connect(location, _componentController);
-                _g.DrawEllipse(new Pen(Color.White, 3), new Rectangle(_wireStartLocation.X - 3, _wireStartLocation.Y - 3, 6, 6));
+                _graphics.DrawEllipse(new Pen(Color.White, 3), new Rectangle(_wireStartLocation.X - 3, _wireStartLocation.Y - 3, 6, 6));
 
                 int left = Math.Min(_wireStartLocation.X, location.X);
                 int top = Math.Min(_wireStartLocation.Y, location.Y);
@@ -114,7 +114,7 @@ You should have received a copy of the GNU General Public License along with thi
 
         private void AddComponent(Components.Component component, Point location)
         {
-            if (toolStripWire.Checked || toolStripIc.Checked)
+            if (toolStripWire.Checked || toolStripCustomComponent.Checked)
             {
                 component.Location = location;
             }
@@ -146,20 +146,20 @@ You should have received a copy of the GNU General Public License along with thi
 
         private void ContextMenuStrip1_Opening(object sender, CancelEventArgs e)
         {
-            Components.ComponentControl c = contextMenuStrip1.SourceControl as Components.ComponentControl;
+            Components.ComponentControl control = contextMenuStrip1.SourceControl as Components.ComponentControl;
             contextMenuStrip1.Items.Clear();
-            ToolStripItem delete = new MyToolStripButton("Delete", c);
+            ToolStripItem delete = new MyToolStripButton("Delete", control);
             delete.Click += new EventHandler(Delete_Click);
             delete.AutoToolTip = false;
             contextMenuStrip1.Items.Add(delete);
-            c.ShowContextMenu(contextMenuStrip1, e);
+            control.ShowContextMenu(contextMenuStrip1, e);
             e.Cancel = false;
         }
 
         private void Delete_Click(object sender, EventArgs e)
         {
-            MyToolStripButton b = sender as MyToolStripButton;
-            b.Component.DeleteComponent();
+            MyToolStripButton button = sender as MyToolStripButton;
+            button.Component.DeleteComponent();
         }
 
         private void ToolStripNew_Click(object sender, EventArgs e)
@@ -173,20 +173,20 @@ You should have received a copy of the GNU General Public License along with thi
         private void ToolStripOpen_Click(object sender, EventArgs e)
         {
             ClearWireCreation();
-            OpenFileDialog d = new OpenFileDialog();
-            d.Filter = FILTER;
-            if (d.ShowDialog() == DialogResult.OK)
+            OpenFileDialog dialog = new OpenFileDialog();
+            dialog.Filter = FILTER;
+            if (dialog.ShowDialog() == DialogResult.OK)
             {
-                _fileName = d.FileName;
-                Text = CIRCUITSIMULATOR + d.FileName;
-                Stream s;
-                if ((s = d.OpenFile()) != null)
+                _fileName = dialog.FileName;
+                Text = CIRCUITSIMULATOR + dialog.FileName;
+                Stream stream;
+                if ((stream = dialog.OpenFile()) != null)
                 {
-                    _componentController.Read(s);
-                    s.Close();
-                    foreach (Components.Component c in _componentController.Components)
+                    _componentController.Read(stream);
+                    stream.Close();
+                    foreach (Components.Component component in _componentController.Components)
                     {
-                        c.Show(panel1, contextMenuStrip1);
+                        component.Show(panel1, contextMenuStrip1);
                     }
                 }
             }
@@ -201,9 +201,9 @@ You should have received a copy of the GNU General Public License along with thi
             }
             else
             {
-                FileStream s = File.Create(_fileName);
-                _componentController.Write(s);
-                s.Close();
+                FileStream stream = File.Create(_fileName);
+                _componentController.Write(stream);
+                stream.Close();
             }
         }
 
@@ -314,23 +314,78 @@ You should have received a copy of the GNU General Public License along with thi
             SetCheckState((ToolStripButton)sender);
         }
 
-        private void ToolStripIc_Click(object sender, EventArgs e)
+        private void NotImplemented()
+        {
+            MessageBox.Show("Not implemented component");
+        }
+
+        private void ToolStripAdder_Click(object sender, EventArgs e)
+        {
+            NotImplemented();
+        }
+
+        private void ToolStripSubtractor_Click(object sender, EventArgs e)
+        {
+            NotImplemented();
+        }
+
+        private void ToolStripMultiplier_Click(object sender, EventArgs e)
+        {
+            NotImplemented();
+        }
+
+        private void ToolStripDivider_Click(object sender, EventArgs e)
+        {
+            NotImplemented();
+        }
+
+        private void ToolStripShiftLeft_Click(object sender, EventArgs e)
+        {
+            NotImplemented();
+        }
+
+        private void ToolStripShiftRight_Click(object sender, EventArgs e)
+        {
+            NotImplemented();
+        }
+
+        private void ToolStripBitwiseNot_Click(object sender, EventArgs e)
+        {
+            NotImplemented();
+        }
+
+        private void ToolStripBitwiseAnd_Click(object sender, EventArgs e)
+        {
+            NotImplemented();
+        }
+
+        private void ToolStripBitwiseOr_Click(object sender, EventArgs e)
+        {
+            NotImplemented();
+        }
+
+        private void ToolStripBitwiseXor_Click(object sender, EventArgs e)
+        {
+            NotImplemented();
+        }
+
+        private void ToolStripCustomCircuit_Click(object sender, EventArgs e)
         {
             ClearWireCreation();
-            OpenFileDialog d = new OpenFileDialog();
-            if (d.ShowDialog() == DialogResult.OK)
+            OpenFileDialog dialog = new OpenFileDialog();
+            if (dialog.ShowDialog() == DialogResult.OK)
             {
-                Stream s;
-                if ((s = d.OpenFile()) != null)
+                Stream stream;
+                if ((stream = dialog.OpenFile()) != null)
                 {
-                    FileInfo fileInfo = new FileInfo(d.FileName);
+                    FileInfo fileInfo = new FileInfo(dialog.FileName);
                     string nameWithoutExtension = fileInfo.Name.Remove(fileInfo.Name.Length - fileInfo.Extension.Length);
-                    Components.Ic ic = new Components.Ic(nameWithoutExtension);
-                    ic.LoadCircuit(s);
-                    s.Close();
+                    Components.CustomComponent component = new Components.CustomComponent(nameWithoutExtension);
+                    component.LoadCircuit(stream);
+                    stream.Close();
 
-                    ic.Show(panel1, contextMenuStrip1);
-                    _componentController.Add(ic);
+                    component.Show(panel1, contextMenuStrip1);
+                    _componentController.Add(component);
                 }
             }
         }
