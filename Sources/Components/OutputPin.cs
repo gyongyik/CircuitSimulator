@@ -8,8 +8,8 @@ namespace CircuitSimulator.Components
     {
         public OutputPin() : base(1, 0)
         {
-            Bounds = new Rectangle(0, 0, 30, 20);
-            Connections[0].Location = new Point(5, 10);
+            Bounds = new(0, 0, 30, 20);
+            Connections[0].Location = new(5, 10);
         }
 
         protected override ComponentControl CreateComponentControl()
@@ -28,9 +28,9 @@ namespace CircuitSimulator.Components
                 Graphics g = e.Graphics;
                 g.SmoothingMode = SmoothingMode.AntiAlias;
 
-                Pen pen = new Pen(Color.DimGray, 3);
-                g.DrawLine(pen, new Point(8, 10), new Point(15, 10));
-                Rectangle rect = new Rectangle(15, 5, 10, 10);
+                Pen pen = new(Color.DimGray, 3);
+                g.DrawLine(pen, new(8, 10), new(15, 10));
+                Rectangle rect = new(15, 5, 10, 10);
                 g.FillRectangle(Component.GetValue(0) ? Brushes.Tomato : Brushes.White, rect);
                 g.DrawRectangle(pen, rect);
 

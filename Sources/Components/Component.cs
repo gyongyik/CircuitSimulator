@@ -1,5 +1,6 @@
 ﻿using System.Drawing;
 using System.Windows.Forms;
+using System.Xml;
 
 namespace CircuitSimulator.Components
 {
@@ -25,7 +26,7 @@ namespace CircuitSimulator.Components
             _previousValues = new bool[inputs + outputs];
             for (int i = 0; i < Connections.Length; ++i)
             {
-                Connections[i] = new Connection(this);
+                Connections[i] = new(this);
                 _previousValues[i] = false;
             }
         }
@@ -116,11 +117,11 @@ namespace CircuitSimulator.Components
             Connections[index].Value = value;
         }
 
-        public virtual void Write(System.Xml.XmlWriter writer)
+        public virtual void Write(XmlWriter writer)
         {
         }
 
-        public virtual void Read(System.Xml.XmlReader reader)
+        public virtual void Read(XmlReader reader)
         {
         }
 

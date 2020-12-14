@@ -1,6 +1,7 @@
 ﻿using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
+using System.Xml;
 
 namespace CircuitSimulator.Components
 {
@@ -12,11 +13,11 @@ namespace CircuitSimulator.Components
 
         public Switch() : base(1, 1)
         {
-            Bounds = new Rectangle(0, 0, 100, 50);
+            Bounds = new(0, 0, 100, 50);
             Connections[0] = new SwitchConnection(this, 0);
             Connections[1] = new SwitchConnection(this, 1);
-            Connections[0].Location = new Point(5, 25);
-            Connections[1].Location = new Point(Width - 5, 25);
+            Connections[0].Location = new(5, 25);
+            Connections[1].Location = new(Width - 5, 25);
         }
 
         public override void OnMouseClick(MouseEventArgs e)
@@ -54,14 +55,14 @@ namespace CircuitSimulator.Components
             return result;
         }
 
-        public override void Write(System.Xml.XmlWriter writer)
+        public override void Write(XmlWriter writer)
         {
             writer.WriteStartElement(STATE);
             writer.WriteValue(State);
             writer.WriteEndElement();
         }
 
-        public override void Read(System.Xml.XmlReader reader)
+        public override void Read(XmlReader reader)
         {
             reader.ReadToFollowing(STATE);
             if (reader.IsStartElement(STATE))
@@ -89,17 +90,17 @@ namespace CircuitSimulator.Components
                 Graphics g = e.Graphics;
                 g.SmoothingMode = SmoothingMode.AntiAlias;
 
-                Pen pen = new Pen(Color.DimGray, 3);
-                g.DrawLine(pen, new Point(8, 25), new Point(34, 25));
-                g.DrawLine(pen, new Point(65, 25), new Point(92, 25));
+                Pen pen = new(Color.DimGray, 3);
+                g.DrawLine(pen, new(8, 25), new(34, 25));
+                g.DrawLine(pen, new(65, 25), new(92, 25));
 
                 if (_component.State)
                 {
-                    g.DrawLine(pen, new Point(33, 25), new Point(66, 25));
+                    g.DrawLine(pen, new(33, 25), new(66, 25));
                 }
                 else
                 {
-                    g.DrawLine(pen, new Point(33, 25), new Point(60, 5));
+                    g.DrawLine(pen, new(33, 25), new(60, 5));
                 }
 
                 DrawConnections(g);

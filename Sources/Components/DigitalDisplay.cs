@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
+using System.Xml;
 
 namespace CircuitSimulator.Components
 {
@@ -45,11 +46,11 @@ namespace CircuitSimulator.Components
 
             int height = inputOffset * inputs;
             height = Math.Max(height, 50);
-            Bounds = new Rectangle(0, 0, 85, height);
+            Bounds = new(0, 0, 85, height);
 
             for (int i = 0; i < inputs; ++i)
             {
-                Connections[i].Location = new Point(5, inputLocation);
+                Connections[i].Location = new(5, inputLocation);
                 inputLocation += inputOffset;
             }
         }
@@ -68,7 +69,7 @@ namespace CircuitSimulator.Components
             base.Execute();
         }
 
-        public override void Write(System.Xml.XmlWriter writer)
+        public override void Write(XmlWriter writer)
         {
             writer.WriteElementString(INPUTS, (Connections.Length - 1).ToString());
             writer.WriteElementString(HEXADECIMAL, _isHexadecimal.ToString());
@@ -76,7 +77,7 @@ namespace CircuitSimulator.Components
             writer.WriteElementString(SHOWCAR, _showChar.ToString());
         }
 
-        public override void Read(System.Xml.XmlReader reader)
+        public override void Read(XmlReader reader)
         {
             reader.ReadToDescendant(INPUTS);
             if (reader.IsStartElement(INPUTS))
@@ -121,7 +122,7 @@ namespace CircuitSimulator.Components
             public override void ShowContextMenu(ContextMenuStrip menu, CancelEventArgs ce)
             {
                 ToolStripItem hex = new ToolStripButton(_component._isHexadecimal ? "Decimal" : "Hexadecimal");
-                hex.Click += new EventHandler(delegate (object sender, EventArgs e)
+                hex.Click += new((object sender, EventArgs e) =>
                 {
                     _component._isHexadecimal = !_component._isHexadecimal;
                     _component.Controller.ConnectComponent(_component);
@@ -131,7 +132,7 @@ namespace CircuitSimulator.Components
                 if (_component.Connections.Length >= 8)
                 {
                     ToolStripItem chr = new ToolStripButton(_component._showChar ? "Hide Char" : "Show Char");
-                    chr.Click += new EventHandler(delegate (object sender, EventArgs e)
+                    chr.Click += new((object sender, EventArgs e) =>
                     {
                         _component._showChar = !_component._showChar;
                         _component.Controller.ConnectComponent(_component);
@@ -141,7 +142,7 @@ namespace CircuitSimulator.Components
                 else
                 {
                     ToolStripItem cbg = new ToolStripButton(_component._showColor ? "Hide Color" : "Show Color");
-                    cbg.Click += new EventHandler(delegate (object sender, EventArgs e)
+                    cbg.Click += new((object sender, EventArgs e) =>
                     {
                         _component._showColor = !_component._showColor;
                         _component.Controller.ConnectComponent(_component);
@@ -156,8 +157,8 @@ namespace CircuitSimulator.Components
                 Graphics g = e.Graphics;
                 g.SmoothingMode = SmoothingMode.AntiAlias;
 
-                Pen pen = new Pen(Color.DimGray, 3);
-                Rectangle rect = new Rectangle(15, 5, Width - 22, Height - 10);
+                Pen pen = new(Color.DimGray, 3);
+                Rectangle rect = new(15, 5, Width - 22, Height - 10);
 
                 Brush textColor;
                 Brush rectColor;
@@ -177,10 +178,12 @@ namespace CircuitSimulator.Components
                 g.FillRectangle(rectColor, rect);
                 g.DrawRectangle(pen, rect);
 
-                Font font = new Font("Consolas", 16, FontStyle.Bold);
+                Font font = new("Consolas", 16, FontStyle.Bold);
                 if (_component._isHexadecimal)
                 {
-                    g.DrawString((_component._value < 16 ? "0x0" : "0x").ToString() + Convert.ToString(_component._value, 16).ToUpper(), font, textColor, rect);
+                    string str = (_component._value < 16 ? "0x0" : "0x").ToString() + 
+                        Convert.ToString(_component._value, 16).ToUpper();
+                    g.DrawString(str, font, textColor, rect);
                 }
                 else
                 {
@@ -189,14 +192,19 @@ namespace CircuitSimulator.Components
 
                 if (_component._showChar)
                 {
-                    g.DrawString(Convert.ToString($"'{Convert.ToChar(_component._value)}'"), font, Brushes.Tomato, new Rectangle(rect.X + 10, rect.Y + 60, rect.Width - 10, rect.Height - 60));
+                    string str = Convert.ToString($"'{Convert.ToChar(_component._value)}'");
+                    Rectangle rect2 = new(rect.X + 10, rect.Y + 60, rect.Width - 10, rect.Height - 60);
+                    g.DrawString(str, font, Brushes.Tomato, rect2);
                 }
   
                 for (int i = 0; i < _component.Connections.Length - 1; ++i)
                 {
-                    Color c = _component.GetValue(i) ? Color.Tomato : Color.DimGray;
-                    g.DrawLine(pen, new Point(8, _component.Connections[i].Location.Y), new Point(rect.Left, _component.Connections[i].Location.Y));
-                    g.DrawEllipse(new Pen(c, 1), new Rectangle(Point.Subtract(_component.Connections[i].Location, new Size(3, 3)), new Size(6, 6)));
+                    g.DrawLine(pen, new(8, _component.Connections[i].Location.Y), 
+                        new(rect.Left, _component.Connections[i].Location.Y));
+
+                    Color color = _component.GetValue(i) ? Color.Tomato : Color.DimGray;
+                    Point point = Point.Subtract(_component.Connections[i].Location, new(3, 3));
+                    g.DrawEllipse(new(color, 1), new(point, new(6, 6)));
                 }
             }
 

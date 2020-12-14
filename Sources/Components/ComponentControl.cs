@@ -47,7 +47,7 @@ namespace CircuitSimulator.Components
             if (e.Button == MouseButtons.Left)
             {
                 IsMouseDown = true;
-                MouseLocation = new Point(e.X, e.Y);
+                MouseLocation = new(e.X, e.Y);
                 MouseDownLocation = Location;
                 BringToFront();
             }
@@ -60,10 +60,14 @@ namespace CircuitSimulator.Components
                 IsMouseDown = false;
 
                 int grid = 5;
-                Component.Location = new Point((Component.Location.X + (grid / 2)) / grid * grid, (Component.Location.Y + (grid / 2)) / grid * grid);
+                int x = (Component.Location.X + (grid / 2)) / grid * grid;
+                int y = (Component.Location.Y + (grid / 2)) / grid * grid;
+
+                Component.Location = new(x, y);
                 Component.Controller.ConnectComponent(Component);
 
-                if ((Math.Abs(Location.X - MouseDownLocation.X) < grid) && (Math.Abs(Location.Y - MouseDownLocation.Y) < grid))
+                if ((Math.Abs(Location.X - MouseDownLocation.X) < grid) && 
+                    (Math.Abs(Location.Y - MouseDownLocation.Y) < grid))
                 {
                     Component.OnMouseClick(e);
                 }
@@ -74,7 +78,10 @@ namespace CircuitSimulator.Components
         {
             if (IsMouseDown)
             {
-                SetBounds(Location.X + e.X - MouseLocation.X, Location.Y + e.Y - MouseLocation.Y, Bounds.Width, Bounds.Height);
+                SetBounds(
+                    Location.X + e.X - MouseLocation.X, 
+                    Location.Y + e.Y - MouseLocation.Y, 
+                    Bounds.Width, Bounds.Height);
                 base.OnMouseMove(e);
                 InvalidateEx();
             }
@@ -100,7 +107,7 @@ namespace CircuitSimulator.Components
             if (Parent == null)
                 return;
 
-            Rectangle rect = new Rectangle(this.Location, this.Size);
+            Rectangle rect = new(Location, Size);
             Parent.Invalidate(rect, true);
         }
 
@@ -111,11 +118,11 @@ namespace CircuitSimulator.Components
 
         public static DialogResult InputBox(string title, string promptText, ref string value)
         {
-            Form form = new Form();
-            Label label = new Label();
-            TextBox textBox = new TextBox();
-            Button buttonOk = new Button();
-            Button buttonCancel = new Button();
+            Form form = new();
+            Label label = new();
+            TextBox textBox = new();
+            Button buttonOk = new();
+            Button buttonCancel = new();
 
             form.Text = title;
             label.Text = promptText;
@@ -136,9 +143,8 @@ namespace CircuitSimulator.Components
             buttonOk.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             buttonCancel.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
 
-            form.ClientSize = new Size(396, 107);
             form.Controls.AddRange(new Control[] { label, textBox, buttonOk, buttonCancel });
-            form.ClientSize = new Size(Math.Max(300, label.Right + 10), form.ClientSize.Height);
+            form.ClientSize = new(Math.Max(300, label.Right + 10), form.ClientSize.Height);
             form.FormBorderStyle = FormBorderStyle.FixedDialog;
             form.StartPosition = FormStartPosition.CenterScreen;
             form.MinimizeBox = false;
@@ -155,9 +161,10 @@ namespace CircuitSimulator.Components
         {
             for (int i = 0; i < Component.Connections.Length; ++i)
             {
-                Color c = Component.GetValue(i) ? Color.Tomato : Color.DimGray;
-                int w = Component.Connections[i].Connections.Count > 0 ? 3 : 1;
-                g.DrawEllipse(new Pen(c, w), new Rectangle(Point.Subtract(Component.Connections[i].Location, new Size(3, 3)), new Size(6, 6)));
+                Color color = Component.GetValue(i) ? Color.Tomato : Color.DimGray;
+                int width = Component.Connections[i].Connections.Count > 0 ? 3 : 1;
+                Point point = Point.Subtract(Component.Connections[i].Location, new(3, 3));
+                g.DrawEllipse(new(color, width), new(point, new(6, 6)));
             }
         }
 
@@ -168,7 +175,7 @@ namespace CircuitSimulator.Components
             Graphics g = e.Graphics;
             g.SmoothingMode = SmoothingMode.AntiAlias;
 
-            g.DrawRectangle(new Pen(Color.DimGray, 1), 0, 0, Width - 1, Height - 1);
+            g.DrawRectangle(new(Color.DimGray, 1), 0, 0, Width - 1, Height - 1);
             DrawConnections(g);
         }
     }

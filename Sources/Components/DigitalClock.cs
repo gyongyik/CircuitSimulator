@@ -2,7 +2,9 @@
 using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Timers;
 using System.Windows.Forms;
+using System.Xml;
 
 namespace CircuitSimulator.Components
 {
@@ -15,18 +17,18 @@ namespace CircuitSimulator.Components
 
         public DigitalClock() : base(0, 1)
         {
-            Bounds = new Rectangle(0, 0, 100, 50);
+            Bounds = new(0, 0, 100, 50);
 
-            Connections[0].Location = new Point(Width - 5, Height / 2);
+            Connections[0].Location = new(Width - 5, Height / 2);
 
             Interval = 1000;
         }
 
         public DigitalClock(double interval) : base(0, 1)
         {
-            Bounds = new Rectangle(0, 0, 100, 50);
+            Bounds = new(0, 0, 100, 50);
 
-            Connections[0].Location = new Point(Width - 5, Height / 2);
+            Connections[0].Location = new(Width - 5, Height / 2);
 
             Interval = interval;
         }
@@ -42,12 +44,12 @@ namespace CircuitSimulator.Components
             }
         }
 
-        public override void Write(System.Xml.XmlWriter writer)
+        public override void Write(XmlWriter writer)
         {
             writer.WriteElementString(INTERVAL, Interval.ToString());
         }
 
-        public override void Read(System.Xml.XmlReader reader)
+        public override void Read(XmlReader reader)
         {
             reader.ReadToDescendant(INTERVAL);
             if (reader.IsStartElement(INTERVAL))
@@ -74,7 +76,7 @@ namespace CircuitSimulator.Components
             {
                 const string SET_INTERVAL = "Set Interval";
                 ToolStripItem si = new ToolStripButton(SET_INTERVAL);
-                si.Click += new EventHandler(delegate (object sender, EventArgs e)
+                si.Click += new((object sender, EventArgs e) =>
                 {
                     string value = Convert.ToString(_component.Interval);
                     if (InputBox(SET_INTERVAL, "Interval [ms]:", ref value) == DialogResult.OK)
@@ -91,14 +93,14 @@ namespace CircuitSimulator.Components
                 Graphics g = e.Graphics;
                 g.SmoothingMode = SmoothingMode.AntiAlias;
 
-                Pen pen = new Pen(Color.DimGray, 3);
-                g.DrawLine(pen, new Point(80, 25), new Point(93, 25));
-                g.DrawRectangle(pen, new Rectangle(5, 5, 75, Height - 10));
-                g.DrawLine(pen, new Point(14, 35), new Point(33, 35));
-                g.DrawLine(pen, new Point(32, 35), new Point(32, 14));
-                g.DrawLine(pen, new Point(32, 15), new Point(54, 15));
-                g.DrawLine(pen, new Point(53, 15), new Point(53, 35));
-                g.DrawLine(pen, new Point(52, 35), new Point(72, 35));
+                Pen pen = new(Color.DimGray, 3);
+                g.DrawLine(pen, new(80, 25), new (93, 25));
+                g.DrawRectangle(pen, new(5, 5, 75, Height - 10));
+                g.DrawLine(pen, new(14, 35), new(33, 35));
+                g.DrawLine(pen, new(32, 35), new(32, 14));
+                g.DrawLine(pen, new(32, 15), new(54, 15));
+                g.DrawLine(pen, new(53, 15), new(53, 35));
+                g.DrawLine(pen, new(52, 35), new(72, 35));
 
                 DrawConnections(g);
             }
@@ -116,8 +118,8 @@ namespace CircuitSimulator.Components
                     {
                         _timer.Dispose();
                     }
-                    _timer = new System.Timers.Timer(_interval);
-                    _timer.Elapsed += new System.Timers.ElapsedEventHandler(OnTimerElapsed);
+                    _timer = new(_interval);
+                    _timer.Elapsed += new(OnTimerElapsed);
                     _timer.Enabled = true;
                     _timer.Start();
                 }
@@ -130,7 +132,7 @@ namespace CircuitSimulator.Components
             }
         }
 
-        private void OnTimerElapsed(object sender, System.Timers.ElapsedEventArgs e)
+        private void OnTimerElapsed(object sender, ElapsedEventArgs e)
         {
             SetState(!GetState());
         }

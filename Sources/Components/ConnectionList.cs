@@ -13,7 +13,8 @@ namespace CircuitSimulator.Components
         public bool Remove(Connection conncection)
         {
             bool result = false;
-            WeakReference weakReference = Find(delegate (WeakReference r)
+
+            WeakReference weakReference = Find(r =>
             {
                 if (r.Target == conncection)
                 {
@@ -21,10 +22,12 @@ namespace CircuitSimulator.Components
                 }
                 return false;
             });
+
             if (weakReference != null)
             {
                 result = Remove(weakReference);
             }
+
             return result;
         }
 

@@ -8,10 +8,10 @@ namespace CircuitSimulator.Components
     {
         public Not() : base(1, 1)
         {
-            Bounds = new Rectangle(0, 0, 100, 50);
+            Bounds = new(0, 0, 100, 50);
 
-            Connections[0].Location = new Point(5, 25);
-            Connections[1].Location = new Point(95, 25);
+            Connections[0].Location = new(5, 25);
+            Connections[1].Location = new(95, 25);
         }
 
         public override void Execute()
@@ -36,13 +36,13 @@ namespace CircuitSimulator.Components
                 Graphics g = e.Graphics;
                 g.SmoothingMode = SmoothingMode.AntiAlias;
 
-                Pen pen = new Pen(Color.DimGray, 3);
-                g.DrawLine(pen, new Point(8, 25), new Point(33, 25));
-                g.DrawLine(pen, new Point(85, 25), new Point(92, 25));
-                g.DrawLine(pen, new Point(33, 5), new Point(33, 45));
-                g.DrawLine(pen, new Point(33, 5), new Point(75, 25));
-                g.DrawLine(pen, new Point(33, 45), new Point(75, 25));
-                g.DrawEllipse(pen, new Rectangle(new Point(75, 20), new Size(10, 10)));
+                Pen pen = new(Color.DimGray, 3);
+                g.DrawLine(pen, new(8, 25), new(33, 25));
+                g.DrawLine(pen, new(85, 25), new(92, 25));
+                g.DrawLine(pen, new(33, 5), new(33, 45));
+                g.DrawLine(pen, new(33, 5), new(75, 25));
+                g.DrawLine(pen, new(33, 45), new(75, 25));
+                g.DrawEllipse(pen, new(new(75, 20), new(10, 10)));
 
                 DrawConnections(g);
             }

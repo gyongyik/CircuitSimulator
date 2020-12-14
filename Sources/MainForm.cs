@@ -15,7 +15,7 @@ namespace CircuitSimulator
         private const string ABOUT = CIRCUITSIMULATOR + @"Simulation of logical circuits
 Copyright (C) 2009 Péter Gyöngyik
 
-Version 0.10
+Version 0.11
 
 This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
 
@@ -28,14 +28,14 @@ You should have received a copy of the GNU General Public License along with thi
 
         private string _fileName;
         private ToolStripButton _checkedButton;
-        private Point _wireStartLocation = new Point(int.MinValue, int.MinValue);
+        private Point _wireStartLocation = new(int.MinValue, int.MinValue);
 
         public MainForm()
         {
             InitializeComponent();
-            panel1.Margin = new Padding(0);
+            panel1.Margin = new(0);
 
-            _componentController = new Components.ComponentController();
+            _componentController = new();
             _graphics = panel1.CreateGraphics();
             _graphics.SmoothingMode = SmoothingMode.AntiAlias;
 
@@ -49,7 +49,7 @@ You should have received a copy of the GNU General Public License along with thi
 
         private void SaveAs()
         {
-            SaveFileDialog dialog = new SaveFileDialog();
+            SaveFileDialog dialog = new();
             dialog.Filter = FILTER;
             if (dialog.ShowDialog() == DialogResult.OK)
             {
@@ -83,8 +83,8 @@ You should have received a copy of the GNU General Public License along with thi
         {
             if (_wireStartLocation.X != int.MinValue)
             { 
-                _graphics.DrawEllipse(new Pen(Color.White, 3), new Rectangle(_wireStartLocation.X - 3, _wireStartLocation.Y - 3, 6, 6));
-                _wireStartLocation = new Point(int.MinValue, int.MinValue);
+                _graphics.DrawEllipse(new(Color.White, 3), new(_wireStartLocation.X - 3, _wireStartLocation.Y - 3, 6, 6));
+                _wireStartLocation = new(int.MinValue, int.MinValue);
             }
         }
 
@@ -93,22 +93,26 @@ You should have received a copy of the GNU General Public License along with thi
             if (_wireStartLocation.X == int.MinValue)
             {
                 _wireStartLocation = AutoConnect.Connect(location, _componentController);
-                _graphics.DrawEllipse(new Pen(Color.DimGray, 1), new Rectangle(_wireStartLocation.X - 3, _wireStartLocation.Y - 3, 6, 6));
+                _graphics.DrawEllipse(new(Color.DimGray, 1), new(_wireStartLocation.X - 3, _wireStartLocation.Y - 3, 6, 6));
             }
             else
             {
                 location = AutoConnect.Connect(location, _componentController);
-                _graphics.DrawEllipse(new Pen(Color.White, 3), new Rectangle(_wireStartLocation.X - 3, _wireStartLocation.Y - 3, 6, 6));
+                _graphics.DrawEllipse(new(Color.White, 3), new(_wireStartLocation.X - 3, _wireStartLocation.Y - 3, 6, 6));
 
                 int left = Math.Min(_wireStartLocation.X, location.X);
                 int top = Math.Min(_wireStartLocation.Y, location.Y);
 
-                AddComponent(new Components.Wire(
-                        new Point(_wireStartLocation.X - left + 10 * ((location.X < _wireStartLocation.X) ? 1 : 0), _wireStartLocation.Y - top + 10 * ((location.Y < _wireStartLocation.Y) ? 1 : 0)),
-                        new Point(location.X - left + 10 * ((_wireStartLocation.X < location.X) ? 1 : 0), location.Y - top + 10 * ((_wireStartLocation.Y < location.Y) ? 1 : 0))),
-                        new Point(left - 5, top - 5));
+                Point p1 = new(
+                    _wireStartLocation.X - left + 10 * ((location.X < _wireStartLocation.X) ? 1 : 0),
+                    _wireStartLocation.Y - top + 10 * ((location.Y < _wireStartLocation.Y) ? 1 : 0));
 
-                _wireStartLocation = new Point(int.MinValue, int.MinValue);
+                Point p2 = new(
+                    location.X - left + 10 * ((_wireStartLocation.X < location.X) ? 1 : 0),
+                    location.Y - top + 10 * ((_wireStartLocation.Y < location.Y) ? 1 : 0));
+
+                AddComponent(new Components.Wire(p1, p2), new Point(left - 5, top - 5));
+                _wireStartLocation = new(int.MinValue, int.MinValue);
             }
         }
 
@@ -121,7 +125,9 @@ You should have received a copy of the GNU General Public License along with thi
             else
             {
                 int grid = 5;
-                component.Location = new Point((location.X - component.Width / 2) / grid * grid, (location.Y - component.Height / 2) / grid * grid);
+                component.Location = new(
+                    (location.X - component.Width / 2) / grid * grid, 
+                    (location.Y - component.Height / 2) / grid * grid);
             }
 
             component.Show(panel1, contextMenuStrip1);
@@ -149,7 +155,7 @@ You should have received a copy of the GNU General Public License along with thi
             Components.ComponentControl control = contextMenuStrip1.SourceControl as Components.ComponentControl;
             contextMenuStrip1.Items.Clear();
             ToolStripItem delete = new MyToolStripButton("Delete", control);
-            delete.Click += new EventHandler(Delete_Click);
+            delete.Click += new(Delete_Click);
             delete.AutoToolTip = false;
             contextMenuStrip1.Items.Add(delete);
             control.ShowContextMenu(contextMenuStrip1, e);
@@ -173,7 +179,7 @@ You should have received a copy of the GNU General Public License along with thi
         private void ToolStripOpen_Click(object sender, EventArgs e)
         {
             ClearWireCreation();
-            OpenFileDialog dialog = new OpenFileDialog();
+            OpenFileDialog dialog = new();
             dialog.Filter = FILTER;
             if (dialog.ShowDialog() == DialogResult.OK)
             {
@@ -372,15 +378,15 @@ You should have received a copy of the GNU General Public License along with thi
         private void ToolStripCustomCircuit_Click(object sender, EventArgs e)
         {
             ClearWireCreation();
-            OpenFileDialog dialog = new OpenFileDialog();
+            OpenFileDialog dialog = new();
             if (dialog.ShowDialog() == DialogResult.OK)
             {
                 Stream stream;
                 if ((stream = dialog.OpenFile()) != null)
                 {
-                    FileInfo fileInfo = new FileInfo(dialog.FileName);
+                    FileInfo fileInfo = new(dialog.FileName);
                     string nameWithoutExtension = fileInfo.Name.Remove(fileInfo.Name.Length - fileInfo.Extension.Length);
-                    Components.CustomComponent component = new Components.CustomComponent(nameWithoutExtension);
+                    Components.CustomComponent component = new(nameWithoutExtension);
                     component.LoadCircuit(stream);
                     stream.Close();
 

@@ -3,7 +3,7 @@
     "tfm": "net5.0",
     "framework": {
       "name": "Microsoft.WindowsDesktop.App",
-      "version": "5.0.0-preview.4.20251.1"
+      "version": "5.0.0"
     }
   }
 }

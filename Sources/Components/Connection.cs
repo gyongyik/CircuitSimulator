@@ -11,7 +11,7 @@ namespace CircuitSimulator.Components
 
         public Connection(Component parent)
         {
-            Connections = new ConnectionList();
+            Connections = new();
             Parent = parent;
         }
     }

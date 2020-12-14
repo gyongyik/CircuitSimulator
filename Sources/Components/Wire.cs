@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
+using System.Xml;
 
 namespace CircuitSimulator.Components
 {
@@ -44,10 +45,10 @@ namespace CircuitSimulator.Components
 
         public Wire() : base(1, 1)
         {
-            Point in0 = new Point(5, 5);
-            Point in1 = new Point(95, 45);
+            Point in0 = new(5, 5);
+            Point in1 = new(95, 45);
 
-            Bounds = new Rectangle(0, 0, Math.Max(in0.X, in1.X) + 5, Math.Max(in0.Y, in1.Y) + 5);
+            Bounds = new(0, 0, Math.Max(in0.X, in1.X) + 5, Math.Max(in0.Y, in1.Y) + 5);
 
             Connections[0] = new WireConnection(this);
             Connections[1] = new WireConnection(this);
@@ -90,7 +91,7 @@ namespace CircuitSimulator.Components
                 Flipped = true;
             }
 
-            Bounds = new Rectangle(0, 0, Math.Max(in0.X, in1.X) + 5, Math.Max(in0.Y, in1.Y) + 5);
+            Bounds = new(0, 0, Math.Max(in0.X, in1.X) + 5, Math.Max(in0.Y, in1.Y) + 5);
 
             Connections[0] = new WireConnection(this);
             Connections[1] = new WireConnection(this);
@@ -98,7 +99,7 @@ namespace CircuitSimulator.Components
             Connections[1].Location = in1;
         }
 
-        public override void Write(System.Xml.XmlWriter writer)
+        public override void Write(XmlWriter writer)
         {
             writer.WriteStartElement(WIDTH);
             writer.WriteValue(Width - 10);
@@ -113,7 +114,7 @@ namespace CircuitSimulator.Components
             writer.WriteEndElement();
         }
 
-        public override void Read(System.Xml.XmlReader reader)
+        public override void Read(XmlReader reader)
         {
             reader.ReadToFollowing(WIDTH);
             if (reader.IsStartElement(WIDTH))
@@ -142,33 +143,37 @@ namespace CircuitSimulator.Components
         {
             if (Connections[1].Location.X < Connections[0].Location.X)
             {
-                Connections[0].Location = new Point(Connections[1].Location.X + value, Connections[0].Location.Y);
+                Connections[0].Location = new(Connections[1].Location.X + value, Connections[0].Location.Y);
             }
             else
             {
-                Connections[1].Location = new Point(Connections[0].Location.X + value, Connections[1].Location.Y);
+                Connections[1].Location = new(Connections[0].Location.X + value, Connections[1].Location.Y);
             }
-            Bounds = new Rectangle(Location.X, Location.Y, Math.Max(Connections[0].Location.X, Connections[1].Location.X) + 5, Math.Max(Connections[0].Location.Y, Connections[1].Location.Y) + 5);
+            Bounds = new(Location.X, Location.Y, 
+                Math.Max(Connections[0].Location.X, Connections[1].Location.X) + 5, 
+                Math.Max(Connections[0].Location.Y, Connections[1].Location.Y) + 5);
         }
 
         public void SetHeight(int value)
         {
             if (Connections[1].Location.Y < Connections[0].Location.Y)
             {
-                Connections[0].Location = new Point(Connections[0].Location.X, Connections[1].Location.Y + Convert.ToInt32(value));
+                Connections[0].Location = new(Connections[0].Location.X, Connections[1].Location.Y + value);
             }
             else
             {
-                Connections[1].Location = new Point(Connections[1].Location.X, Connections[0].Location.Y + Convert.ToInt32(value));
+                Connections[1].Location = new(Connections[1].Location.X, Connections[0].Location.Y + value);
             }
-            Bounds = new Rectangle(Location.X, Location.Y, Math.Max(Connections[0].Location.X, Connections[1].Location.X) + 5, Math.Max(Connections[0].Location.Y, Connections[1].Location.Y) + 5);
+            Bounds = new(Location.X, Location.Y, 
+                Math.Max(Connections[0].Location.X, Connections[1].Location.X) + 5, 
+                Math.Max(Connections[0].Location.Y, Connections[1].Location.Y) + 5);
         }
 
         public void Flip()
         {
             int x = Connections[0].Location.X;
-            Connections[0].Location = new Point(Connections[1].Location.X, Connections[0].Location.Y);
-            Connections[1].Location = new Point(x, Connections[1].Location.Y);
+            Connections[0].Location = new(Connections[1].Location.X, Connections[0].Location.Y);
+            Connections[1].Location = new(x, Connections[1].Location.Y);
         }
 
         public override bool GetValue(int index)
@@ -212,7 +217,7 @@ namespace CircuitSimulator.Components
             public override void ShowContextMenu(ContextMenuStrip menu, CancelEventArgs ce)
             {
                 ToolStripItem f = new ToolStripButton("Flip");
-                f.Click += new EventHandler(delegate (object sender, EventArgs e)
+                f.Click += new((object sender, EventArgs e) =>
                 {
                     _component.Flip();
                     _component.Controller.ConnectComponent(_component);
@@ -222,7 +227,7 @@ namespace CircuitSimulator.Components
 
                 const string SET_WIDTH = "Set Width";
                 ToolStripItem cw = new ToolStripButton(SET_WIDTH);
-                cw.Click += new EventHandler(delegate (object sender, EventArgs e)
+                cw.Click += new((object sender, EventArgs e) =>
                 {
                     string value = Convert.ToString(_component.Width - 10);
                     if (InputBox(SET_WIDTH, "Width:", ref value) == DialogResult.OK)
@@ -235,7 +240,7 @@ namespace CircuitSimulator.Components
 
                 const string SET_HEIGHT = "Set Height";
                 ToolStripItem ch = new ToolStripButton(SET_HEIGHT);
-                ch.Click += new EventHandler(delegate (object sender, EventArgs e)
+                ch.Click += new((object sender, EventArgs e) =>
                 {
                     string value = Convert.ToString(_component.Height - 10);
                     if (InputBox(SET_HEIGHT, "Height:", ref value) == DialogResult.OK)
@@ -253,17 +258,17 @@ namespace CircuitSimulator.Components
                 g.SmoothingMode = SmoothingMode.AntiAlias;
 
                 g.DrawLine(
-                    new Pen(Color.DimGray, 3), 
-                    new Point(_component.Connections[0].Location.X, _component.Connections[0].Location.Y), 
-                    new Point(_component.Connections[1].Location.X, _component.Connections[1].Location.Y));
+                    new(Color.DimGray, 3), 
+                    new(_component.Connections[0].Location.X, _component.Connections[0].Location.Y), 
+                    new(_component.Connections[1].Location.X, _component.Connections[1].Location.Y));
 
                 DrawConnections(g); for (int i = 0; i < _component.Connections.Length; ++i)
                 {
-                    Color c = _component.GetValue(i) ? Color.Tomato : Color.DimGray;
-                    int w = _component.Connections[i].Connections.Count > 0 ? 3 : 1;
-                    Rectangle rect = new Rectangle(Point.Subtract(_component.Connections[i].Location, new Size(3, 3)), new Size(6, 6));
+                    Color color = _component.GetValue(i) ? Color.Tomato : Color.DimGray;
+                    int width = _component.Connections[i].Connections.Count > 0 ? 3 : 1;
+                    Rectangle rect = new(Point.Subtract(_component.Connections[i].Location, new(3, 3)), new(6, 6));
                     g.FillEllipse(Brushes.White, rect);
-                    g.DrawEllipse(new Pen(c, w), rect);
+                    g.DrawEllipse(new(color, width), rect);
                 }
             }
         }
